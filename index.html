@@ -3,360 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Domain Portfolio</title>
+    <title>Tesla Lease Solutions</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        :root {
+            --tesla-red: #e82127;
+            --tesla-dark: #000000;
+            --tesla-light: #f5f5f5;
+        }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
         }
         
         body {
-            background-color: #f8fafc;
-            color: #1e293b;
-            line-height: 1.5;
+            background-color: white;
+            color: var(--tesla-dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--tesla-dark);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem 1rem;
+            padding: 40px 20px;
         }
         
-        header {
-            text-align: center;
-            margin-bottom: 3rem;
+        .properties {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
         }
         
-        h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 0.5rem;
-        }
-        
-        .subtitle {
-            color: #64748b;
-            font-size: 1rem;
-        }
-        
-        .domains-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-        
-        .domain-card {
-            background: white;
+        .property-card {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            border: 1px solid #ddd;
             border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e2e8f0;
-            transition: transform 0.2s, box-shadow 0.2s;
+            overflow: hidden;
+            transition: transform 0.3s ease;
         }
         
-        .domain-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        .property-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
         
-        .domain-name {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #2563eb;
-            margin-bottom: 0.5rem;
-            word-break: break-all;
+        .property-image {
+            height: 200px;
+            background-color: var(--tesla-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--tesla-dark);
         }
         
-        .domain-price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #dc2626;
-            margin: 0.75rem 0;
-        }
-        
-        .domain-description {
-            color: #475569;
-            font-size: 0.875rem;
-            margin-bottom: 1.25rem;
-        }
-        
-        .offer-btn {
-            display: inline-block;
-            width: 100%;
-            padding: 0.625rem;
-            background-color: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 0.875rem;
-            font-weight: 500;
+        .property-content {
+            padding: 25px;
             text-align: center;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background-color 0.2s;
         }
         
-        .offer-btn:hover {
-            background-color: #1d4ed8;
+        .property-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--tesla-red);
         }
         
-        .category-tag {
+        .property-description {
+            margin-bottom: 20px;
+            color: #666;
+        }
+        
+        .visit-btn {
             display: inline-block;
-            background-color: #e0f2fe;
-            color: #0369a1;
-            padding: 0.25rem 0.5rem;
+            padding: 12px 30px;
+            background-color: var(--tesla-red);
+            color: white;
+            text-decoration: none;
             border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            margin-bottom: 0.75rem;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .visit-btn:hover {
+            background-color: #c11a20;
         }
         
         footer {
+            background-color: var(--tesla-dark);
+            color: white;
             text-align: center;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid #e2e8f0;
-            color: #64748b;
-            font-size: 0.875rem;
+            padding: 20px;
+            margin-top: 40px;
         }
         
-        @media (max-width: 900px) {
-            .domains-grid {
-                grid-template-columns: repeat(2, 1fr);
+        @media (max-width: 768px) {
+            .properties {
+                flex-direction: column;
+                align-items: center;
             }
-        }
-        
-        @media (max-width: 600px) {
-            .domains-grid {
-                grid-template-columns: 1fr;
+            
+            .property-card {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
+    <header>
+        <div class="logo">Tesla Lease Solutions</div>
+        <div>Premium Tesla leasing services</div>
+    </header>
+    
     <div class="container">
-        <header>
-            <h1>Premium Domain Portfolio</h1>
-            <p class="subtitle">High-quality domains for your next business venture</p>
-        </header>
-        
-        <div class="domains-grid">
-            <!-- Fintech/Payment Domains -->
-            <div class="domain-card">
-                <span class="category-tag">Fintech</span>
-                <div class="domain-name">payrein.com</div>
-                <div class="domain-price">$8,500</div>
-                <div class="domain-description">Perfect for fintech startups, payment solutions, or financial services.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
+        <div class="properties">
+            <div class="property-card">
+                <div class="property-image">TeslaLeaseOffers.com</div>
+                <div class="property-content">
+                    <h2 class="property-title">Tesla Lease Offers</h2>
+                    <p class="property-description">
+                        Discover the best Tesla leasing deals and special offers tailored to your needs.
+                    </p>
+                    <a href="https://teslaleaseoffers.com" class="visit-btn">Visit Site</a>
+                </div>
             </div>
             
-            <div class="domain-card">
-                <span class="category-tag">Banking</span>
-                <div class="domain-name">reinpay.com</div>
-                <div class="domain-price">$8,500</div>
-                <div class="domain-description">Ideal for modern banking, payment processing, or financial apps.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <!-- Blockchain/Crypto Domains -->
-            <div class="domain-card">
-                <span class="category-tag">Blockchain</span>
-                <div class="domain-name">gxchain.xyz</div>
-                <div class="domain-price">$9,500</div>
-                <div class="domain-description">Great for blockchain projects, crypto ventures, or tech startups.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <!-- Tech/AI Domains -->
-            <div class="domain-card">
-                <span class="category-tag">Tech</span>
-                <div class="domain-name">pathpulse.xyz</div>
-                <div class="domain-price">$7,800</div>
-                <div class="domain-description">Perfect for AI analytics, healthtech, or data visualization tools.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <!-- Plumbing Domains -->
-            <div class="domain-card">
-                <span class="category-tag">Home Services</span>
-                <div class="domain-name">astralplumbing.com</div>
-                <div class="domain-price">$3,500</div>
-                <div class="domain-description">Premium domain for plumbing services with a modern, upscale brand.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <div class="domain-card">
-                <span class="category-tag">Home Services</span>
-                <div class="domain-name">astraplumbing.com</div>
-                <div class="domain-price">$4,900</div>
-                <div class="domain-description">Alternative to AstralPlumbing - short, memorable, brandable.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <!-- HVAC Domain -->
-            <div class="domain-card">
-                <span class="category-tag">HVAC</span>
-                <div class="domain-name">killeenhvacrepair.com</div>
-                <div class="domain-price">$4,500</div>
-                <div class="domain-description">Perfect for HVAC businesses serving the Killeen, TX area.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <!-- Dual Purpose Domain -->
-            <div class="domain-card">
-                <span class="category-tag">Dual Purpose</span>
-                <div class="domain-name">hostingroof.com</div>
-                <div class="domain-price">$3,200</div>
-                <div class="domain-description">Dual-purpose: web hosting services or roofing business.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <!-- Trade/Tariff Domains -->
-            <div class="domain-card">
-                <span class="category-tag">Trade</span>
-                <div class="domain-name">aluminumtariffs.com</div>
-                <div class="domain-price">$15,000</div>
-                <div class="domain-description">Ideal for trade law firms, import/export businesses, or news sites.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <div class="domain-card">
-                <span class="category-tag">Steel Industry</span>
-                <div class="domain-name">steeltariff.com</div>
-                <div class="domain-price">$8,800</div>
-                <div class="domain-description">Perfect for steel industry consultants or trade policy analysts.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <div class="domain-card">
-                <span class="category-tag">Steel Industry</span>
-                <div class="domain-name">steeltariffs.com</div>
-                <div class="domain-price">$15,200</div>
-                <div class="domain-description">Plural version - excellent for industry reports or legal services.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <!-- Labor Domain -->
-            <div class="domain-card">
-                <span class="category-tag">Labor</span>
-                <div class="domain-name">strikingworkers.com</div>
-                <div class="domain-price">$3,500</div>
-                <div class="domain-description">Great for labor unions, news outlets, or employment law firms.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <!-- Tesla Domains -->
-            <div class="domain-card">
-                <span class="category-tag">Automotive</span>
-                <div class="domain-name">teslaleaseoffers.com</div>
-                <div class="domain-price">$9,500</div>
-                <div class="domain-description">Perfect for EV leasing companies or Tesla-focused services.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <div class="domain-card">
-                <span class="category-tag">Automotive</span>
-                <div class="domain-name">teslaleasecalculator.com</div>
-                <div class="domain-price">$15,500</div>
-                <div class="domain-description">Ideal for financial tools targeting Tesla buyers/lessees.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <!-- Transportation Domains -->
-            <div class="domain-card">
-                <span class="category-tag">Transportation</span>
-                <div class="domain-name">taxibnb.com</div>
-                <div class="domain-price">$15,200</div>
-                <div class="domain-description">Great for ride-sharing platforms or taxi fleet management.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <div class="domain-card">
-                <span class="category-tag">Transportation</span>
-                <div class="domain-name">uberbnb.com</div>
-                <div class="domain-price">$18,000</div>
-                <div class="domain-description">Perfect for transportation or short-term rental services.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <!-- Enterprise Domain -->
-            <div class="domain-card">
-                <span class="category-tag">Enterprise</span>
-                <div class="domain-name">enterpriseresourcesystem.com</div>
-                <div class="domain-price">$15,500</div>
-                <div class="domain-description">Ideal for enterprise SaaS, HR tech, or business consulting.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <!-- Research Domains -->
-            <div class="domain-card">
-                <span class="category-tag">Research</span>
-                <div class="domain-name">geminideepresearch.com</div>
-                <div class="domain-price">$3,800</div>
-                <div class="domain-description">Perfect for data analytics firms or market research companies.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <div class="domain-card">
-                <span class="category-tag">Research</span>
-                <div class="domain-name">onlinedeepresearch.com</div>
-                <div class="domain-price">$3,500</div>
-                <div class="domain-description">Great for academic research platforms or investigative journalism.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <div class="domain-card">
-                <span class="category-tag">Research</span>
-                <div class="domain-name">internetdeepresearch.com</div>
-                <div class="domain-price">$3,600</div>
-                <div class="domain-description">Ideal for cybersecurity firms or digital market research.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <!-- Finance/Social Domains -->
-            <div class="domain-card">
-                <span class="category-tag">Finance</span>
-                <div class="domain-name">socialstockfish.com</div>
-                <div class="domain-price">$8,200</div>
-                <div class="domain-description">Perfect for stock trading communities or financial social networks.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <!-- Sports Domain -->
-            <div class="domain-card">
-                <span class="category-tag">Sports</span>
-                <div class="domain-name">lakersdigital.com</div>
-                <div class="domain-price">$5,500</div>
-                <div class="domain-description">Great for Lakers fan sites, sports media, or merchandise.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <!-- Political Domains -->
-            <div class="domain-card">
-                <span class="category-tag">Political</span>
-                <div class="domain-name">trumpnol.com</div>
-                <div class="domain-price">$3,900</div>
-                <div class="domain-description">Political commentary, parody, or news analysis site.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
-            </div>
-            
-            <div class="domain-card">
-                <span class="category-tag">Political</span>
-                <div class="domain-name">trumponol.com</div>
-                <div class="domain-price">$3,700</div>
-                <div class="domain-description">Alternative version with strong branding potential.</div>
-                <a href="#contact" class="offer-btn">Make Offer</a>
+            <div class="property-card">
+                <div class="property-image">TeslaLeaseCalculator.com</div>
+                <div class="property-content">
+                    <h2 class="property-title">Tesla Lease Calculator</h2>
+                    <p class="property-description">
+                        Calculate your perfect Tesla lease payment with our easy-to-use calculator.
+                    </p>
+                    <a href="https://teslaleasecalculator.com" class="visit-btn">Visit Site</a>
+                </div>
             </div>
         </div>
-        
-        <footer id="contact">
-            <p>Interested in any of these domains? Contact us to make an offer.</p>
-            <p>Email: steve@domainmont.com </p>
-        </footer>
     </div>
+    
+    <footer>
+        &copy; <script>document.write(new Date().getFullYear())</script> Tesla Lease Solutions. All rights reserved.
+    </footer>
 </body>
 </html>
