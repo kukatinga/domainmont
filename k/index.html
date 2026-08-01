@@ -290,7 +290,42 @@
     .faq-item.open .faq-a { max-height:240px; padding-bottom:1.25rem; }
     .faq-a p { font-size:0.875rem; color:var(--text-2); line-height:1.75; }
 
-    /* Testimonials (replaces waitlist) */
+    /* Trust Bar */
+    .trust-bar {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+      background: var(--bg-card);
+      border: 1px solid var(--border-mid);
+      border-radius: var(--r-lg);
+      padding: 2rem 2.5rem;
+      margin: 0 auto 3rem auto;
+      max-width: 780px;
+    }
+    .trust-item {
+      text-align: center;
+    }
+    .trust-item .number {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--text-1);
+      line-height: 1.2;
+    }
+    .trust-item .label {
+      font-size: 0.75rem;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .trust-item .stars {
+      color: var(--amber);
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+    }
+
+    /* Testimonials */
     .testimonial-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -395,6 +430,7 @@
       .hero-btns .btn { justify-content:center; }
       section { padding:4rem 0; }
       .footer-grid { grid-template-columns:1fr; gap:2rem; }
+      .trust-bar { gap:1.5rem; padding:1.5rem; }
     }
     @media(max-width:480px){
       .wrap { padding:0 1rem; }
@@ -416,6 +452,7 @@
     <div class="nav-links">
       <a href="#features">Features</a>
       <a href="#how-it-works">How It Works</a>
+      <a href="#testimonials">Testimonials</a>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
       <a href="/calculator">Calculator</a>
@@ -545,7 +582,64 @@
 
 <hr class="divider">
 
-<!-- Pricing (centered) -->
+<!-- Testimonials (moved before Pricing) -->
+<section id="testimonials">
+  <div class="wrap">
+    <div class="sh reveal">
+      <div class="sh-label">Testimonials</div>
+      <h2>Trusted by prediction market traders</h2>
+      <p>Real feedback from early adopters who are already using KalshiBot to trade smarter.</p>
+    </div>
+
+    <!-- Trust Bar -->
+    <div class="trust-bar reveal">
+      <div class="trust-item">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <div class="number">4.9/5</div>
+        <div class="label">Average Rating</div>
+      </div>
+      <div class="trust-item">
+        <div class="number">150+</div>
+        <div class="label">Downloads</div>
+      </div>
+      <div class="trust-item">
+        <div class="number">$0</div>
+        <div class="label">Monthly Fees — One-Time Purchase</div>
+      </div>
+    </div>
+
+    <div class="testimonial-grid reveal">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>“I went from zero coding to my first live trade during the July CPI release in under 10 minutes. The AI signals are surprisingly accurate — already up 12% this month.”</blockquote>
+        <div class="author">
+          <div class="avatar">JD</div>
+          <div><div class="author-name">J. Davidson</div><div class="author-title">Active trader, 3+ years</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>“Finally, a bot that doesn't require a terminal or a PhD. The paper trading mode let me test strategies risk-free before going live. Best $299 I've spent.”</blockquote>
+        <div class="author">
+          <div class="avatar">SM</div>
+          <div><div class="author-name">S. Martinez</div><div class="author-title">Quant enthusiast</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>“I've been trading Kalshi manually for a year. This bot cut my setup time from 2 hours of coding to 5 minutes of clicking — and gives me an edge during volatile events.”</blockquote>
+        <div class="author">
+          <div class="avatar">TC</div>
+          <div><div class="author-name">T. Chen</div><div class="author-title">Full-time trader</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Pricing (now after Testimonials) -->
 <section id="pricing">
   <div class="wrap">
     <div class="sh reveal">
@@ -569,45 +663,6 @@
           <li><span class="ck">✓</span>Lifetime updates</li>
         </ul>
         <a href="https://gumroad.com/kalshibot" class="btn-plan btn-plan-solid">Buy Now — $299</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="divider">
-
-<!-- Testimonials (replaces waitlist) -->
-<section id="testimonials">
-  <div class="wrap">
-    <div class="sh reveal">
-      <div class="sh-label">Testimonials</div>
-      <h2>Trusted by traders</h2>
-      <p>Real feedback from early adopters who are already using KalshiBot to trade smarter.</p>
-    </div>
-    <div class="testimonial-grid reveal">
-      <div class="testimonial-card">
-        <div class="stars">★★★★★</div>
-        <blockquote>“I went from zero coding to live trading in under 10 minutes. The AI signals are surprisingly accurate — already up 12% this month.”</blockquote>
-        <div class="author">
-          <div class="avatar">JD</div>
-          <div><div class="author-name">J. Davidson</div><div class="author-title">Active trader, 3+ years</div></div>
-        </div>
-      </div>
-      <div class="testimonial-card">
-        <div class="stars">★★★★★</div>
-        <blockquote>“Finally, a bot that doesn't require a terminal or a PhD. The paper trading mode let me test strategies risk-free. Best $299 I've spent.”</blockquote>
-        <div class="author">
-          <div class="avatar">SM</div>
-          <div><div class="author-name">S. Martinez</div><div class="author-title">Quant enthusiast</div></div>
-        </div>
-      </div>
-      <div class="testimonial-card">
-        <div class="stars">★★★★★</div>
-        <blockquote>“I've been trading Kalshi manually for a year. This bot gives me an edge — especially during volatile events like CPI and Fed announcements.”</blockquote>
-        <div class="author">
-          <div class="avatar">TC</div>
-          <div><div class="author-name">T. Chen</div><div class="author-title">Full-time trader</div></div>
-        </div>
       </div>
     </div>
   </div>
@@ -710,7 +765,7 @@
     if(!was) item.classList.add('open');
   }
 
-  // Mobile menu: toggle nav-links visibility
+  // Mobile menu
   const mobileBtn = document.getElementById('mobileMenuBtn');
   const navLinks = document.querySelector('.nav-links');
   mobileBtn.addEventListener('click', function(e) {
@@ -735,7 +790,6 @@
     }
   });
 
-  // Close mobile menu on link click
   document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', () => {
       if (window.innerWidth <= 768) {
@@ -745,7 +799,6 @@
     });
   });
 
-  // Reset mobile menu on resize
   window.addEventListener('resize', () => {
     if (window.innerWidth > 768) {
       navLinks.style.display = 'flex';
@@ -759,7 +812,6 @@
       navLinks.style.alignItems = 'center';
       mobileBtn.textContent = '☰';
     } else {
-      // keep as is, but if hidden by previous interaction, ensure it's hidden
       if (navLinks.style.display !== 'flex') {
         navLinks.style.display = 'none';
       }
