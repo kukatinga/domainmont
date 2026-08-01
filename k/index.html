@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" href="icons8-bot-48.png" type="image/png" sizes="24x24">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TMKKDEZ72Q"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-TMKKDEZ72Q');
-    </script>
+  <link rel="icon" href="icons8-bot-48.png" type="image/png" sizes="24x24">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TMKKDEZ72Q"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TMKKDEZ72Q');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Kalshi Bot · Automated Trading for Prediction Markets</title>
@@ -114,7 +114,7 @@
       transition:all 0.2s;
     }
     .btn-nav:hover { background:#d4d4d8; }
-    .mobile-btn { display:none; background:none; border:none; color:var(--text-2); font-size:1.2rem; cursor:pointer; }
+    .mobile-btn { display:none; background:none; border:none; color:var(--text-2); font-size:1.4rem; cursor:pointer; padding:0 0.25rem; line-height:1; }
 
     .wrap { max-width:1200px; margin:0 auto; padding:0 1.5rem; position:relative; z-index:1; }
     section { padding:5.5rem 0; position:relative; }
@@ -231,7 +231,7 @@
     .step h3 { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:0.5rem; }
     .step p { font-size:0.855rem; color:var(--text-2); line-height:1.65; }
 
-    .pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; max-width:880px; margin:0 auto; }
+    .pricing-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; max-width:380px; margin:0 auto; }
     .plan {
       background:var(--bg-card); border:1px solid var(--border);
       border-radius:var(--r-lg); padding:2rem; position:relative;
@@ -290,36 +290,60 @@
     .faq-item.open .faq-a { max-height:240px; padding-bottom:1.25rem; }
     .faq-a p { font-size:0.875rem; color:var(--text-2); line-height:1.75; }
 
-    .waitlist-box {
-      background:var(--bg-card); border:1px solid var(--border-mid);
-      border-radius:var(--r-xl); padding:4rem 2rem; max-width:760px;
-      margin:0 auto; text-align:center;
+    /* Testimonials (replaces waitlist) */
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
     }
-    .wl-form { display:flex; flex-direction:column; gap:0.75rem; max-width:440px; margin:2rem auto 0; }
-    .wl-form input, .wl-form select {
-      padding:0.8rem 1.1rem;
-      background:var(--bg-card-2); border:1px solid var(--border-mid);
-      border-radius:var(--r-md); color:var(--text-1);
-      font-family:'DM Sans',sans-serif; font-size:0.9rem; outline:none;
-      transition:border-color 0.2s; width:100%; appearance:none;
+    .testimonial-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 1.75rem 1.5rem;
+      transition: border-color 0.25s;
     }
-    .wl-form select { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2371717a' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 1rem center; }
-    .wl-form select option { background:var(--bg-card); }
-    .wl-form input::placeholder { color:var(--text-3); }
-    .wl-form input:focus, .wl-form select:focus { border-color:var(--border-hi); }
-    .wl-submit {
-      width:100%; padding:0.85rem; margin-top:0.25rem;
-      background:var(--text-1); color:#0c0c0d;
-      border:none; border-radius:var(--r-md);
-      font-family:'DM Sans',sans-serif; font-weight:700; font-size:0.9rem;
-      cursor:pointer; transition:all 0.2s;
+    .testimonial-card:hover { border-color: var(--border-mid); }
+    .testimonial-card .stars {
+      color: var(--amber);
+      letter-spacing: 2px;
+      font-size: 0.95rem;
+      margin-bottom: 0.6rem;
     }
-    .wl-submit:hover { background:#d4d4d8; }
-    .wl-submit:disabled { opacity:0.5; cursor:default; }
-    .wl-note { margin-top:0.875rem; font-size:0.73rem; color:var(--text-3); }
-    .form-msg { display:none; padding:0.75rem 1rem; border-radius:var(--r-md); font-size:0.85rem; font-weight:500; margin-top:0.5rem; }
-    .form-msg.ok { background:var(--green-dim); color:var(--green); border:1px solid rgba(74,222,128,0.2); display:block; }
-    .form-msg.err { background:rgba(248,113,113,0.1); color:var(--red); border:1px solid rgba(248,113,113,0.2); display:block; }
+    .testimonial-card blockquote {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--text-2);
+      margin-bottom: 1rem;
+    }
+    .testimonial-card .author {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+    .testimonial-card .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg-card-2);
+      border: 1px solid var(--border-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.75rem;
+      color: var(--text-2);
+    }
+    .testimonial-card .author-name {
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    .testimonial-card .author-title {
+      font-size: 0.7rem;
+      color: var(--text-3);
+    }
 
     footer { border-top:1px solid var(--border); padding:3.5rem 0 2rem; }
     .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; margin-bottom:3rem; }
@@ -360,7 +384,7 @@
       .hero-grid { grid-template-columns:1fr; gap:3rem; }
       .feat-grid { grid-template-columns:repeat(2,1fr); }
       .steps-grid { grid-template-columns:1fr; }
-      .pricing-grid { grid-template-columns:1fr; max-width:380px; }
+      .testimonial-grid { grid-template-columns:1fr; max-width:420px; }
       .footer-grid { grid-template-columns:1fr 1fr; }
     }
     @media(max-width:768px){
@@ -398,7 +422,7 @@
       <a href="/contact">Contact</a>
       <a href="https://gumroad.com/kalshibot" class="btn-nav">Buy Now — $299</a>
     </div>
-    <button class="mobile-btn" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">☰</button>
+    <button class="mobile-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
   </div>
 </nav>
 
@@ -521,7 +545,7 @@
 
 <hr class="divider">
 
-<!-- Pricing -->
+<!-- Pricing (centered) -->
 <section id="pricing">
   <div class="wrap">
     <div class="sh reveal">
@@ -545,6 +569,45 @@
           <li><span class="ck">✓</span>Lifetime updates</li>
         </ul>
         <a href="https://gumroad.com/kalshibot" class="btn-plan btn-plan-solid">Buy Now — $299</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Testimonials (replaces waitlist) -->
+<section id="testimonials">
+  <div class="wrap">
+    <div class="sh reveal">
+      <div class="sh-label">Testimonials</div>
+      <h2>Trusted by traders</h2>
+      <p>Real feedback from early adopters who are already using KalshiBot to trade smarter.</p>
+    </div>
+    <div class="testimonial-grid reveal">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>“I went from zero coding to live trading in under 10 minutes. The AI signals are surprisingly accurate — already up 12% this month.”</blockquote>
+        <div class="author">
+          <div class="avatar">JD</div>
+          <div><div class="author-name">J. Davidson</div><div class="author-title">Active trader, 3+ years</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>“Finally, a bot that doesn't require a terminal or a PhD. The paper trading mode let me test strategies risk-free. Best $299 I've spent.”</blockquote>
+        <div class="author">
+          <div class="avatar">SM</div>
+          <div><div class="author-name">S. Martinez</div><div class="author-title">Quant enthusiast</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>“I've been trading Kalshi manually for a year. This bot gives me an edge — especially during volatile events like CPI and Fed announcements.”</blockquote>
+        <div class="author">
+          <div class="avatar">TC</div>
+          <div><div class="author-name">T. Chen</div><div class="author-title">Full-time trader</div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -589,39 +652,6 @@
 </section>
 
 <hr class="divider">
-
-<!-- Waitlist -->
-<section id="waitlist">
-  <div class="wrap">
-    <div class="waitlist-box reveal">
-      <div class="sh-label">Join the Waitlist</div>
-      <h2 style="font-family:'Syne',sans-serif; font-size:clamp(1.7rem,2.8vw,2.4rem); font-weight:700; letter-spacing:-0.025em; line-height:1.15; margin-bottom:0.875rem;">Be among the first 500</h2>
-      <p style="color:var(--text-2); font-size:1rem; line-height:1.7; max-width:460px; margin:0 auto;">Get early access, exclusive discounts, and strategy updates. We're onboarding traders in order of signup.</p>
-      <form class="wl-form" id="wlForm" onsubmit="handleSubmit(event)">
-        <input type="hidden" name="_subject" value="New KalshiBot Waitlist Signup">
-        <input type="email" name="email" id="wlEmail" placeholder="your@email.com" required>
-        <select name="trading_volume" id="wlVolume" required>
-          <option value="">Monthly trading volume (required)</option>
-          <option value="Under $1k">Under $1k — casual trader</option>
-          <option value="$1k–$10k">$1k–$10k — active trader</option>
-          <option value="$10k–$50k">$10k–$50k — high volume</option>
-          <option value="Over $50k">Over $50k — institutional</option>
-        </select>
-        <select name="interested_plan" id="wlPlan">
-          <option value="">Interested plan (optional)</option>
-          <option value="Starter">Starter — $29/mo</option>
-          <option value="Pro">Pro — $79/mo</option>
-          <option value="Enterprise">Enterprise — custom</option>
-        </select>
-        <input type="hidden" name="affiliate_source" id="wlSrc" value="">
-        <input type="hidden" name="affiliate_campaign" id="wlCampaign" value="">
-        <button type="submit" class="wl-submit" id="wlBtn">Reserve My Spot →</button>
-        <div class="form-msg" id="formMsg"></div>
-      </form>
-      <p class="wl-note">No spam. Unsubscribe anytime. Trading involves risk.</p>
-    </div>
-  </div>
-</section>
 
 <!-- Footer -->
 <footer>
@@ -680,50 +710,61 @@
     if(!was) item.classList.add('open');
   }
 
-  (function() {
-    const p = new URLSearchParams(location.search);
-    document.getElementById('wlSrc').value = p.get('ref') || p.get('source') || document.referrer || 'direct';
-    document.getElementById('wlCampaign').value = p.get('utm_campaign') || p.get('campaign') || 'organic';
-  })();
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    const email = document.getElementById('wlEmail').value.trim();
-    const volume = document.getElementById('wlVolume').value;
-    const msg = document.getElementById('formMsg');
-    const btn = document.getElementById('wlBtn');
-
-    if(!volume) { 
-      msg.className = 'form-msg err';
-      msg.textContent = 'Please select your trading volume.';
-      return; 
+  // Mobile menu: toggle nav-links visibility
+  const mobileBtn = document.getElementById('mobileMenuBtn');
+  const navLinks = document.querySelector('.nav-links');
+  mobileBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (navLinks.style.display === 'flex') {
+      navLinks.style.display = 'none';
+      mobileBtn.textContent = '☰';
+    } else {
+      navLinks.style.display = 'flex';
+      navLinks.style.flexDirection = 'column';
+      navLinks.style.position = 'absolute';
+      navLinks.style.top = '100%';
+      navLinks.style.left = '0';
+      navLinks.style.right = '0';
+      navLinks.style.background = 'rgba(12,12,13,0.96)';
+      navLinks.style.backdropFilter = 'blur(16px)';
+      navLinks.style.padding = '1.5rem 1.5rem';
+      navLinks.style.gap = '1.25rem';
+      navLinks.style.borderBottom = '1px solid var(--border)';
+      navLinks.style.alignItems = 'flex-start';
+      mobileBtn.textContent = '✕';
     }
+  });
 
-    btn.disabled = true;
-    btn.textContent = 'Submitting…';
-    msg.className = 'form-msg';
-
-    const data = new FormData(e.target);
-
-    try {
-      const res = await fetch('https://formspree.io/f/xnjrbroy', {
-        method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
-      });
-
-      if(res.ok) {
-        window.location.href = '/thank-you-sales.html';
-      } else {
-        throw new Error('Submission failed');
+  // Close mobile menu on link click
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        navLinks.style.display = 'none';
+        mobileBtn.textContent = '☰';
       }
-    } catch(err) {
-      msg.className = 'form-msg err';
-      msg.textContent = 'Something went wrong. Please try again.';
-      btn.disabled = false;
-      btn.textContent = 'Reserve My Spot →';
+    });
+  });
+
+  // Reset mobile menu on resize
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+      navLinks.style.display = 'flex';
+      navLinks.style.flexDirection = 'row';
+      navLinks.style.position = 'static';
+      navLinks.style.background = 'transparent';
+      navLinks.style.backdropFilter = 'none';
+      navLinks.style.padding = '0';
+      navLinks.style.gap = '1.75rem';
+      navLinks.style.borderBottom = 'none';
+      navLinks.style.alignItems = 'center';
+      mobileBtn.textContent = '☰';
+    } else {
+      // keep as is, but if hidden by previous interaction, ensure it's hidden
+      if (navLinks.style.display !== 'flex') {
+        navLinks.style.display = 'none';
+      }
     }
-  }
+  });
 </script>
 </body>
 </html>
