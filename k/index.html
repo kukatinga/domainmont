@@ -231,6 +231,72 @@
     .step h3 { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:0.5rem; }
     .step p { font-size:0.855rem; color:var(--text-2); line-height:1.65; }
 
+    /* See It In Action */
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .action-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      transition: border-color 0.25s;
+    }
+    .action-card:hover { border-color: var(--border-mid); }
+    .action-card .preview {
+      background: var(--bg-card-2);
+      padding: 1.5rem;
+      min-height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-3);
+    }
+    .action-card .preview .mock-dash {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .action-card .preview .mock-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.4rem 0.6rem;
+      background: var(--bg-card);
+      border-radius: var(--r-sm);
+      border-left: 2px solid var(--green);
+    }
+    .action-card .preview .mock-row .label { color: var(--text-3); font-size: 0.65rem; }
+    .action-card .preview .mock-row .value { color: var(--text-1); font-weight: 500; }
+    .action-card .preview .mock-row .value.green { color: var(--green); }
+    .action-card .preview .mock-row .value.amber { color: var(--amber); }
+    .action-card .preview .mock-signal {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      padding: 0.5rem 0.8rem;
+      background: var(--bg-card);
+      border-radius: var(--r-sm);
+      border-left: 2px solid var(--amber);
+    }
+    .action-card .preview .mock-signal .label { color: var(--text-3); font-size: 0.65rem; }
+    .action-card .preview .mock-signal .value { color: var(--amber); font-weight: 600; }
+    .action-card .caption {
+      padding: 0.9rem 1.25rem;
+      font-size: 0.8rem;
+      color: var(--text-2);
+      font-weight: 500;
+    }
+    .action-card .caption strong { color: var(--text-1); }
+
     .pricing-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; max-width:380px; margin:0 auto; }
     .plan {
       background:var(--bg-card); border:1px solid var(--border);
@@ -266,8 +332,6 @@
       font-weight:600; font-size:0.875rem; cursor:pointer; border:none;
       text-decoration:none; transition:all 0.2s;
     }
-    .btn-plan-outline { background:transparent; color:var(--text-2); border:1px solid var(--border-mid); }
-    .btn-plan-outline:hover { border-color:var(--border-hi); color:var(--text-1); }
     .btn-plan-solid { background:var(--text-1); color:#0c0c0d; }
     .btn-plan-solid:hover { background:#d4d4d8; }
 
@@ -287,7 +351,7 @@
     .faq-a {
       max-height:0; overflow:hidden; transition:max-height 0.3s ease, padding 0.3s ease;
     }
-    .faq-item.open .faq-a { max-height:240px; padding-bottom:1.25rem; }
+    .faq-item.open .faq-a { max-height:300px; padding-bottom:1.25rem; }
     .faq-a p { font-size:0.875rem; color:var(--text-2); line-height:1.75; }
 
     /* Trust Bar */
@@ -400,18 +464,6 @@
     }
     .social-link:hover { border-color:var(--border-mid); color:var(--text-1); }
 
-    .toast {
-      position:fixed; bottom:2rem; left:50%;
-      transform:translateX(-50%) translateY(80px);
-      background:var(--bg-card-2); border:1px solid var(--border-mid);
-      padding:0.875rem 1.5rem; border-radius:var(--r-lg);
-      font-size:0.875rem; font-weight:500; display:flex; align-items:center; gap:9px;
-      opacity:0; transition:all 0.35s cubic-bezier(0.16,1,0.3,1);
-      pointer-events:none; z-index:999; white-space:nowrap;
-    }
-    .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
-    .toast-dot { width:8px; height:8px; border-radius:50%; background:var(--green); }
-
     .reveal { opacity:0; transform:translateY(24px); transition:all 0.7s cubic-bezier(0.16,1,0.3,1); }
     .reveal.active { opacity:1; transform:translateY(0); }
 
@@ -419,6 +471,7 @@
       .hero-grid { grid-template-columns:1fr; gap:3rem; }
       .feat-grid { grid-template-columns:repeat(2,1fr); }
       .steps-grid { grid-template-columns:1fr; }
+      .action-grid { grid-template-columns:1fr; max-width:480px; }
       .testimonial-grid { grid-template-columns:1fr; max-width:420px; }
       .footer-grid { grid-template-columns:1fr 1fr; }
     }
@@ -452,11 +505,10 @@
     <div class="nav-links">
       <a href="#features">Features</a>
       <a href="#how-it-works">How It Works</a>
+      <a href="#action">In Action</a>
       <a href="#testimonials">Testimonials</a>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
-      <a href="/calculator">Calculator</a>
-      <a href="/contact">Contact</a>
       <a href="https://gumroad.com/kalshibot" class="btn-nav">Buy Now — $299</a>
     </div>
     <button class="mobile-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
@@ -469,11 +521,11 @@
     <div class="hero-grid">
       <div>
         <div class="badge"><div class="badge-dot"></div>Now Available — One-Time Purchase</div>
-        <h1>The first click-and-run<br><em>trading bot for Kalshi.</em></h1>
-        <p class="hero-sub">No coding. No terminal. No monthly fees. Download, set your strategy, and start trading in 5 minutes.</p>
+        <h1>Automate your Kalshi trading<br><em>in under 5 minutes.</em></h1>
+        <p class="hero-sub">No coding. No terminal. Built-in risk management. Download, set your strategy, and start trading.</p>
         <div class="hero-btns">
           <a href="https://gumroad.com/kalshibot" class="btn btn-primary">Buy Now — $299 →</a>
-          <a href="#how-it-works" class="btn btn-ghost">See How It Works</a>
+          <a href="#action" class="btn btn-ghost">See It In Action</a>
         </div>
         <div class="hero-stats">
           <div><div class="stat-val">5 min</div><div class="stat-lbl">Setup Time</div></div>
@@ -582,7 +634,86 @@
 
 <hr class="divider">
 
-<!-- Testimonials (moved before Pricing) -->
+<!-- See It In Action (NEW) -->
+<section id="action">
+  <div class="wrap">
+    <div class="sh reveal">
+      <div class="sh-label">See It In Action</div>
+      <h2>What you get after purchase</h2>
+      <p>No guesswork. Here's exactly what the KalshiBot experience looks like.</p>
+    </div>
+    <div class="action-grid reveal">
+      <div class="action-card">
+        <div class="preview">
+          <div class="mock-dash">
+            <div class="mock-row">
+              <span class="label">📊 P&amp;L (Today)</span>
+              <span class="value green">+$1,240</span>
+            </div>
+            <div class="mock-row">
+              <span class="label">📈 Open Positions</span>
+              <span class="value">3</span>
+            </div>
+            <div class="mock-row">
+              <span class="label">⚡ Win Rate</span>
+              <span class="value green">68%</span>
+            </div>
+          </div>
+        </div>
+        <div class="caption"><strong>Live Dashboard</strong> — Track P&amp;L, open positions, and win rate in real time.</div>
+      </div>
+      <div class="action-card">
+        <div class="preview">
+          <div class="mock-signal">
+            <span class="label">🧠 AI Signal</span>
+            <span class="value">SPX &gt; 4500 — Confidence 0.82</span>
+          </div>
+          <div style="margin-top:0.8rem; display:flex; gap:0.8rem; flex-wrap:wrap;">
+            <span style="background:var(--bg-card); padding:0.3rem 0.7rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--text-3);">📈 Momentum</span>
+            <span style="background:var(--bg-card); padding:0.3rem 0.7rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--text-3);">📊 Kelly 12%</span>
+            <span style="background:var(--bg-card); padding:0.3rem 0.7rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--green);">✓ BUY</span>
+          </div>
+        </div>
+        <div class="caption"><strong>AI Signal Engine</strong> — See exactly why the bot is trading, with confidence scores and strategy details.</div>
+      </div>
+      <div class="action-card">
+        <div class="preview">
+          <div style="display:flex; gap:0.8rem; align-items:center; width:100%;">
+            <span style="font-size:0.7rem; color:var(--text-3);">Risk Management</span>
+            <span style="background:var(--bg-card); padding:0.3rem 0.7rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--text-2);">Max Drawdown: 5%</span>
+            <span style="background:var(--bg-card); padding:0.3rem 0.7rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--text-2);">Kelly: 12%</span>
+          </div>
+          <div style="margin-top:0.8rem; background:var(--bg-card); padding:0.6rem; border-radius:var(--r-sm); width:100%;">
+            <span style="font-size:0.65rem; color:var(--text-3);">📉 Drawdown Limit</span>
+            <div style="margin-top:0.3rem; background:var(--bg); height:4px; border-radius:2px; width:100%;">
+              <div style="background:var(--green); height:4px; border-radius:2px; width:65%;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="caption"><strong>Risk Management</strong> — Automatic position sizing and drawdown limits keep you protected.</div>
+      </div>
+      <div class="action-card">
+        <div class="preview">
+          <div style="display:flex; gap:0.8rem; flex-wrap:wrap; width:100%;">
+            <span style="background:var(--bg-card); padding:0.4rem 0.8rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--text-2);">🔗 SPX</span>
+            <span style="background:var(--bg-card); padding:0.4rem 0.8rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--text-2);">₿ BTC</span>
+            <span style="background:var(--bg-card); padding:0.4rem 0.8rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--text-2);">📊 CPI</span>
+            <span style="background:var(--bg-card); padding:0.4rem 0.8rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--text-2);">🏛️ FED</span>
+            <span style="background:var(--bg-card); padding:0.4rem 0.8rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--text-2);">⚽ Sports</span>
+          </div>
+          <div style="margin-top:0.8rem; background:var(--bg-card); padding:0.5rem 0.8rem; border-radius:var(--r-sm); width:100%;">
+            <span style="font-size:0.65rem; color:var(--text-3);">Connected: 7 markets</span>
+          </div>
+        </div>
+        <div class="caption"><strong>Multi-Market Coverage</strong> — Trade any Kalshi market — SPX, BTC, CPI, FED, sports, weather, and more.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Testimonials (with Trust Bar) -->
 <section id="testimonials">
   <div class="wrap">
     <div class="sh reveal">
@@ -591,7 +722,6 @@
       <p>Real feedback from early adopters who are already using KalshiBot to trade smarter.</p>
     </div>
 
-    <!-- Trust Bar -->
     <div class="trust-bar reveal">
       <div class="trust-item">
         <div class="stars">⭐⭐⭐⭐⭐</div>
@@ -639,7 +769,7 @@
 
 <hr class="divider">
 
-<!-- Pricing (now after Testimonials) -->
+<!-- Pricing -->
 <section id="pricing">
   <div class="wrap">
     <div class="sh reveal">
@@ -670,7 +800,7 @@
 
 <hr class="divider">
 
-<!-- FAQ -->
+<!-- FAQ (expanded) -->
 <section id="faq">
   <div class="wrap">
     <div class="sh reveal">
@@ -678,6 +808,22 @@
       <h2>Common questions</h2>
     </div>
     <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Can I paper trade before risking real money?<span class="ico">+</span></button>
+        <div class="faq-a"><p>Yes. KalshiBot includes a fully featured paper trading mode. Test strategies with simulated money — go live when you're confident.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Do you offer refunds?<span class="ico">+</span></button>
+        <div class="faq-a"><p>Yes. We offer a 7-day money-back guarantee. If you're not satisfied, contact us within 7 days for a full refund.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Can I install it on more than one computer?<span class="ico">+</span></button>
+        <div class="faq-a"><p>Yes. Your license is valid for up to 2 devices. Install on your desktop and laptop — no extra charge.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What happens if Kalshi changes its API?<span class="ico">+</span></button>
+        <div class="faq-a"><p>We monitor Kalshi's API changes and ship updates to keep the bot working. Lifetime updates are included with your purchase.</p></div>
+      </div>
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)">Is KalshiBot affiliated with Kalshi Inc.?<span class="ico">+</span></button>
         <div class="faq-a"><p>No. KalshiBot is an independent third-party tool that uses Kalshi's public API. We are not affiliated with, endorsed by, or in any way officially connected to Kalshi Inc.</p></div>
@@ -699,8 +845,8 @@
         <div class="faq-a"><p>No. One-time payment. Own it forever. No monthly fees.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">What do I need to get started?<span class="ico">+</span></button>
-        <div class="faq-a"><p>A Kalshi account, API key, and 5 minutes.</p></div>
+        <button class="faq-q" onclick="toggleFaq(this)">How often is the bot updated?<span class="ico">+</span></button>
+        <div class="faq-a"><p>We release updates regularly to improve strategies, add new markets, and keep compatibility with Kalshi's API. All updates are included free.</p></div>
       </div>
     </div>
   </div>
