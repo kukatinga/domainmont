@@ -231,71 +231,65 @@
     .step h3 { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:0.5rem; }
     .step p { font-size:0.855rem; color:var(--text-2); line-height:1.65; }
 
-    /* See It In Action */
-    .action-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-      max-width: 1000px;
+    /* Video Section */
+    .video-wrapper {
+      max-width: 880px;
       margin: 0 auto;
-    }
-    .action-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
       border-radius: var(--r-lg);
       overflow: hidden;
-      transition: border-color 0.25s;
+      border: 1px solid var(--border-mid);
+      background: var(--bg-card);
+      position: relative;
     }
-    .action-card:hover { border-color: var(--border-mid); }
-    .action-card .preview {
-      background: var(--bg-card-2);
-      padding: 1.5rem;
-      min-height: 140px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-bottom: 1px solid var(--border);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      color: var(--text-3);
-    }
-    .action-card .preview .mock-dash {
+    .video-wrapper video {
+      display: block;
       width: 100%;
+      height: auto;
+      aspect-ratio: 16/9;
+      background: var(--bg-card-2);
+    }
+    .video-wrapper .video-fallback {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
-    }
-    .action-card .preview .mock-row {
-      display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 0.4rem 0.6rem;
-      background: var(--bg-card);
-      border-radius: var(--r-sm);
-      border-left: 2px solid var(--green);
+      justify-content: center;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--bg-card-2);
+      color: var(--text-3);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      padding: 2rem;
+      text-align: center;
+      gap: 0.75rem;
     }
-    .action-card .preview .mock-row .label { color: var(--text-3); font-size: 0.65rem; }
-    .action-card .preview .mock-row .value { color: var(--text-1); font-weight: 500; }
-    .action-card .preview .mock-row .value.green { color: var(--green); }
-    .action-card .preview .mock-row .value.amber { color: var(--amber); }
-    .action-card .preview .mock-signal {
+    .video-wrapper .video-fallback .play-icon {
+      font-size: 2.8rem;
+      opacity: 0.4;
+    }
+    .video-wrapper .video-fallback .note {
+      font-size: 0.7rem;
+      color: var(--text-3);
+      opacity: 0.6;
+    }
+    .video-features {
       display: flex;
-      gap: 1rem;
-      align-items: center;
-      padding: 0.5rem 0.8rem;
-      background: var(--bg-card);
-      border-radius: var(--r-sm);
-      border-left: 2px solid var(--amber);
+      justify-content: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+      padding: 0 1rem;
     }
-    .action-card .preview .mock-signal .label { color: var(--text-3); font-size: 0.65rem; }
-    .action-card .preview .mock-signal .value { color: var(--amber); font-weight: 600; }
-    .action-card .caption {
-      padding: 0.9rem 1.25rem;
+    .video-features span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
       font-size: 0.8rem;
       color: var(--text-2);
-      font-weight: 500;
     }
-    .action-card .caption strong { color: var(--text-1); }
+    .video-features span .icon {
+      font-size: 1rem;
+    }
 
     .pricing-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; max-width:380px; margin:0 auto; }
     .plan {
@@ -354,21 +348,24 @@
     .faq-item.open .faq-a { max-height:300px; padding-bottom:1.25rem; }
     .faq-a p { font-size:0.875rem; color:var(--text-2); line-height:1.75; }
 
-    /* Trust Bar */
+    /* Trust Bar — clean 3-column grid */
     .trust-bar {
-      display: flex;
-      justify-content: center;
-      gap: 3rem;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
       background: var(--bg-card);
       border: 1px solid var(--border-mid);
       border-radius: var(--r-lg);
       padding: 2rem 2.5rem;
       margin: 0 auto 3rem auto;
       max-width: 780px;
+      text-align: center;
     }
     .trust-item {
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
     .trust-item .number {
       font-family: 'Syne', sans-serif;
@@ -376,17 +373,21 @@
       font-weight: 800;
       color: var(--text-1);
       line-height: 1.2;
-    }
-    .trust-item .label {
-      font-size: 0.75rem;
-      color: var(--text-3);
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      margin-bottom: 0.2rem;
     }
     .trust-item .stars {
       color: var(--amber);
       font-size: 1.1rem;
       letter-spacing: 2px;
+      line-height: 1.4;
+      margin-bottom: 0.1rem;
+    }
+    .trust-item .label {
+      font-size: 0.7rem;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      line-height: 1.3;
     }
 
     /* Testimonials */
@@ -403,6 +404,8 @@
       border-radius: var(--r-lg);
       padding: 1.75rem 1.5rem;
       transition: border-color 0.25s;
+      display: flex;
+      flex-direction: column;
     }
     .testimonial-card:hover { border-color: var(--border-mid); }
     .testimonial-card .stars {
@@ -416,15 +419,19 @@
       line-height: 1.7;
       color: var(--text-2);
       margin-bottom: 1rem;
+      flex: 1;
     }
     .testimonial-card .author {
       display: flex;
       align-items: center;
       gap: 0.7rem;
+      margin-top: auto;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--border);
     }
     .testimonial-card .avatar {
-      width: 32px;
-      height: 32px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       background: var(--bg-card-2);
       border: 1px solid var(--border-mid);
@@ -434,10 +441,17 @@
       font-weight: 600;
       font-size: 0.75rem;
       color: var(--text-2);
+      flex-shrink: 0;
+    }
+    .testimonial-card .author-info {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.3;
     }
     .testimonial-card .author-name {
       font-size: 0.85rem;
       font-weight: 500;
+      color: var(--text-1);
     }
     .testimonial-card .author-title {
       font-size: 0.7rem;
@@ -471,7 +485,6 @@
       .hero-grid { grid-template-columns:1fr; gap:3rem; }
       .feat-grid { grid-template-columns:repeat(2,1fr); }
       .steps-grid { grid-template-columns:1fr; }
-      .action-grid { grid-template-columns:1fr; max-width:480px; }
       .testimonial-grid { grid-template-columns:1fr; max-width:420px; }
       .footer-grid { grid-template-columns:1fr 1fr; }
     }
@@ -483,7 +496,8 @@
       .hero-btns .btn { justify-content:center; }
       section { padding:4rem 0; }
       .footer-grid { grid-template-columns:1fr; gap:2rem; }
-      .trust-bar { gap:1.5rem; padding:1.5rem; }
+      .trust-bar { grid-template-columns:1fr; gap:1.25rem; padding:1.5rem; max-width:320px; }
+      .video-features { gap:1rem; flex-direction:column; align-items:center; }
     }
     @media(max-width:480px){
       .wrap { padding:0 1rem; }
@@ -634,79 +648,33 @@
 
 <hr class="divider">
 
-<!-- See It In Action (NEW) -->
+<!-- See It In Action — Video Section -->
 <section id="action">
   <div class="wrap">
     <div class="sh reveal">
       <div class="sh-label">See It In Action</div>
-      <h2>What you get after purchase</h2>
+      <h2>Watch the bot trade in real time</h2>
       <p>No guesswork. Here's exactly what the KalshiBot experience looks like.</p>
     </div>
-    <div class="action-grid reveal">
-      <div class="action-card">
-        <div class="preview">
-          <div class="mock-dash">
-            <div class="mock-row">
-              <span class="label">📊 P&amp;L (Today)</span>
-              <span class="value green">+$1,240</span>
-            </div>
-            <div class="mock-row">
-              <span class="label">📈 Open Positions</span>
-              <span class="value">3</span>
-            </div>
-            <div class="mock-row">
-              <span class="label">⚡ Win Rate</span>
-              <span class="value green">68%</span>
-            </div>
-          </div>
+
+    <div class="video-wrapper reveal">
+      <!-- Replace src with your actual video file -->
+      <video autoplay muted loop playsinline poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450'%3E%3Crect width='800' height='450' fill='%231c1c1f'/%3E%3Ctext x='400' y='225' font-family='monospace' font-size='18' fill='%2371717a' text-anchor='middle'%3E🎬 KalshiBot Dashboard — 8s demo%3C/text%3E%3C/svg%3E">
+        <source src="kalshibot-demo.mp4" type="video/mp4">
+        <!-- Fallback content for browsers that don't support video -->
+        <div class="video-fallback">
+          <div class="play-icon">▶</div>
+          <div>KalshiBot Dashboard Demo</div>
+          <div class="note">8-second loop · Live trading in action</div>
         </div>
-        <div class="caption"><strong>Live Dashboard</strong> — Track P&amp;L, open positions, and win rate in real time.</div>
-      </div>
-      <div class="action-card">
-        <div class="preview">
-          <div class="mock-signal">
-            <span class="label">🧠 AI Signal</span>
-            <span class="value">SPX &gt; 4500 — Confidence 0.82</span>
-          </div>
-          <div style="margin-top:0.8rem; display:flex; gap:0.8rem; flex-wrap:wrap;">
-            <span style="background:var(--bg-card); padding:0.3rem 0.7rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--text-3);">📈 Momentum</span>
-            <span style="background:var(--bg-card); padding:0.3rem 0.7rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--text-3);">📊 Kelly 12%</span>
-            <span style="background:var(--bg-card); padding:0.3rem 0.7rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--green);">✓ BUY</span>
-          </div>
-        </div>
-        <div class="caption"><strong>AI Signal Engine</strong> — See exactly why the bot is trading, with confidence scores and strategy details.</div>
-      </div>
-      <div class="action-card">
-        <div class="preview">
-          <div style="display:flex; gap:0.8rem; align-items:center; width:100%;">
-            <span style="font-size:0.7rem; color:var(--text-3);">Risk Management</span>
-            <span style="background:var(--bg-card); padding:0.3rem 0.7rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--text-2);">Max Drawdown: 5%</span>
-            <span style="background:var(--bg-card); padding:0.3rem 0.7rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--text-2);">Kelly: 12%</span>
-          </div>
-          <div style="margin-top:0.8rem; background:var(--bg-card); padding:0.6rem; border-radius:var(--r-sm); width:100%;">
-            <span style="font-size:0.65rem; color:var(--text-3);">📉 Drawdown Limit</span>
-            <div style="margin-top:0.3rem; background:var(--bg); height:4px; border-radius:2px; width:100%;">
-              <div style="background:var(--green); height:4px; border-radius:2px; width:65%;"></div>
-            </div>
-          </div>
-        </div>
-        <div class="caption"><strong>Risk Management</strong> — Automatic position sizing and drawdown limits keep you protected.</div>
-      </div>
-      <div class="action-card">
-        <div class="preview">
-          <div style="display:flex; gap:0.8rem; flex-wrap:wrap; width:100%;">
-            <span style="background:var(--bg-card); padding:0.4rem 0.8rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--text-2);">🔗 SPX</span>
-            <span style="background:var(--bg-card); padding:0.4rem 0.8rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--text-2);">₿ BTC</span>
-            <span style="background:var(--bg-card); padding:0.4rem 0.8rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--text-2);">📊 CPI</span>
-            <span style="background:var(--bg-card); padding:0.4rem 0.8rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--text-2);">🏛️ FED</span>
-            <span style="background:var(--bg-card); padding:0.4rem 0.8rem; border-radius:var(--r-sm); font-size:0.65rem; color:var(--text-2);">⚽ Sports</span>
-          </div>
-          <div style="margin-top:0.8rem; background:var(--bg-card); padding:0.5rem 0.8rem; border-radius:var(--r-sm); width:100%;">
-            <span style="font-size:0.65rem; color:var(--text-3);">Connected: 7 markets</span>
-          </div>
-        </div>
-        <div class="caption"><strong>Multi-Market Coverage</strong> — Trade any Kalshi market — SPX, BTC, CPI, FED, sports, weather, and more.</div>
-      </div>
+      </video>
+    </div>
+
+    <div class="video-features reveal">
+      <span><span class="icon">⚡</span> Orders fill instantly</span>
+      <span><span class="icon">📊</span> Live P&L updates</span>
+      <span><span class="icon">🛡️</span> Risk auto-managed</span>
+      <span><span class="icon">🧠</span> AI signals in real time</span>
     </div>
   </div>
 </section>
@@ -722,6 +690,7 @@
       <p>Real feedback from early adopters who are already using KalshiBot to trade smarter.</p>
     </div>
 
+    <!-- Trust Bar — clean 3-column grid -->
     <div class="trust-bar reveal">
       <div class="trust-item">
         <div class="stars">⭐⭐⭐⭐⭐</div>
@@ -744,7 +713,10 @@
         <blockquote>“I went from zero coding to my first live trade during the July CPI release in under 10 minutes. The AI signals are surprisingly accurate — already up 12% this month.”</blockquote>
         <div class="author">
           <div class="avatar">JD</div>
-          <div><div class="author-name">J. Davidson</div><div class="author-title">Active trader, 3+ years</div></div>
+          <div class="author-info">
+            <div class="author-name">J. Davidson</div>
+            <div class="author-title">Active trader, 3+ years</div>
+          </div>
         </div>
       </div>
       <div class="testimonial-card">
@@ -752,7 +724,10 @@
         <blockquote>“Finally, a bot that doesn't require a terminal or a PhD. The paper trading mode let me test strategies risk-free before going live. Best $299 I've spent.”</blockquote>
         <div class="author">
           <div class="avatar">SM</div>
-          <div><div class="author-name">S. Martinez</div><div class="author-title">Quant enthusiast</div></div>
+          <div class="author-info">
+            <div class="author-name">S. Martinez</div>
+            <div class="author-title">Quant enthusiast</div>
+          </div>
         </div>
       </div>
       <div class="testimonial-card">
@@ -760,7 +735,10 @@
         <blockquote>“I've been trading Kalshi manually for a year. This bot cut my setup time from 2 hours of coding to 5 minutes of clicking — and gives me an edge during volatile events.”</blockquote>
         <div class="author">
           <div class="avatar">TC</div>
-          <div><div class="author-name">T. Chen</div><div class="author-title">Full-time trader</div></div>
+          <div class="author-info">
+            <div class="author-name">T. Chen</div>
+            <div class="author-title">Full-time trader</div>
+          </div>
         </div>
       </div>
     </div>
