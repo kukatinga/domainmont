@@ -11,8 +11,8 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>KalshiBot · The 3-Minute Kalshi Trading Bot</title>
-  <meta name="description" content="The click-and-run desktop app for Kalshi. Skip the setup — install in 3 minutes and start trading. $99 one-time. Go Quant for updates, config presets, priority support & the private community — $249/year.">
+  <title>KalshiBot · Professional Trading Framework for Kalshi</title>
+  <meta name="description" content="Three strategies, 20+ institutional risk guardrails, and a live control panel — packaged into a Windows desktop app. Every decision logged. Every filter exposed. $99 one-time. Go Quant for updates, presets, priority support & the private community.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -127,6 +127,12 @@
     .step h3 { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:0.5rem; }
     .step p { font-size:0.855rem; color:var(--text-2); line-height:1.65; }
 
+    /* Why It's Different */
+    .why-block { max-width:760px; margin:0 auto; background:var(--bg-card); border:1px solid var(--border-mid); border-radius:var(--r-lg); padding:3rem 2.5rem; text-align:center; }
+    .why-block p { font-size:1.05rem; color:var(--text-2); line-height:1.85; margin-bottom:1.25rem; }
+    .why-block p:last-child { margin-bottom:0; }
+    .why-block em { color:var(--text-1); font-style:normal; font-weight:600; }
+
     .video-wrapper { max-width: 880px; margin: 0 auto; border-radius: var(--r-lg); overflow: hidden; border: 1px solid var(--border-mid); background: var(--bg-card); position: relative; }
     .video-wrapper video { display: block; width: 100%; height: auto; aspect-ratio: 16/9; background: var(--bg-card-2); }
     .video-wrapper .video-fallback { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; aspect-ratio: 16/9; background: var(--bg-card-2); color: var(--text-3); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; padding: 2rem; text-align: center; gap: 0.75rem; }
@@ -159,16 +165,16 @@
     .btn-plan-ghost { background:transparent; color:var(--text-1); border:1px solid var(--border-hi); }
     .btn-plan-ghost:hover { border-color:var(--text-2); }
 
-    .guarantee-strip { text-align:center; margin-top:1.5rem; font-size:0.8rem; color:var(--text-3); }
+    .guarantee-strip { text-align:center; margin-top:1.5rem; font-size:0.8rem; color:var(--text-3); max-width:820px; margin-left:auto; margin-right:auto; line-height:1.7; }
     .guarantee-strip strong { color:var(--text-2); }
 
     .faq-list { max-width:680px; margin:0 auto; }
     .faq-item { border-bottom:1px solid var(--border); overflow:hidden; }
     .faq-q { width:100%; padding:1.2rem 0; background:none; border:none; color:var(--text-1); font-family:'DM Sans',sans-serif; font-size:0.92rem; font-weight:500; text-align:left; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:1rem; }
-    .faq-q .ico { color:var(--text-3); font-size:0.8rem; transition:transform 0.3s; }
+    .faq-q .ico { color:var(--text-3); font-size:0.8rem; transition:transform 0.3s; flex-shrink:0; }
     .faq-item.open .faq-q .ico { transform:rotate(45deg); }
     .faq-a { max-height:0; overflow:hidden; transition:max-height 0.3s ease, padding 0.3s ease; }
-    .faq-item.open .faq-a { max-height:400px; padding-bottom:1.25rem; }
+    .faq-item.open .faq-a { max-height:500px; padding-bottom:1.25rem; }
     .faq-a p { font-size:0.875rem; color:var(--text-2); line-height:1.75; }
 
     .trust-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; background: var(--bg-card); border: 1px solid var(--border-mid); border-radius: var(--r-lg); padding: 2rem 2.5rem; margin: 0 auto 3rem auto; max-width: 780px; text-align: center; }
@@ -224,6 +230,7 @@
       .footer-grid { grid-template-columns:1fr; gap:2rem; }
       .trust-bar { grid-template-columns:1fr; gap:1.25rem; padding:1.5rem; max-width:320px; }
       .video-features { gap:1rem; flex-direction:column; align-items:center; }
+      .why-block { padding:2rem 1.5rem; }
     }
     @media(max-width:480px){ .wrap { padding:0 1rem; } }
   </style>
@@ -242,9 +249,9 @@
     </a>
     <div class="nav-links">
       <a href="#features">Features</a>
+      <a href="#why">Why Different</a>
       <a href="#how-it-works">How It Works</a>
       <a href="#action">In Action</a>
-      <a href="#testimonials">Testimonials</a>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
       <a href="https://gumroad.com/kalshibot" class="btn-nav">Get KalshiBot — $99</a>
@@ -258,35 +265,35 @@
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <div class="badge"><div class="badge-dot"></div>Desktop App · $99 One-Time · Quant from $249/yr</div>
-        <h1>Trade Kalshi in 3 minutes.<br><em>Not 3 hours of setup.</em></h1>
-        <p class="hero-sub">The open-source Kalshi bot, packaged into a click-and-run desktop app. No Python. No terminal. No config files. Install, connect your API key, and go.</p>
+        <div class="badge"><div class="badge-dot"></div>Windows Desktop · $99 One-Time · Quant from $249/yr</div>
+        <h1>Trade Kalshi like an operator.<br><em>Not a gambler.</em></h1>
+        <p class="hero-sub">A professional-grade Kalshi trading framework — three strategies, 20+ risk guardrails, and a live control panel — packaged into a Windows desktop app. Install fast. Configure right. Every decision logged.</p>
         <div class="hero-btns">
           <a href="https://gumroad.com/kalshibot" class="btn btn-primary">Get KalshiBot — $99 →</a>
           <a href="#action" class="btn btn-ghost">See It In Action</a>
         </div>
         <div class="hero-stats">
-          <div><div class="stat-val">3 min</div><div class="stat-lbl">Setup Time</div></div>
-          <div><div class="stat-val">$99</div><div class="stat-lbl">One-Time</div></div>
-          <div><div class="stat-val">14-day</div><div class="stat-lbl">Money-Back</div></div>
+          <div><div class="stat-val">3</div><div class="stat-lbl">Strategies</div></div>
+          <div><div class="stat-val">20+</div><div class="stat-lbl">Risk Guardrails</div></div>
+          <div><div class="stat-val">14-day</div><div class="stat-lbl">Install Guarantee</div></div>
         </div>
       </div>
       <div class="terminal-wrap">
         <div class="terminal">
           <div class="term-bar">
             <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
-            <span class="term-ttl">kalshi-bot — live</span>
+            <span class="term-ttl">kalshi-bot — execution funnel</span>
           </div>
           <div class="term-body">
-            <div class="tl" style="animation-delay:0.2s"><span class="tp">$</span> kalshi-bot init --strategy momentum_v2</div>
-            <div class="tl" style="animation-delay:0.6s"><span class="ts">✓</span> Strategy loaded: Momentum v2.1</div>
-            <div class="tl" style="animation-delay:1.0s"><span class="ts">✓</span> Risk engine: Kelly sizing active</div>
-            <div class="tl" style="animation-delay:1.4s"><span class="ti">·</span> Markets: SPX, BTC, FED, CPI connected</div>
-            <div class="tl" style="animation-delay:1.8s"><span class="tp">$</span> kalshi-bot start --live</div>
-            <div class="tl" style="animation-delay:2.2s"><span class="ts">✓</span> WebSocket connected (42ms)</div>
-            <div class="tl" style="animation-delay:2.6s"><span class="tw">⚡</span> Signal: SPX &gt; 4500 @ 0.62 — BUY</div>
-            <div class="tl" style="animation-delay:3.0s"><span class="ts">✓</span> Order filled: 500 contracts @ 0.62</div>
-            <div class="tl" style="animation-delay:3.4s"><span class="ti">·</span> P&amp;L: +$1,240 (session) | Drawdown: 2.1%</div>
+            <div class="tl" style="animation-delay:0.2s"><span class="tp">$</span> kalshi-bot scan --strategy beast_mode</div>
+            <div class="tl" style="animation-delay:0.6s"><span class="ts">✓</span> Ingested 247,318 markets</div>
+            <div class="tl" style="animation-delay:1.0s"><span class="ti">·</span> Pre-filter: volume, activity, spread, depth</div>
+            <div class="tl" style="animation-delay:1.4s"><span class="ti">·</span> Horizon filter: 41 candidates within window</div>
+            <div class="tl" style="animation-delay:1.8s"><span class="tw">⚡</span> AI directional: 6 signals above confidence floor</div>
+            <div class="tl" style="animation-delay:2.2s"><span class="ti">·</span> Risk funnel: 2 rejected (min edge), 1 rejected (stale quote)</div>
+            <div class="tl" style="animation-delay:2.6s"><span class="ts">✓</span> Order filled: 500 contracts @ 0.62 (client_order_id set)</div>
+            <div class="tl" style="animation-delay:3.0s"><span class="ti">·</span> Exposure: $18 / $30 cap | Drawdown: 1.2% / 8% halt</div>
+            <div class="tl" style="animation-delay:3.4s"><span class="ti">·</span> AI spend today: $2.41 / $10 cap</div>
             <div class="tl" style="animation-delay:3.8s"><span class="tp">$</span> _<span class="tcursor"></span></div>
           </div>
         </div>
@@ -302,40 +309,57 @@
   <div class="wrap">
     <div class="sh reveal">
       <div class="sh-label">Features</div>
-      <h2>The bot without the setup pain</h2>
-      <p>We packaged an open-source Kalshi bot into a proper desktop app — so you trade instead of troubleshoot.</p>
+      <h2>A trading framework, not a black box</h2>
+      <p>Every strategy, filter, and guardrail is visible and configurable. Built for operators who want to know exactly what their bot is doing.</p>
     </div>
     <div class="feat-grid reveal">
       <div class="feat-card">
-        <div class="feat-ico">⚡</div>
-        <h3>3-Minute Install</h3>
-        <p>Download, double-click, connect your Kalshi API key. No terminal, no Python, no dependencies.</p>
+        <div class="feat-ico">🎯</div>
+        <h3>Three Strategies, One Bot</h3>
+        <p>AI Directional (LLM-driven with category scoring), Safe Compounder (math-only, no AI), and Beast Mode (multi-strategy optimizer with capital allocation).</p>
       </div>
       <div class="feat-card">
         <div class="feat-ico">🛡</div>
-        <h3>Risk Controls Built In</h3>
-        <p>Position sizing and drawdown limits enforced automatically — configure once, run with guardrails.</p>
+        <h3>20+ Institutional Guardrails</h3>
+        <p>Per-bet caps, total exposure limits, daily-loss and peak-drawdown halts, stale-quote rejection, unresolved-order protection, policy-change locks, front-running protection.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico">🧠</div>
+        <h3>Multi-Model AI Fallback</h3>
+        <p>Claude, GPT, Gemini, and DeepSeek via OpenRouter — with automatic model rotation on failure and a configurable daily AI spend cap you control.</p>
       </div>
       <div class="feat-card">
         <div class="feat-ico">📊</div>
-        <h3>Paper Trading Mode</h3>
-        <p>Test strategies with simulated money before you go live. Learn the app risk-free.</p>
+        <h3>Live Control Panel</h3>
+        <p>Real-time portfolio P&L, execution-funnel diagnostics, AI cost tracking, and a risk-limit editor — all local, no cloud dependency.</p>
       </div>
       <div class="feat-card">
-        <div class="feat-ico">📈</div>
-        <h3>Live Dashboard</h3>
-        <p>Real-time P&L, open positions, and trade history in one clean view.</p>
+        <div class="feat-ico">🧪</div>
+        <h3>Demo-First by Design</h3>
+        <p>Paper trading built in. Live trading is off by default. Smoke-test every configuration before risking a cent.</p>
       </div>
       <div class="feat-card">
-        <div class="feat-ico">🔗</div>
-        <h3>Works Across Kalshi Markets</h3>
-        <p>Run the bot on the Kalshi markets you already trade — no per-market configuration hassle.</p>
+        <div class="feat-ico">🔍</div>
+        <h3>Zero Black Boxes</h3>
+        <p>Every decision logged, every rejection counted, every filter exposed. You'll know exactly why the bot didn't trade — not just that it didn't.</p>
       </div>
-      <div class="feat-card">
-        <div class="feat-ico">💻</div>
-        <h3>Windows & Mac</h3>
-        <p>Native desktop app. Installs like normal software — because it is.</p>
-      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Why It's Different -->
+<section id="why">
+  <div class="wrap">
+    <div class="sh reveal">
+      <div class="sh-label">Why It's Different</div>
+      <h2>Most trading bots are black boxes.<br>This one isn't.</h2>
+    </div>
+    <div class="why-block reveal">
+      <p>Every decision is logged. Every rejection is counted. Every filter is exposed. You'll know <em>exactly</em> why the bot didn't trade — not just that it didn't.</p>
+      <p>Position sizing, exposure limits, daily-loss halts, peak-drawdown halts, stale-quote rejection, front-running protection — all configurable, all visible, all enforced before execution.</p>
+      <p><em>Built for operators, not hobbyists.</em></p>
     </div>
   </div>
 </section>
@@ -347,24 +371,24 @@
   <div class="wrap">
     <div class="sh reveal">
       <div class="sh-label">How It Works</div>
-      <h2>From download to live in 3 minutes</h2>
-      <p>The whole point: skip the setup nightmare that stops most people from using a trading bot at all.</p>
+      <h2>From install to live in minutes</h2>
+      <p>One Windows installer. Connect your API keys, tune your risk policy, paper-trade, then go live. The dashboard walks you through every step.</p>
     </div>
     <div class="steps-grid reveal">
       <div class="step">
         <div class="step-num">01</div>
-        <h3>Download & Install</h3>
-        <p>Get the KalshiBot desktop app for Windows or Mac. It installs like any normal piece of software.</p>
+        <h3>Install & Connect</h3>
+        <p>Run the Windows installer, then paste your Kalshi API key and your OpenRouter key (only needed for AI strategies). Saved securely, no config files.</p>
       </div>
       <div class="step">
         <div class="step-num">02</div>
-        <h3>Connect Your API Key</h3>
-        <p>Paste your Kalshi API key once. The app saves it securely — no re-entering, no config files.</p>
+        <h3>Tune Your Risk Policy</h3>
+        <p>Set per-bet caps, exposure limits, drawdown halts, and your daily AI spend cap from the dashboard's policy editor. Conservative defaults ship pre-configured.</p>
       </div>
       <div class="step">
         <div class="step-num">03</div>
-        <h3>Choose Strategy & Trade</h3>
-        <p>Pick a strategy, test in paper mode if you want, then flip to live. The dashboard shows everything.</p>
+        <h3>Paper Trade, Then Go Live</h3>
+        <p>Run in demo mode, watch the execution funnel, then flip the switch to live. The dashboard shows live P&L, open positions, and AI costs.</p>
       </div>
     </div>
   </div>
@@ -377,8 +401,8 @@
   <div class="wrap">
     <div class="sh reveal">
       <div class="sh-label">See It In Action</div>
-      <h2>Watch the bot run</h2>
-      <p>Here's exactly what the KalshiBot desktop experience looks like.</p>
+      <h2>Watch the execution funnel</h2>
+      <p>Here's what the KalshiBot control panel looks like in action.</p>
     </div>
 
     <div class="video-wrapper reveal">
@@ -393,10 +417,10 @@
     </div>
 
     <div class="video-features reveal">
-      <span><span class="icon">⚡</span> Orders fill instantly</span>
-      <span><span class="icon">📊</span> Live P&L updates</span>
-      <span><span class="icon">🛡️</span> Risk auto-managed</span>
-      <span><span class="icon">💬</span> Community support</span>
+      <span><span class="icon">⚡</span> Execution funnel visible</span>
+      <span><span class="icon">📊</span> Live P&L + AI costs</span>
+      <span><span class="icon">🛡️</span> Risk policy editor</span>
+      <span><span class="icon">🔍</span> Every rejection logged</span>
     </div>
   </div>
 </section>
@@ -408,8 +432,8 @@
   <div class="wrap">
     <div class="sh reveal">
       <div class="sh-label">Testimonials</div>
-      <h2>Built for traders who hate setup</h2>
-      <p>Feedback from early users of the packaged app.</p>
+      <h2>Built for traders who want observability</h2>
+      <p>Feedback from early users of the framework.</p>
     </div>
 
     <div class="trust-bar reveal">
@@ -423,15 +447,15 @@
         <div class="label">Installs</div>
       </div>
       <div class="trust-item">
-        <div class="number">3 min</div>
-        <div class="label">Average Setup Time</div>
+        <div class="number">3</div>
+        <div class="label">Strategies Included</div>
       </div>
     </div>
 
     <div class="testimonial-grid reveal">
       <div class="testimonial-card">
         <div class="stars">★★★★★</div>
-        <blockquote>“I'd tried to get the GitHub version running twice and gave up both times. This installed and was trading in a few minutes. Worth every dollar.”</blockquote>
+        <blockquote>“The execution funnel alone is worth it. I can finally see exactly which filter rejected a trade instead of guessing why the bot stayed quiet.”</blockquote>
         <div class="author">
           <div class="avatar">JD</div>
           <div class="author-info">
@@ -442,7 +466,7 @@
       </div>
       <div class="testimonial-card">
         <div class="stars">★★★★★</div>
-        <blockquote>“Finally, a bot that doesn't require a terminal. The paper trading mode let me test before going live. Exactly what I wanted.”</blockquote>
+        <blockquote>“Safe Compounder with no AI dependency is what sold me. Pure math, no provider costs, and the risk controls actually enforce themselves.”</blockquote>
         <div class="author">
           <div class="avatar">SM</div>
           <div class="author-info">
@@ -453,7 +477,7 @@
       </div>
       <div class="testimonial-card">
         <div class="stars">★★★★★</div>
-        <blockquote>“The Discord community alone is worth the Quant tier. Config presets saved me hours of tuning.”</blockquote>
+        <blockquote>“The Discord community is worth the Quant tier. Config presets saved me hours of tuning, and the roadmap voting actually shapes what gets built.”</blockquote>
         <div class="author">
           <div class="avatar">TC</div>
           <div class="author-info">
@@ -479,16 +503,16 @@
     <div class="pricing-grid reveal">
       <div class="plan">
         <div class="plan-name">KalshiBot Desktop</div>
-        <div class="plan-desc">The click-and-run app. Everything you need to start.</div>
+        <div class="plan-desc">The framework and dashboard. Everything you need to start.</div>
         <div class="plan-price">$99<sub>one-time</sub></div>
         <div class="plan-note"><strong>One-time purchase.</strong> Upgrade to Quant anytime for updates &amp; community.</div>
         <ul class="plan-feats">
-          <li><span class="ck">✓</span>Desktop app (Windows + Mac)</li>
+          <li><span class="ck">✓</span>Windows desktop app</li>
           <li><span class="ck">✓</span>Full source code included</li>
-          <li><span class="ck">✓</span>3-minute setup</li>
-          <li><span class="ck">✓</span>Paper trading mode</li>
-          <li><span class="ck">✓</span>Live dashboard</li>
-          <li><span class="ck">✓</span>Risk controls built in</li>
+          <li><span class="ck">✓</span>All 3 strategies (AI, Safe, Beast)</li>
+          <li><span class="ck">✓</span>20+ risk guardrails</li>
+          <li><span class="ck">✓</span>Live dashboard &amp; paper mode</li>
+          <li><span class="ck">✓</span>Local — no cloud dependency</li>
           <li><span class="x">✕</span>Future updates &amp; presets</li>
           <li><span class="x">✕</span>Priority support</li>
           <li><span class="x">✕</span>Private Discord</li>
@@ -500,7 +524,7 @@
         <div class="plan-name">KalshiBot Quant</div>
         <div class="plan-desc">The operator tier. Updates, config presets, priority support, and the private community.</div>
         <div class="plan-price">$29<sub>/mo</sub></div>
-        <div class="plan-note">Billed annually at <strong>$249/year</strong> · 14-day money-back guarantee.</div>
+        <div class="plan-note">Billed annually at <strong>$249/year</strong> · 14-day installation guarantee.</div>
         <ul class="plan-feats">
           <li><span class="ck">✓</span>Everything in Desktop</li>
           <li><span class="ck">✓</span>All future app updates</li>
@@ -516,7 +540,7 @@
       </div>
     </div>
     <div class="guarantee-strip reveal">
-      <strong>14-day money-back guarantee</strong> on Desktop and Quant. No monthly plan — Quant is annual so your access and community stay stable year-round. Already have Desktop? Upgrade to Quant for the difference — $150 — and get 12 months of Quant from your upgrade date.
+      <strong>14-day installation guarantee</strong> on Desktop and Quant. No monthly plan — Quant is annual so your access and community stay stable year-round. Already have Desktop? Upgrade to Quant for the difference — $150 — and get 12 months of Quant from your upgrade date.
     </div>
   </div>
 </section>
@@ -533,23 +557,31 @@
     <div class="faq-list reveal">
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)">What exactly am I paying for if the bot is open source?<span class="ico">+</span></button>
-        <div class="faq-a"><p>You're paying for the packaging: a proper desktop installer, a 3-minute setup instead of a coding project, a live dashboard, and support. The underlying bot is open source (MIT license); we've turned it into something you can actually run without touching a terminal.</p></div>
+        <div class="faq-a"><p>You're paying for the packaging and the framework: a proper Windows installer, a live control panel with an execution funnel and risk editor, pre-configured conservative defaults, a config presets library, priority support, and the private community. The underlying bot is open source (MIT license); we've turned it into something you can actually run and trust without hand-assembling a Python environment.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)">Do I get the source code?<span class="ico">+</span></button>
-        <div class="faq-a"><p>Yes. Both Desktop and Quant include the full source code. The underlying bot is MIT-licensed open source; we package it as a desktop app with a dashboard, presets, and support. You can inspect, modify, and run it yourself — you're paying for the packaging and the ongoing help, not for a locked box.</p></div>
+        <div class="faq-a"><p>Yes. Both Desktop and Quant include the full source code. The underlying bot is MIT-licensed open source; we package it as a Windows desktop app with a dashboard, presets, and support. You can inspect, modify, and run it yourself — you're paying for the packaging and the ongoing help, not for a locked box.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Does the bot trade profitably out of the box?<span class="ico">+</span></button>
+        <div class="faq-a"><p>No — and we won't claim it does. KalshiBot is a professional trading framework, not a money-printing machine. It ships with conservative defaults: most candidate trades are filtered for insufficient edge after fees. It requires configuration tuning (risk limits, strategy selection, market filters) to trade actively. The guardrails and observability are the product; the strategy is yours to tune. Paper-trade first.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Are there costs beyond the license?<span class="ico">+</span></button>
+        <div class="faq-a"><p>Yes, two: (1) Kalshi's trading fees, which the bot accounts for in position sizing; and (2) AI provider costs if you use the AI Directional strategy. AI calls go through OpenRouter and are billed by the provider (Anthropic, OpenAI, Google, DeepSeek). The bot includes a configurable daily AI spend cap so you control this — set it before you go live. Safe Compounder uses no AI and incurs no provider cost.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)">Can I paper trade before risking real money?<span class="ico">+</span></button>
-        <div class="faq-a"><p>Yes. KalshiBot includes a paper trading mode. Test strategies with simulated money — go live when you're confident.</p></div>
+        <div class="faq-a"><p>Yes. Paper trading is built in, and live trading is off by default. Test every configuration — including the execution funnel — with simulated money before you go live.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)">Do you offer refunds?<span class="ico">+</span></button>
         <div class="faq-a"><p>Yes — a 14-day installation guarantee on both Desktop ($99) and Quant ($249/year). If KalshiBot does not install or cannot connect to your Kalshi account, contact us within 14 days and we'll fix it or refund you in full. The guarantee covers technical functionality — it does not cover trading outcomes, strategy performance, or change of mind once the app is installed and working.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">Can I install it on more than one computer?<span class="ico">+</span></button>
-        <div class="faq-a"><p>Yes. Your license is valid for up to 2 devices — desktop and laptop, no extra charge.</p></div>
+        <button class="faq-q" onclick="toggleFaq(this)">What are the system requirements?<span class="ico">+</span></button>
+        <div class="faq-a"><p>Windows desktop (single installer). The bot uses SQLite locally and a local Streamlit dashboard — no cloud account required. You'll need a Kalshi account with API access, and an OpenRouter API key if you plan to use AI strategies.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)">Can I upgrade from Desktop to Quant later?<span class="ico">+</span></button>
@@ -562,10 +594,6 @@
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)">Is KalshiBot affiliated with Kalshi Inc.?<span class="ico">+</span></button>
         <div class="faq-a"><p>No. KalshiBot is an independent third-party tool that uses Kalshi's public API. We are not affiliated with, endorsed by, or officially connected to Kalshi Inc.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">Do I need coding experience?<span class="ico">+</span></button>
-        <div class="faq-a"><p>No. KalshiBot is a desktop app — double-click and run. No Python. No terminal. No coding.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)">What is KalshiBot Quant?<span class="ico">+</span></button>
@@ -603,12 +631,13 @@
     <div class="footer-grid">
       <div>
         <div class="footer-logo">⚡ KalshiBot</div>
-        <p class="footer-desc">The click-and-run Kalshi trading bot. Open-source bot, packaged into a 3-minute desktop install.</p>
+        <p class="footer-desc">The professional Kalshi trading framework. Open-source bot, packaged into a Windows desktop app with a live control panel.</p>
       </div>
       <div class="footer-col">
         <h4>Product</h4>
         <ul>
           <li><a href="#features">Features</a></li>
+          <li><a href="#why">Why Different</a></li>
           <li><a href="#pricing">Pricing</a></li>
           <li><a href="#faq">FAQ</a></li>
           <li><a href="/calculator">Calculator</a></li>
@@ -641,7 +670,7 @@
         <a href="#" class="social-link" aria-label="Forum">◎</a>
       </div>
     </div>
-    <p class="risk-note">Trading prediction markets involves substantial risk of loss and is not suitable for every investor. KalshiBot is software only — it does not provide financial, investment, or trading advice, and no outcome or profit is guaranteed. Past performance is not indicative of future results. KalshiBot Quant is a software and community tier, not a signal service or investment product; no returns are promised. The underlying bot is provided under the MIT open-source license; KalshiBot packages and supports it as a desktop application.</p>
+    <p class="risk-note">Trading prediction markets involves substantial risk of loss and is not suitable for every investor. KalshiBot is software only — it does not provide financial, investment, or trading advice, and no outcome or profit is guaranteed. Past performance is not indicative of future results. AI strategies incur third-party provider costs billed by OpenRouter; use the built-in daily spend cap to control them. KalshiBot Quant is a software and community tier, not a signal service or investment product; no returns are promised. The underlying bot is provided under the MIT open-source license; KalshiBot packages and supports it as a desktop application.</p>
   </div>
 </footer>
 
