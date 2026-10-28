@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KalshiBot · Revenue & Exit Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0c0d;
+    --bg-card: #161618;
+    --bg-card-2: #1c1c1f;
+    --border: rgba(255,255,255,0.07);
+    --border-mid: rgba(255,255,255,0.12);
+    --border-hi: rgba(255,255,255,0.18);
+    --text-1: #f4f4f5;
+    --text-2: #a1a1aa;
+    --text-3: #71717a;
+    --green: #4ade80;
+    --green-dim: rgba(74,222,128,0.12);
+    --amber: #fbbf24;
+    --amber-dim: rgba(251,191,36,0.1);
+    --red: #f87171;
+    --red-dim: rgba(248,113,113,0.1);
+    --r-md: 10px;
+    --r-lg: 16px;
+  }
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg); color: var(--text-1);
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    line-height: 1.6; padding: 2rem 1rem; min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+
+  h1 {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    letter-spacing: -0.02em; margin-bottom: 0.4rem;
+  }
+  .sub { color: var(--text-2); font-size: 0.95rem; margin-bottom: 2rem; }
+
+  .layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 1.5rem; align-items: start; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--r-lg); padding: 1.5rem;
+  }
+  .card + .card { margin-top: 1.5rem; }
+  .card h2 {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 0.85rem; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--text-3);
+    margin-bottom: 1.1rem;
+  }
+
+  .field { margin-bottom: 1.3rem; }
+  .field:last-child { margin-bottom: 0; }
+  .field-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 0.4rem;
+  }
+  .field-label { font-size: 0.85rem; color: var(--text-2); font-weight: 500; }
+  .field-value {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;
+    font-weight: 600; color: var(--text-1);
+  }
+  input[type=range] {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 4px; border-radius: 2px;
+    background: var(--bg-card-2); outline: none; cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--text-1); border: 2px solid var(--bg);
+    box-shadow: 0 0 0 1px var(--border-hi); cursor: grab;
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--text-1); border: 2px solid var(--bg); cursor: grab;
+  }
+  input[type=number] {
+    width: 100%; padding: 0.5rem 0.7rem;
+    background: var(--bg-card-2); border: 1px solid var(--border-mid);
+    border-radius: var(--r-md); color: var(--text-1);
+    font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
+    outline: none; margin-top: 0.4rem;
+  }
+  input[type=number]:focus { border-color: var(--border-hi); }
+
+  .result-hero {
+    background: var(--bg-card-2); border: 1px solid var(--border-hi);
+    border-radius: var(--r-lg); padding: 1.6rem 1.5rem;
+    text-align: center; margin-bottom: 1.5rem;
+  }
+  .result-hero .label {
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;
+    color: var(--text-3); margin-bottom: 0.4rem;
+  }
+  .result-hero .value {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(2rem, 5vw, 2.8rem); letter-spacing: -0.02em;
+    color: var(--text-1); line-height: 1.1;
+  }
+  .result-hero .multiples {
+    font-size: 0.78rem; color: var(--text-3); margin-top: 0.4rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+  @media (max-width: 480px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .stat {
+    background: var(--bg-card-2); border: 1px solid var(--border);
+    border-radius: var(--r-md); padding: 0.9rem 1rem;
+  }
+  .stat .s-label {
+    font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1.2px;
+    color: var(--text-3); margin-bottom: 0.25rem;
+  }
+  .stat .s-value {
+    font-family: 'JetBrains Mono', monospace; font-weight: 600;
+    font-size: 1.05rem; color: var(--text-1);
+  }
+  .stat .s-sub { font-size: 0.7rem; color: var(--text-3); margin-top: 0.15rem; }
+
+  .mixbar { margin-top: 1rem; }
+  .mixbar .bar {
+    display: flex; height: 10px; border-radius: 5px;
+    overflow: hidden; background: var(--bg-card-2);
+    border: 1px solid var(--border);
+  }
+  .mixbar .seg-d { background: var(--text-3); transition: width 0.3s; }
+  .mixbar .seg-q { background: var(--green); transition: width 0.3s; }
+  .mixbar .legend {
+    display: flex; justify-content: space-between;
+    font-size: 0.7rem; color: var(--text-3); margin-top: 0.4rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .pace-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.7rem 0; border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+  .pace-row:last-child { border-bottom: none; }
+  .pace-row .pr-label { color: var(--text-2); }
+  .pace-row .pr-val {
+    font-family: 'JetBrains Mono', monospace; font-weight: 600;
+    font-size: 0.85rem;
+  }
+  .ok { color: var(--green); }
+  .warn { color: var(--amber); }
+  .bad { color: var(--red); }
+
+  .exit-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.55rem 0; font-size: 0.82rem;
+  }
+  .exit-row .er-label { color: var(--text-2); }
+  .exit-row .er-val { font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+
+  .note {
+    font-size: 0.72rem; color: var(--text-3); line-height: 1.6;
+    margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border);
+  }
+
+  .goal-line {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.78rem; color: var(--text-3); margin-bottom: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .goal-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+
+  .btn-reset {
+    margin-top: 1rem; width: 100%; padding: 0.6rem;
+    background: transparent; border: 1px solid var(--border-mid);
+    border-radius: var(--r-md); color: var(--text-2);
+    font-family: 'DM Sans', sans-serif; font-size: 0.8rem;
+    font-weight: 600; cursor: pointer; transition: all 0.2s;
+  }
+  .btn-reset:hover { border-color: var(--border-hi); color: var(--text-1); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>KalshiBot Revenue &amp; Exit Calculator</h1>
+  <p class="sub">Drag the sliders to model monthly sales, revenue, recurring base, and exit value at your chosen multiple.</p>
+
+  <div class="layout">
+
+    <!-- LEFT: INPUTS -->
+    <div>
+      <div class="card">
+        <h2>Monthly Sales</h2>
+
+        <div class="field">
+          <div class="field-head">
+            <span class="field-label">Desktop sales / month</span>
+            <span class="field-value" id="dLabel">100</span>
+          </div>
+          <input type="range" id="desktop" min="0" max="400" step="1" value="100">
+        </div>
+
+        <div class="field">
+          <div class="field-head">
+            <span class="field-label">Quant sales / month</span>
+            <span class="field-value" id="qLabel">50</span>
+          </div>
+          <input type="range" id="quant" min="0" max="400" step="1" value="50">
+        </div>
+
+        <div class="field">
+          <div class="field-head">
+            <span class="field-label">Quant attach rate</span>
+            <span class="field-value" id="aLabel">33.3%</span>
+          </div>
+          <input type="range" id="attach" min="0" max="100" step="1" value="33">
+        </div>
+
+        <div class="mixbar">
+          <div class="bar">
+            <div class="seg-d" id="segD" style="width:67%"></div>
+            <div class="seg-q" id="segQ" style="width:33%"></div>
+          </div>
+          <div class="legend">
+            <span id="legD">Desktop · 67%</span>
+            <span id="legQ">Quant · 33%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Pricing &amp; Fees</h2>
+
+        <div class="grid-2">
+          <div>
+            <label class="field-label" for="priceD">Desktop price ($)</label>
+            <input type="number" id="priceD" value="99" min="0" step="1">
+          </div>
+          <div>
+            <label class="field-label" for="priceQ">Quant price / yr ($)</label>
+            <input type="number" id="priceQ" value="249" min="0" step="1">
+          </div>
+          <div>
+            <label class="field-label" for="feePct">Processor fee (%)</label>
+            <input type="number" id="feePct" value="5" min="0" max="30" step="0.1">
+          </div>
+          <div>
+            <label class="field-label" for="feeFlat">Flat fee / txn ($)</label>
+            <input type="number" id="feeFlat" value="0.50" min="0" step="0.01">
+          </div>
+          <div>
+            <label class="field-label" for="multiple">Exit multiple (× monthly)</label>
+            <input type="number" id="multiple" value="40" min="1" max="100" step="1">
+          </div>
+          <div>
+            <label class="field-label" for="renewal">Quant renewal rate (%)</label>
+            <input type="number" id="renewal" value="70" min="0" max="100" step="1">
+          </div>
+        </div>
+
+        <button class="btn-reset" id="resetBtn">Reset to targets (100 + 50)</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: RESULTS -->
+    <div>
+      <div class="result-hero">
+        <div class="label">Estimated exit value</div>
+        <div class="value" id="exitVal">$894,000</div>
+        <div class="multiples" id="exitMultiples">40× monthly net revenue</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="stat">
+          <div class="s-label">Monthly gross</div>
+          <div class="s-value" id="gross">$22,350</div>
+          <div class="s-sub" id="grossSub">150 transactions</div>
+        </div>
+        <div class="stat">
+          <div class="s-label">Monthly net</div>
+          <div class="s-value" id="net">$21,158</div>
+          <div class="s-sub" id="netSub">after processor fees</div>
+        </div>
+        <div class="stat">
+          <div class="s-label">Annualized gross</div>
+          <div class="s-value" id="annualGross">$268,200</div>
+          <div class="s-sub">12 months at current pace</div>
+        </div>
+        <div class="stat">
+          <div class="s-label">Recurring base (ARR)</div>
+          <div class="s-value" id="arr">$149,400</div>
+          <div class="s-sub" id="arrSub">Quant renewals at 70%</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:1.5rem;">
+        <h2>Pace vs target (100 Desktop + 50 Quant)</h2>
+        <div class="pace-row">
+          <span class="pr-label">Desktop sales</span>
+          <span class="pr-val" id="paceD">—</span>
+        </div>
+        <div class="pace-row">
+          <span class="pr-label">Quant sales</span>
+          <span class="pr-val" id="paceQ">—</span>
+        </div>
+        <div class="pace-row">
+          <span class="pr-label">Quant attach rate</span>
+          <span class="pr-val" id="paceA">—</span>
+        </div>
+        <div class="pace-row">
+          <span class="pr-label">Monthly gross</span>
+          <span class="pr-val" id="paceG">—</span>
+        </div>
+        <div class="pace-row">
+          <span class="pr-label">Exit value</span>
+          <span class="pr-val" id="paceE">—</span>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:1.5rem;">
+        <h2>Exit value waterfall</h2>
+        <div class="exit-row">
+          <span class="er-label">At current inputs</span>
+          <span class="er-val" id="wfCurrent">$894,000</span>
+        </div>
+        <div class="exit-row">
+          <span class="er-label">At target (100 + 50)</span>
+          <span class="er-val" id="wfTarget">$894,000</span>
+        </div>
+        <div class="exit-row">
+          <span class="er-label">Gap to close</span>
+          <span class="er-val" id="wfGap">$0</span>
+        </div>
+        <div class="exit-row">
+          <span class="er-label">Each Desktop sale adds</span>
+          <span class="er-val" id="wfD">$3,960</span>
+        </div>
+        <div class="exit-row">
+          <span class="er-label">Each Quant sale adds</span>
+          <span class="er-val" id="wfQ">$9,960</span>
+        </div>
+      </div>
+
+      <p class="note">
+        Exit value uses net monthly revenue × your chosen multiple. Processor fees are 5% + $0.50 per transaction by default (Lemon Squeezy / Paddle). Quant ARR assumes the renewal rate you set — this is the figure an acquirer will scrutinize most, since it's what justifies a high multiple. Desktop sales are one-time and do not compound.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const fmt = n => '$' + Math.round(n).toLocaleString('en-US');
+
+  const inputs = ['desktop','quant','attach','priceD','priceQ','feePct','feeFlat','multiple','renewal'];
+
+  function read() {
+    return {
+      desktop: +$('desktop').value,
+      quant: +$('quant').value,
+      attach: +$('attach').value,
+      priceD: +$('priceD').value || 0,
+      priceQ: +$('priceQ').value || 0,
+      feePct: +$('feePct').value || 0,
+      feeFlat: +$('feeFlat').value || 0,
+      multiple: +$('multiple').value || 1,
+      renewal: +$('renewal').value || 0,
+    };
+  }
+
+  function compute(v) {
+    const totalTx = v.desktop + v.quant;
+    const grossD = v.desktop * v.priceD;
+    const grossQ = v.quant * v.priceQ;
+    const gross = grossD + grossQ;
+
+    const fees = totalTx * v.feeFlat + gross * (v.feePct / 100);
+    const net = gross - fees;
+
+    const exitVal = net * v.multiple;
+    const annualGross = gross * 12;
+
+    const monthlyRecurring = v.quant * v.priceQ;
+    const arr = monthlyRecurring * 12 * (v.renewal / 100);
+
+    const attachRate = totalTx === 0 ? 0 : v.quant / totalTx;
+
+    // Targets
+    const tD = 100, tQ = 50;
+    const targetGross = tD * v.priceD + tQ * v.priceQ;
+    const targetTx = tD + tQ;
+    const targetFees = targetTx * v.feeFlat + targetGross * (v.feePct / 100);
+    const targetNet = targetGross - targetFees;
+    const targetExit = targetNet * v.multiple;
+    const targetAttach = tQ / targetTx;
+
+    // Waterfall
+    const gap = Math.max(0, targetExit - exitVal);
+    const eachD = (v.priceD * (1 - v.feePct/100) - v.feeFlat) * v.multiple;
+    const eachQ = (v.priceQ * (1 - v.feePct/100) - v.feeFlat) * v.multiple;
+
+    return {
+      totalTx, gross, net, exitVal, annualGross, arr, attachRate,
+      targetGross, targetExit, targetAttach,
+      gap, eachD, eachQ,
+    };
+  }
+
+  function paceClass(actual, target) {
+    if (actual >= target) return 'ok';
+    if (actual >= target * 0.8) return 'warn';
+    return 'bad';
+  }
+
+  function render() {
+    const v = read();
+    const r = compute(v);
+
+    // Live labels
+    $('dLabel').textContent = v.desktop;
+    $('qLabel').textContent = v.quant;
+
+    // Attach slider drives Quant when moved — but we also want sliders to reflect typed values.
+    // Keep the attach % display in sync with actual mix.
+    const actualAttachPct = Math.round(r.attachRate * 100);
+    $('aLabel').textContent = actualAttachPct + '%';
+
+    // Mix bar
+    const dPct = r.totalTx === 0 ? 0 : Math.round((v.desktop / r.totalTx) * 100);
+    const qPct = r.totalTx === 0 ? 0 : 100 - dPct;
+    $('segD').style.width = dPct + '%';
+    $('segQ').style.width = qPct + '%';
+    $('legD').textContent = 'Desktop · ' + dPct + '%';
+    $('legQ').textContent = 'Quant · ' + qPct + '%';
+
+    // Hero
+    $('exitVal').textContent = fmt(r.exitVal);
+    $('exitMultiples').textContent = v.multiple + '× monthly net revenue';
+
+    // Stats
+    $('gross').textContent = fmt(r.gross);
+    $('grossSub').textContent = r.totalTx + ' transactions';
+    $('net').textContent = fmt(r.net);
+    $('netSub').textContent = 'after processor fees';
+    $('annualGross').textContent = fmt(r.annualGross);
+    $('arr').textContent = fmt(r.arr);
+    $('arrSub').textContent = 'Quant renewals at ' + v.renewal + '%';
+
+    // Pace rows
+    const paceD = $('paceD');
+    paceD.textContent = v.desktop + ' / 100';
+    paceD.className = 'pr-val ' + paceClass(v.desktop, 100);
+
+    const paceQ = $('paceQ');
+    paceQ.textContent = v.quant + ' / 50';
+    paceQ.className = 'pr-val ' + paceClass(v.quant, 50);
+
+    const paceA = $('paceA');
+    paceA.textContent = actualAttachPct + '% / 33%';
+    paceA.className = 'pr-val ' + paceClass(r.attachRate * 100, 33.3);
+
+    const paceG = $('paceG');
+    paceG.textContent = fmt(r.gross) + ' / ' + fmt(r.targetGross);
+    paceG.className = 'pr-val ' + paceClass(r.gross, r.targetGross);
+
+    const paceE = $('paceE');
+    paceE.textContent = fmt(r.exitVal) + ' / ' + fmt(r.targetExit);
+    paceE.className = 'pr-val ' + paceClass(r.exitVal, r.targetExit);
+
+    // Waterfall
+    $('wfCurrent').textContent = fmt(r.exitVal);
+    $('wfTarget').textContent = fmt(r.targetExit);
+    $('wfGap').textContent = fmt(r.gap);
+    $('wfD').textContent = fmt(r.eachD);
+    $('wfQ').textContent = fmt(r.eachQ);
+  }
+
+  // Wire up all inputs
+  inputs.forEach(id => {
+    const el = $(id);
+    el.addEventListener('input', () => {
+      // If attach slider is dragged, translate into a Quant count based on current Desktop
+      if (id === 'attach') {
+        const pct = +el.value / 100;
+        const d = +$('desktop').value;
+        if (pct < 1) {
+          // quant = pct * total => pct*(d + q) = q => q = pct*d/(1-pct)
+          const q = Math.round((pct * d) / (1 - pct));
+          $('quant').value = Math.min(400, Math.max(0, q));
+        }
+      }
+      // If desktop or quant sliders change, update the attach slider to match
+      if (id === 'desktop' || id === 'quant') {
+        const d = +$('desktop').value;
+        const q = +$('quant').value;
+        const total = d + q;
+        const pct = total === 0 ? 0 : Math.round((q / total) * 100);
+        $('attach').value = pct;
+      }
+      render();
+    });
+  });
+
+  $('resetBtn').addEventListener('click', () => {
+    $('desktop').value = 100;
+    $('quant').value = 50;
+    $('attach').value = 33;
+    $('priceD').value = 99;
+    $('priceQ').value = 249;
+    $('feePct').value = 5;
+    $('feeFlat').value = 0.50;
+    $('multiple').value = 40;
+    $('renewal').value = 70;
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>
