@@ -36,7 +36,39 @@
     font-size: clamp(1.6rem, 3vw, 2.2rem);
     letter-spacing: -0.02em; margin-bottom: 0.4rem;
   }
-  .sub { color: var(--text-2); font-size: 0.95rem; margin-bottom: 2rem; }
+  .sub { color: var(--text-2); font-size: 0.95rem; margin-bottom: 1.25rem; }
+
+  /* Currency toggle bar */
+  .curbar {
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    background: var(--bg-card); border: 1px solid var(--border-mid);
+    border-radius: var(--r-lg); padding: 0.85rem 1.1rem; margin-bottom: 1.5rem;
+  }
+  .curbar .lbl {
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.4px;
+    color: var(--text-3); font-weight: 600;
+  }
+  .toggle {
+    display: inline-flex; background: var(--bg-card-2);
+    border: 1px solid var(--border-mid); border-radius: 999px; padding: 3px;
+  }
+  .toggle button {
+    border: 0; background: transparent; color: var(--text-2);
+    font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.82rem;
+    padding: 0.4rem 1.1rem; border-radius: 999px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .toggle button.active { background: var(--text-1); color: #0c0c0d; }
+  .rate-field { display: flex; align-items: center; gap: 0.5rem; margin-left: auto; }
+  .rate-field label { font-size: 0.78rem; color: var(--text-2); }
+  .rate-field input {
+    width: 78px; padding: 0.4rem 0.55rem; text-align: right;
+    background: var(--bg-card-2); border: 1px solid var(--border-mid);
+    border-radius: var(--r-md); color: var(--text-1);
+    font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; outline: none;
+  }
+  .rate-field input:focus { border-color: var(--border-hi); }
+  .rate-field .hint { font-size: 0.7rem; color: var(--text-3); }
 
   .layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 1.5rem; align-items: start; }
   @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
@@ -61,14 +93,10 @@
   }
   .field-label { font-size: 0.85rem; color: var(--text-2); font-weight: 500; }
 
-  /* Slider + number box row */
-  .ctrl-row {
-    display: flex; align-items: center; gap: 0.75rem;
-  }
+  .ctrl-row { display: flex; align-items: center; gap: 0.75rem; }
   .ctrl-row input[type=range] { flex: 1; }
   .ctrl-row input[type=number] {
-    width: 88px; flex-shrink: 0;
-    padding: 0.45rem 0.55rem;
+    width: 88px; flex-shrink: 0; padding: 0.45rem 0.55rem;
     background: var(--bg-card-2); border: 1px solid var(--border-mid);
     border-radius: var(--r-md); color: var(--text-1);
     font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;
@@ -92,7 +120,6 @@
     background: var(--text-1); border: 2px solid var(--bg); cursor: grab;
   }
 
-  /* Split display (read-only derived counts) */
   .split-display {
     display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
     margin-top: 1rem;
@@ -125,7 +152,6 @@
     font-family: 'JetBrains Mono', monospace;
   }
 
-  /* Pricing grid — number inputs only */
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
   @media (max-width: 480px) { .grid-2 { grid-template-columns: 1fr; } }
   .num-field label {
@@ -140,6 +166,7 @@
     outline: none;
   }
   .num-field input:focus { border-color: var(--border-hi); }
+  .num-field .hint { font-size: 0.68rem; color: var(--text-3); margin-top: 0.25rem; }
 
   .result-hero {
     background: var(--bg-card-2); border: 1px solid var(--border-hi);
@@ -218,7 +245,21 @@
 <div class="wrap">
 
   <h1>KalshiBot Revenue &amp; Exit Calculator</h1>
-  <p class="sub">Set total sales per month and the Quant share — the calculator splits the mix and updates every number live.</p>
+  <p class="sub">Set total sales per month and the Quant share. Pricing &amp; fees stay in USD (your sales currency); toggle revenue, exit value and waterfall to KES when you need to convert.</p>
+
+  <!-- Currency toggle bar -->
+  <div class="curbar">
+    <span class="lbl">Display currency</span>
+    <div class="toggle" role="group" aria-label="Display currency">
+      <button type="button" id="curUSD" class="active">USD $</button>
+      <button type="button" id="curKES">KES</button>
+    </div>
+    <div class="rate-field">
+      <label for="fxRate">USD → KES</label>
+      <input type="number" id="fxRate" value="128" min="1" step="0.01">
+      <span class="hint">revenue only</span>
+    </div>
+  </div>
 
   <div class="layout">
 
@@ -274,7 +315,7 @@
       </div>
 
       <div class="card">
-        <h2>Pricing &amp; Fees</h2>
+        <h2>Pricing &amp; Fees <span style="text-transform:none;letter-spacing:0;color:var(--text-3);font-weight:500;font-size:0.72rem;">(USD — sales currency)</span></h2>
 
         <div class="grid-2">
           <div class="num-field">
@@ -390,7 +431,7 @@
       </div>
 
       <p class="note">
-        Exit value uses net monthly revenue × your chosen multiple. Processor fees default to 5% + $0.50 per transaction (Lemon Squeezy / Paddle). Quant ARR assumes the renewal rate you set — the figure an acquirer will scrutinize most, since it's what justifies a high multiple. Desktop sales are one-time and do not compound. Desktop and Quant counts are rounded from total × share.
+        Exit value uses net monthly revenue × your chosen multiple. Pricing, fees, and multiple stay in USD because you sell in USD. When the display is set to KES, revenue, exit value, and waterfall figures are converted at the rate above — the USD figures are unchanged underneath.
       </p>
     </div>
 
@@ -399,13 +440,17 @@
 
 <script>
   const $ = id => document.getElementById(id);
-  const fmt = n => '$' + Math.round(n).toLocaleString('en-US');
 
-  // Source of truth for "paired" inputs
-  const pairs = [
-    ['total', 'totalNum'],
-    ['qshare', 'qshareNum'],
-  ];
+  // Display currency state
+  let currency = 'USD';       // 'USD' or 'KES'
+  let fxRate = 128;           // KES per 1 USD
+
+  // Formatters
+  const fmtUSD = n => '$' + Math.round(n).toLocaleString('en-US');
+  const fmtKES = n => 'KES ' + Math.round(n).toLocaleString('en-US');
+  const fmtMoney = n => currency === 'KES' ? fmtKES(n * fxRate) : fmtUSD(n);
+  // Short version for split-box subtitles (keeps the "$" or "KES" prefix)
+  const fmtSplit = n => currency === 'KES' ? fmtKES(n * fxRate) : fmtUSD(n);
 
   function read() {
     return {
@@ -471,15 +516,15 @@
     const v = read();
     const r = compute(v);
 
-    // Sync paired inputs (slider <-> number) — but don't clobber the one being typed in
+    // Sync paired inputs
     $('total').value = Math.min(500, v.total);
     $('qshare').value = Math.round(v.qshare * 100);
 
-    // Split display
+    // Split display (convert to display currency)
     $('splitD').textContent = r.desktop;
     $('splitQ').textContent = r.quant;
-    $('splitDrev').textContent = fmt(r.grossD) + ' gross';
-    $('splitQrev').textContent = fmt(r.grossQ) + ' gross';
+    $('splitDrev').textContent = fmtSplit(r.grossD) + ' gross';
+    $('splitQrev').textContent = fmtSplit(r.grossQ) + ' gross';
 
     // Mix bar
     const dPct = r.totalTx === 0 ? 0 : Math.round((r.desktop / r.totalTx) * 100);
@@ -490,18 +535,19 @@
     $('legQ').textContent = 'Quant · ' + qPct + '%';
 
     // Hero
-    $('exitVal').textContent = fmt(r.exitVal);
-    $('exitMultiples').textContent = v.multiple + '× monthly net revenue';
+    $('exitVal').textContent = fmtMoney(r.exitVal);
+    $('exitMultiples').textContent = v.multiple + '× monthly net revenue' +
+      (currency === 'KES' ? ' · converted at ' + fxRate + ' KES/USD' : '');
 
-    // Stats
-    $('gross').textContent = fmt(r.gross);
+    // Stats — revenue figures all convert
+    $('gross').textContent = fmtMoney(r.gross);
     $('grossSub').textContent = r.totalTx + ' transactions';
-    $('net').textContent = fmt(r.net);
-    $('annualGross').textContent = fmt(r.annualGross);
-    $('arr').textContent = fmt(r.arr);
+    $('net').textContent = fmtMoney(r.net);
+    $('annualGross').textContent = fmtMoney(r.annualGross);
+    $('arr').textContent = fmtMoney(r.arr);
     $('arrSub').textContent = 'Quant renewals at ' + v.renewal + '%';
 
-    // Pace rows
+    // Pace rows (converted)
     const paceD = $('paceD');
     paceD.textContent = r.desktop + ' / 100';
     paceD.className = 'pr-val ' + paceClass(r.desktop, 100);
@@ -516,30 +562,43 @@
     paceA.className = 'pr-val ' + paceClass(r.attachRate * 100, 33.3);
 
     const paceG = $('paceG');
-    paceG.textContent = fmt(r.gross) + ' / ' + fmt(r.targetGross);
+    paceG.textContent = fmtMoney(r.gross) + ' / ' + fmtMoney(r.targetGross);
     paceG.className = 'pr-val ' + paceClass(r.gross, r.targetGross);
 
     const paceE = $('paceE');
-    paceE.textContent = fmt(r.exitVal) + ' / ' + fmt(r.targetExit);
+    paceE.textContent = fmtMoney(r.exitVal) + ' / ' + fmtMoney(r.targetExit);
     paceE.className = 'pr-val ' + paceClass(r.exitVal, r.targetExit);
 
-    // Waterfall
-    $('wfCurrent').textContent = fmt(r.exitVal);
-    $('wfTarget').textContent = fmt(r.targetExit);
-    $('wfGap').textContent = fmt(r.gap);
-    $('wfD').textContent = fmt(r.eachD);
-    $('wfQ').textContent = fmt(r.eachQ);
+    // Waterfall (converted)
+    $('wfCurrent').textContent = fmtMoney(r.exitVal);
+    $('wfTarget').textContent = fmtMoney(r.targetExit);
+    $('wfGap').textContent = fmtMoney(r.gap);
+    $('wfD').textContent = fmtMoney(r.eachD);
+    $('wfQ').textContent = fmtMoney(r.eachQ);
   }
 
-  // Wire paired inputs — moving either updates the other and re-renders
+  // Currency toggle
+  function setCurrency(c) {
+    currency = c;
+    $('curUSD').classList.toggle('active', c === 'USD');
+    $('curKES').classList.toggle('active', c === 'KES');
+    render();
+  }
+  $('curUSD').addEventListener('click', () => setCurrency('USD'));
+  $('curKES').addEventListener('click', () => setCurrency('KES'));
+
+  // FX rate input
+  $('fxRate').addEventListener('input', () => {
+    const r = +$('fxRate').value || 0;
+    fxRate = r > 0 ? r : 128;
+    render();
+  });
+
+  // Wire paired inputs
   function bindPair(sliderId, numberId) {
     const s = $(sliderId), n = $(numberId);
-    s.addEventListener('input', () => {
-      n.value = s.value;
-      render();
-    });
+    s.addEventListener('input', () => { n.value = s.value; render(); });
     n.addEventListener('input', () => {
-      // Clamp to slider range but let the number hold the typed value
       const v = +n.value || 0;
       if (v < +s.min) s.value = s.min;
       else if (v > +s.max) s.value = s.max;
@@ -547,21 +606,16 @@
       render();
     });
     n.addEventListener('blur', () => {
-      // On blur, clamp and re-sync
-      const min = +n.min, max = +n.max;
       let v = +n.value || 0;
-      if (v < min) v = min;
-      if (v > max) v = max;
-      n.value = v;
-      s.value = v;
-      render();
+      if (v < +n.min) v = +n.min;
+      if (v > +n.max) v = +n.max;
+      n.value = v; s.value = v; render();
     });
   }
-
   bindPair('total', 'totalNum');
   bindPair('qshare', 'qshareNum');
 
-  // Pricing/fee inputs — just re-render on input
+  // Pricing/fee inputs
   ['priceD','priceQ','feePct','feeFlat','multiple','renewal'].forEach(id => {
     $(id).addEventListener('input', render);
   });
