@@ -17,11 +17,8 @@
     --text-2: #a1a1aa;
     --text-3: #71717a;
     --green: #4ade80;
-    --green-dim: rgba(74,222,128,0.12);
     --amber: #fbbf24;
-    --amber-dim: rgba(251,191,36,0.1);
     --red: #f87171;
-    --red-dim: rgba(248,113,113,0.1);
     --r-md: 10px;
     --r-lg: 16px;
   }
@@ -56,17 +53,29 @@
     margin-bottom: 1.1rem;
   }
 
-  .field { margin-bottom: 1.3rem; }
+  .field { margin-bottom: 1.4rem; }
   .field:last-child { margin-bottom: 0; }
   .field-head {
     display: flex; justify-content: space-between; align-items: baseline;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.5rem; gap: 0.75rem;
   }
   .field-label { font-size: 0.85rem; color: var(--text-2); font-weight: 500; }
-  .field-value {
-    font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;
-    font-weight: 600; color: var(--text-1);
+
+  /* Slider + number box row */
+  .ctrl-row {
+    display: flex; align-items: center; gap: 0.75rem;
   }
+  .ctrl-row input[type=range] { flex: 1; }
+  .ctrl-row input[type=number] {
+    width: 88px; flex-shrink: 0;
+    padding: 0.45rem 0.55rem;
+    background: var(--bg-card-2); border: 1px solid var(--border-mid);
+    border-radius: var(--r-md); color: var(--text-1);
+    font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;
+    outline: none; text-align: right;
+  }
+  .ctrl-row input[type=number]:focus { border-color: var(--border-hi); }
+
   input[type=range] {
     -webkit-appearance: none; appearance: none;
     width: 100%; height: 4px; border-radius: 2px;
@@ -82,14 +91,55 @@
     width: 16px; height: 16px; border-radius: 50%;
     background: var(--text-1); border: 2px solid var(--bg); cursor: grab;
   }
-  input[type=number] {
-    width: 100%; padding: 0.5rem 0.7rem;
+
+  /* Split display (read-only derived counts) */
+  .split-display {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  .split-box {
+    background: var(--bg-card-2); border: 1px solid var(--border);
+    border-radius: var(--r-md); padding: 0.8rem 0.9rem;
+  }
+  .split-box .sb-label {
+    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.2px;
+    color: var(--text-3); margin-bottom: 0.15rem;
+  }
+  .split-box .sb-value {
+    font-family: 'JetBrains Mono', monospace; font-weight: 600;
+    font-size: 1.15rem; color: var(--text-1);
+  }
+  .split-box .sb-sub { font-size: 0.68rem; color: var(--text-3); margin-top: 0.1rem; }
+
+  .mixbar { margin-top: 1.1rem; }
+  .mixbar .bar {
+    display: flex; height: 10px; border-radius: 5px;
+    overflow: hidden; background: var(--bg-card-2);
+    border: 1px solid var(--border);
+  }
+  .mixbar .seg-d { background: var(--text-3); transition: width 0.3s; }
+  .mixbar .seg-q { background: var(--green); transition: width 0.3s; }
+  .mixbar .legend {
+    display: flex; justify-content: space-between;
+    font-size: 0.7rem; color: var(--text-3); margin-top: 0.4rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Pricing grid — number inputs only */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+  @media (max-width: 480px) { .grid-2 { grid-template-columns: 1fr; } }
+  .num-field label {
+    display: block; font-size: 0.78rem; color: var(--text-2);
+    font-weight: 500; margin-bottom: 0.35rem;
+  }
+  .num-field input {
+    width: 100%; padding: 0.5rem 0.65rem;
     background: var(--bg-card-2); border: 1px solid var(--border-mid);
     border-radius: var(--r-md); color: var(--text-1);
-    font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
-    outline: none; margin-top: 0.4rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;
+    outline: none;
   }
-  input[type=number]:focus { border-color: var(--border-hi); }
+  .num-field input:focus { border-color: var(--border-hi); }
 
   .result-hero {
     background: var(--bg-card-2); border: 1px solid var(--border-hi);
@@ -110,9 +160,6 @@
     font-family: 'JetBrains Mono', monospace;
   }
 
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
-  @media (max-width: 480px) { .grid-2 { grid-template-columns: 1fr; } }
-
   .stat {
     background: var(--bg-card-2); border: 1px solid var(--border);
     border-radius: var(--r-md); padding: 0.9rem 1rem;
@@ -126,20 +173,6 @@
     font-size: 1.05rem; color: var(--text-1);
   }
   .stat .s-sub { font-size: 0.7rem; color: var(--text-3); margin-top: 0.15rem; }
-
-  .mixbar { margin-top: 1rem; }
-  .mixbar .bar {
-    display: flex; height: 10px; border-radius: 5px;
-    overflow: hidden; background: var(--bg-card-2);
-    border: 1px solid var(--border);
-  }
-  .mixbar .seg-d { background: var(--text-3); transition: width 0.3s; }
-  .mixbar .seg-q { background: var(--green); transition: width 0.3s; }
-  .mixbar .legend {
-    display: flex; justify-content: space-between;
-    font-size: 0.7rem; color: var(--text-3); margin-top: 0.4rem;
-    font-family: 'JetBrains Mono', monospace;
-  }
 
   .pace-row {
     display: flex; justify-content: space-between; align-items: center;
@@ -168,13 +201,6 @@
     margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border);
   }
 
-  .goal-line {
-    display: flex; align-items: center; gap: 0.5rem;
-    font-size: 0.78rem; color: var(--text-3); margin-bottom: 1rem;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .goal-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
-
   .btn-reset {
     margin-top: 1rem; width: 100%; padding: 0.6rem;
     background: transparent; border: 1px solid var(--border-mid);
@@ -183,53 +209,66 @@
     font-weight: 600; cursor: pointer; transition: all 0.2s;
   }
   .btn-reset:hover { border-color: var(--border-hi); color: var(--text-1); }
+
+  .btn-group { display: flex; gap: 0.5rem; margin-top: 1rem; }
+  .btn-group .btn-reset { margin-top: 0; }
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <h1>KalshiBot Revenue &amp; Exit Calculator</h1>
-  <p class="sub">Drag the sliders to model monthly sales, revenue, recurring base, and exit value at your chosen multiple.</p>
+  <p class="sub">Set total sales per month and the Quant share — the calculator splits the mix and updates every number live.</p>
 
   <div class="layout">
 
     <!-- LEFT: INPUTS -->
     <div>
       <div class="card">
-        <h2>Monthly Sales</h2>
+        <h2>Monthly Volume &amp; Mix</h2>
 
         <div class="field">
           <div class="field-head">
-            <span class="field-label">Desktop sales / month</span>
-            <span class="field-value" id="dLabel">100</span>
+            <span class="field-label">Total sales / month</span>
           </div>
-          <input type="range" id="desktop" min="0" max="400" step="1" value="100">
+          <div class="ctrl-row">
+            <input type="range" id="total" min="0" max="500" step="1" value="100">
+            <input type="number" id="totalNum" min="0" max="500" step="1" value="100">
+          </div>
         </div>
 
         <div class="field">
           <div class="field-head">
-            <span class="field-label">Quant sales / month</span>
-            <span class="field-value" id="qLabel">50</span>
+            <span class="field-label">Quant share of sales</span>
           </div>
-          <input type="range" id="quant" min="0" max="400" step="1" value="50">
+          <div class="ctrl-row">
+            <input type="range" id="qshare" min="0" max="100" step="1" value="20">
+            <input type="number" id="qshareNum" min="0" max="100" step="1" value="20">
+          </div>
+          <div style="font-size:0.7rem;color:var(--text-3);margin-top:0.4rem;">Desktop gets the remaining share.</div>
         </div>
 
-        <div class="field">
-          <div class="field-head">
-            <span class="field-label">Quant attach rate</span>
-            <span class="field-value" id="aLabel">33.3%</span>
+        <div class="split-display">
+          <div class="split-box">
+            <div class="sb-label">Desktop / month</div>
+            <div class="sb-value" id="splitD">80</div>
+            <div class="sb-sub" id="splitDrev">$7,920 gross</div>
           </div>
-          <input type="range" id="attach" min="0" max="100" step="1" value="33">
+          <div class="split-box">
+            <div class="sb-label">Quant / month</div>
+            <div class="sb-value" id="splitQ">20</div>
+            <div class="sb-sub" id="splitQrev">$4,980 gross</div>
+          </div>
         </div>
 
         <div class="mixbar">
           <div class="bar">
-            <div class="seg-d" id="segD" style="width:67%"></div>
-            <div class="seg-q" id="segQ" style="width:33%"></div>
+            <div class="seg-d" id="segD" style="width:80%"></div>
+            <div class="seg-q" id="segQ" style="width:20%"></div>
           </div>
           <div class="legend">
-            <span id="legD">Desktop · 67%</span>
-            <span id="legQ">Quant · 33%</span>
+            <span id="legD">Desktop · 80%</span>
+            <span id="legQ">Quant · 20%</span>
           </div>
         </div>
       </div>
@@ -238,33 +277,36 @@
         <h2>Pricing &amp; Fees</h2>
 
         <div class="grid-2">
-          <div>
-            <label class="field-label" for="priceD">Desktop price ($)</label>
+          <div class="num-field">
+            <label for="priceD">Desktop price ($)</label>
             <input type="number" id="priceD" value="99" min="0" step="1">
           </div>
-          <div>
-            <label class="field-label" for="priceQ">Quant price / yr ($)</label>
+          <div class="num-field">
+            <label for="priceQ">Quant price / yr ($)</label>
             <input type="number" id="priceQ" value="249" min="0" step="1">
           </div>
-          <div>
-            <label class="field-label" for="feePct">Processor fee (%)</label>
+          <div class="num-field">
+            <label for="feePct">Processor fee (%)</label>
             <input type="number" id="feePct" value="5" min="0" max="30" step="0.1">
           </div>
-          <div>
-            <label class="field-label" for="feeFlat">Flat fee / txn ($)</label>
+          <div class="num-field">
+            <label for="feeFlat">Flat fee / txn ($)</label>
             <input type="number" id="feeFlat" value="0.50" min="0" step="0.01">
           </div>
-          <div>
-            <label class="field-label" for="multiple">Exit multiple (× monthly)</label>
+          <div class="num-field">
+            <label for="multiple">Exit multiple (× monthly)</label>
             <input type="number" id="multiple" value="40" min="1" max="100" step="1">
           </div>
-          <div>
-            <label class="field-label" for="renewal">Quant renewal rate (%)</label>
+          <div class="num-field">
+            <label for="renewal">Quant renewal rate (%)</label>
             <input type="number" id="renewal" value="70" min="0" max="100" step="1">
           </div>
         </div>
 
-        <button class="btn-reset" id="resetBtn">Reset to targets (100 + 50)</button>
+        <div class="btn-group">
+          <button class="btn-reset" id="reset8020">Reset to 80/20 (100 total)</button>
+          <button class="btn-reset" id="resetTarget">Reset to target (100 + 50)</button>
+        </div>
       </div>
     </div>
 
@@ -272,29 +314,29 @@
     <div>
       <div class="result-hero">
         <div class="label">Estimated exit value</div>
-        <div class="value" id="exitVal">$894,000</div>
+        <div class="value" id="exitVal">$619,200</div>
         <div class="multiples" id="exitMultiples">40× monthly net revenue</div>
       </div>
 
       <div class="grid-2">
         <div class="stat">
           <div class="s-label">Monthly gross</div>
-          <div class="s-value" id="gross">$22,350</div>
-          <div class="s-sub" id="grossSub">150 transactions</div>
+          <div class="s-value" id="gross">$12,900</div>
+          <div class="s-sub" id="grossSub">100 transactions</div>
         </div>
         <div class="stat">
           <div class="s-label">Monthly net</div>
-          <div class="s-value" id="net">$21,158</div>
-          <div class="s-sub" id="netSub">after processor fees</div>
+          <div class="s-value" id="net">$12,205</div>
+          <div class="s-sub">after processor fees</div>
         </div>
         <div class="stat">
           <div class="s-label">Annualized gross</div>
-          <div class="s-value" id="annualGross">$268,200</div>
+          <div class="s-value" id="annualGross">$154,800</div>
           <div class="s-sub">12 months at current pace</div>
         </div>
         <div class="stat">
           <div class="s-label">Recurring base (ARR)</div>
-          <div class="s-value" id="arr">$149,400</div>
+          <div class="s-value" id="arr">$41,832</div>
           <div class="s-sub" id="arrSub">Quant renewals at 70%</div>
         </div>
       </div>
@@ -327,7 +369,7 @@
         <h2>Exit value waterfall</h2>
         <div class="exit-row">
           <span class="er-label">At current inputs</span>
-          <span class="er-val" id="wfCurrent">$894,000</span>
+          <span class="er-val" id="wfCurrent">$619,200</span>
         </div>
         <div class="exit-row">
           <span class="er-label">At target (100 + 50)</span>
@@ -335,7 +377,7 @@
         </div>
         <div class="exit-row">
           <span class="er-label">Gap to close</span>
-          <span class="er-val" id="wfGap">$0</span>
+          <span class="er-val" id="wfGap">$274,800</span>
         </div>
         <div class="exit-row">
           <span class="er-label">Each Desktop sale adds</span>
@@ -348,7 +390,7 @@
       </div>
 
       <p class="note">
-        Exit value uses net monthly revenue × your chosen multiple. Processor fees are 5% + $0.50 per transaction by default (Lemon Squeezy / Paddle). Quant ARR assumes the renewal rate you set — this is the figure an acquirer will scrutinize most, since it's what justifies a high multiple. Desktop sales are one-time and do not compound.
+        Exit value uses net monthly revenue × your chosen multiple. Processor fees default to 5% + $0.50 per transaction (Lemon Squeezy / Paddle). Quant ARR assumes the renewal rate you set — the figure an acquirer will scrutinize most, since it's what justifies a high multiple. Desktop sales are one-time and do not compound. Desktop and Quant counts are rounded from total × share.
       </p>
     </div>
 
@@ -359,13 +401,16 @@
   const $ = id => document.getElementById(id);
   const fmt = n => '$' + Math.round(n).toLocaleString('en-US');
 
-  const inputs = ['desktop','quant','attach','priceD','priceQ','feePct','feeFlat','multiple','renewal'];
+  // Source of truth for "paired" inputs
+  const pairs = [
+    ['total', 'totalNum'],
+    ['qshare', 'qshareNum'],
+  ];
 
   function read() {
     return {
-      desktop: +$('desktop').value,
-      quant: +$('quant').value,
-      attach: +$('attach').value,
+      total: Math.max(0, +$('totalNum').value || 0),
+      qshare: Math.min(100, Math.max(0, +$('qshareNum').value || 0)) / 100,
       priceD: +$('priceD').value || 0,
       priceQ: +$('priceQ').value || 0,
       feePct: +$('feePct').value || 0,
@@ -375,41 +420,44 @@
     };
   }
 
+  function splitCounts(v) {
+    const quant = Math.round(v.total * v.qshare);
+    const desktop = Math.max(0, v.total - quant);
+    return { desktop, quant };
+  }
+
   function compute(v) {
-    const totalTx = v.desktop + v.quant;
-    const grossD = v.desktop * v.priceD;
-    const grossQ = v.quant * v.priceQ;
+    const { desktop, quant } = splitCounts(v);
+    const totalTx = desktop + quant;
+
+    const grossD = desktop * v.priceD;
+    const grossQ = quant * v.priceQ;
     const gross = grossD + grossQ;
 
     const fees = totalTx * v.feeFlat + gross * (v.feePct / 100);
     const net = gross - fees;
-
     const exitVal = net * v.multiple;
     const annualGross = gross * 12;
 
-    const monthlyRecurring = v.quant * v.priceQ;
-    const arr = monthlyRecurring * 12 * (v.renewal / 100);
+    const arr = quant * v.priceQ * 12 * (v.renewal / 100);
+    const attachRate = totalTx === 0 ? 0 : quant / totalTx;
 
-    const attachRate = totalTx === 0 ? 0 : v.quant / totalTx;
-
-    // Targets
+    // Targets (100 Desktop + 50 Quant)
     const tD = 100, tQ = 50;
     const targetGross = tD * v.priceD + tQ * v.priceQ;
     const targetTx = tD + tQ;
     const targetFees = targetTx * v.feeFlat + targetGross * (v.feePct / 100);
     const targetNet = targetGross - targetFees;
     const targetExit = targetNet * v.multiple;
-    const targetAttach = tQ / targetTx;
 
-    // Waterfall
     const gap = Math.max(0, targetExit - exitVal);
     const eachD = (v.priceD * (1 - v.feePct/100) - v.feeFlat) * v.multiple;
     const eachQ = (v.priceQ * (1 - v.feePct/100) - v.feeFlat) * v.multiple;
 
     return {
-      totalTx, gross, net, exitVal, annualGross, arr, attachRate,
-      targetGross, targetExit, targetAttach,
-      gap, eachD, eachQ,
+      desktop, quant, totalTx,
+      gross, grossD, grossQ, net, exitVal, annualGross, arr, attachRate,
+      targetGross, targetExit, gap, eachD, eachQ,
     };
   }
 
@@ -423,17 +471,18 @@
     const v = read();
     const r = compute(v);
 
-    // Live labels
-    $('dLabel').textContent = v.desktop;
-    $('qLabel').textContent = v.quant;
+    // Sync paired inputs (slider <-> number) — but don't clobber the one being typed in
+    $('total').value = Math.min(500, v.total);
+    $('qshare').value = Math.round(v.qshare * 100);
 
-    // Attach slider drives Quant when moved — but we also want sliders to reflect typed values.
-    // Keep the attach % display in sync with actual mix.
-    const actualAttachPct = Math.round(r.attachRate * 100);
-    $('aLabel').textContent = actualAttachPct + '%';
+    // Split display
+    $('splitD').textContent = r.desktop;
+    $('splitQ').textContent = r.quant;
+    $('splitDrev').textContent = fmt(r.grossD) + ' gross';
+    $('splitQrev').textContent = fmt(r.grossQ) + ' gross';
 
     // Mix bar
-    const dPct = r.totalTx === 0 ? 0 : Math.round((v.desktop / r.totalTx) * 100);
+    const dPct = r.totalTx === 0 ? 0 : Math.round((r.desktop / r.totalTx) * 100);
     const qPct = r.totalTx === 0 ? 0 : 100 - dPct;
     $('segD').style.width = dPct + '%';
     $('segQ').style.width = qPct + '%';
@@ -448,22 +497,22 @@
     $('gross').textContent = fmt(r.gross);
     $('grossSub').textContent = r.totalTx + ' transactions';
     $('net').textContent = fmt(r.net);
-    $('netSub').textContent = 'after processor fees';
     $('annualGross').textContent = fmt(r.annualGross);
     $('arr').textContent = fmt(r.arr);
     $('arrSub').textContent = 'Quant renewals at ' + v.renewal + '%';
 
     // Pace rows
     const paceD = $('paceD');
-    paceD.textContent = v.desktop + ' / 100';
-    paceD.className = 'pr-val ' + paceClass(v.desktop, 100);
+    paceD.textContent = r.desktop + ' / 100';
+    paceD.className = 'pr-val ' + paceClass(r.desktop, 100);
 
     const paceQ = $('paceQ');
-    paceQ.textContent = v.quant + ' / 50';
-    paceQ.className = 'pr-val ' + paceClass(v.quant, 50);
+    paceQ.textContent = r.quant + ' / 50';
+    paceQ.className = 'pr-val ' + paceClass(r.quant, 50);
 
     const paceA = $('paceA');
-    paceA.textContent = actualAttachPct + '% / 33%';
+    const attachPct = Math.round(r.attachRate * 100);
+    paceA.textContent = attachPct + '% / 33%';
     paceA.className = 'pr-val ' + paceClass(r.attachRate * 100, 33.3);
 
     const paceG = $('paceG');
@@ -482,36 +531,56 @@
     $('wfQ').textContent = fmt(r.eachQ);
   }
 
-  // Wire up all inputs
-  inputs.forEach(id => {
-    const el = $(id);
-    el.addEventListener('input', () => {
-      // If attach slider is dragged, translate into a Quant count based on current Desktop
-      if (id === 'attach') {
-        const pct = +el.value / 100;
-        const d = +$('desktop').value;
-        if (pct < 1) {
-          // quant = pct * total => pct*(d + q) = q => q = pct*d/(1-pct)
-          const q = Math.round((pct * d) / (1 - pct));
-          $('quant').value = Math.min(400, Math.max(0, q));
-        }
-      }
-      // If desktop or quant sliders change, update the attach slider to match
-      if (id === 'desktop' || id === 'quant') {
-        const d = +$('desktop').value;
-        const q = +$('quant').value;
-        const total = d + q;
-        const pct = total === 0 ? 0 : Math.round((q / total) * 100);
-        $('attach').value = pct;
-      }
+  // Wire paired inputs — moving either updates the other and re-renders
+  function bindPair(sliderId, numberId) {
+    const s = $(sliderId), n = $(numberId);
+    s.addEventListener('input', () => {
+      n.value = s.value;
       render();
     });
+    n.addEventListener('input', () => {
+      // Clamp to slider range but let the number hold the typed value
+      const v = +n.value || 0;
+      if (v < +s.min) s.value = s.min;
+      else if (v > +s.max) s.value = s.max;
+      else s.value = v;
+      render();
+    });
+    n.addEventListener('blur', () => {
+      // On blur, clamp and re-sync
+      const min = +n.min, max = +n.max;
+      let v = +n.value || 0;
+      if (v < min) v = min;
+      if (v > max) v = max;
+      n.value = v;
+      s.value = v;
+      render();
+    });
+  }
+
+  bindPair('total', 'totalNum');
+  bindPair('qshare', 'qshareNum');
+
+  // Pricing/fee inputs — just re-render on input
+  ['priceD','priceQ','feePct','feeFlat','multiple','renewal'].forEach(id => {
+    $(id).addEventListener('input', render);
   });
 
-  $('resetBtn').addEventListener('click', () => {
-    $('desktop').value = 100;
-    $('quant').value = 50;
-    $('attach').value = 33;
+  $('reset8020').addEventListener('click', () => {
+    $('total').value = 100; $('totalNum').value = 100;
+    $('qshare').value = 20; $('qshareNum').value = 20;
+    $('priceD').value = 99;
+    $('priceQ').value = 249;
+    $('feePct').value = 5;
+    $('feeFlat').value = 0.50;
+    $('multiple').value = 40;
+    $('renewal').value = 70;
+    render();
+  });
+
+  $('resetTarget').addEventListener('click', () => {
+    $('total').value = 150; $('totalNum').value = 150;
+    $('qshare').value = 33; $('qshareNum').value = 33;
     $('priceD').value = 99;
     $('priceQ').value = 249;
     $('feePct').value = 5;
