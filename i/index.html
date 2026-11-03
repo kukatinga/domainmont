@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KalshiBot — Full Install & Onboarding Mockup</title>
+<style>
+  :root {
+    --bg: #0c0c0d;
+    --card: #161618;
+    --border: rgba(255,255,255,0.12);
+    --text: #f4f4f5;
+    --muted: #a1a1aa;
+    --green: #4ade80;
+    --red: #f87171;
+    --amber: #fbbf24;
+    --font-head: 'Syne', system-ui, sans-serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .app {
+    width: 100%;
+    max-width: 680px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    position: relative;
+  }
+  /* Windows installer chrome */
+  .installer {
+    background: #f0f0f0;
+    color: #1a1a1a;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .installer-titlebar {
+    background: #ffffff;
+    border-bottom: 1px solid #d0d0d0;
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .installer-titlebar .win-controls { display: flex; gap: 14px; color: #606060; font-family: 'Segoe UI', sans-serif; font-size: 12px; }
+  .installer-body { padding: 28px 32px; }
+  .installer-body h2 { font-family: 'Segoe UI', sans-serif; font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px; }
+  .installer-body p { color: #404040; font-size: 13px; line-height: 1.6; margin-bottom: 14px; font-family: 'Segoe UI', sans-serif; }
+  .installer-body .small { font-size: 12px; color: #606060; }
+  .installer-path {
+    background: #ffffff;
+    border: 1px solid #c0c0c0;
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-family: 'Consolas', monospace;
+    font-size: 12px;
+    color: #303030;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .installer-buttons { display: flex; justify-content: flex-end; gap: 8px; margin-top: 24px; }
+  .btn-win {
+    background: #e1e1e1;
+    border: 1px solid #adadad;
+    border-radius: 3px;
+    padding: 6px 18px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 12px;
+    color: #1a1a1a;
+    cursor: pointer;
+    min-width: 75px;
+  }
+  .btn-win:hover { background: #e5f1fb; border-color: #0078d4; }
+  .btn-win.primary { background: #0078d4; border-color: #0078d4; color: #ffffff; }
+  .btn-win.primary:hover { background: #106ebe; }
+  .btn-win:disabled { opacity: 0.5; cursor: not-allowed; }
+  /* SmartScreen */
+  .smartscreen {
+    background: #ffffff;
+    color: #1a1a1a;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  .smartscreen-header {
+    background: #0078d4;
+    color: #ffffff;
+    padding: 20px 24px;
+    font-size: 20px;
+    font-weight: 300;
+  }
+  .smartscreen-body { padding: 24px; }
+  .smartscreen-body h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+  .smartscreen-body p { font-size: 13px; color: #404040; line-height: 1.6; margin-bottom: 16px; }
+  .smartscreen-body .detail { font-size: 12px; color: #606060; margin-bottom: 6px; }
+  .smartscreen-body .detail strong { color: #1a1a1a; }
+  .smartscreen-buttons { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+  .btn-link { background: none; border: none; color: #0078d4; font-size: 13px; cursor: pointer; padding: 6px 4px; margin-right: auto; }
+  .btn-link:hover { text-decoration: underline; }
+  /* Generic app chrome (for onboarding reuse) */
+  .progress { display: flex; gap: 8px; margin-bottom: 24px; }
+  .progress span { flex: 1; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; }
+  .progress span.active { background: var(--green); }
+  h1, h2, h3 { font-family: var(--font-head); font-weight: 600; letter-spacing: -0.02em; }
+  h1 { font-size: 24px; margin-bottom: 12px; }
+  h2 { font-size: 18px; margin-bottom: 8px; }
+  .app p { color: var(--muted); line-height: 1.6; margin-bottom: 16px; font-size: 14px; }
+  .step { display: none; }
+  .step.active { display: block; animation: fade 0.2s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  .primary, .secondary, .ghost {
+    display: inline-block; padding: 10px 18px; border-radius: 8px;
+    font-family: var(--font-body); font-size: 14px; font-weight: 500;
+    cursor: pointer; border: 1px solid transparent; transition: all 0.15s; text-decoration: none;
+  }
+  .primary { background: var(--text); color: var(--bg); }
+  .primary:hover { background: #e4e4e7; }
+  .primary:disabled { opacity: 0.3; cursor: not-allowed; }
+  .secondary { background: transparent; border-color: var(--border); color: var(--text); }
+  .secondary:hover { border-color: rgba(255,255,255,0.3); }
+  .ghost { background: transparent; color: var(--muted); padding: 4px 0; }
+  .ghost:hover { color: var(--text); }
+  .actions { display: flex; gap: 12px; margin-top: 24px; align-items: center; flex-wrap: wrap; }
+  .dropzone {
+    border: 2px dashed var(--border); border-radius: 12px; padding: 32px;
+    text-align: center; color: var(--muted); font-size: 14px; cursor: pointer;
+    transition: border-color 0.15s; margin-bottom: 16px;
+  }
+  .dropzone:hover { border-color: rgba(255,255,255,0.3); }
+  .dropzone.filled { border-color: var(--green); border-style: solid; background: rgba(74,222,128,0.05); color: var(--text); }
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
+  .field input {
+    width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 12px; color: var(--text);
+    font-family: var(--font-mono); font-size: 13px;
+  }
+  .field input:focus { outline: none; border-color: rgba(255,255,255,0.4); }
+  .error {
+    background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.3);
+    color: var(--red); padding: 10px 12px; border-radius: 8px; font-size: 13px;
+    margin-bottom: 16px; display: none;
+  }
+  .error.show { display: block; }
+  .success {
+    background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.3);
+    color: var(--green); padding: 10px 12px; border-radius: 8px; font-size: 13px;
+    margin-bottom: 16px; display: none;
+  }
+  .success.show { display: block; }
+  .toggle-row { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .toggle-row button {
+    background: transparent; border: 1px solid var(--border); color: var(--muted);
+    padding: 6px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-family: var(--font-mono);
+  }
+  .toggle-row button:hover { color: var(--text); border-color: rgba(255,255,255,0.3); }
+  .toggle-row button.danger { color: var(--red); border-color: rgba(248,113,113,0.3); }
+  .toggle-row button.warn { color: var(--amber); border-color: rgba(251,191,36,0.3); }
+  .status-bar {
+    background: rgba(0,0,0,0.5); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 14px; font-family: var(--font-mono); font-size: 12px;
+    color: var(--muted); margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 4px 12px;
+  }
+  .status-bar .live { color: var(--red); font-weight: 600; }
+  .status-bar .ok { color: var(--green); }
+  .status-bar .degraded { color: var(--amber); }
+  .status-bar .stalled { color: var(--red); }
+  .cards { display: grid; gap: 12px; margin-top: 20px; }
+  .card {
+    background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px; display: flex; justify-content: space-between; align-items: center;
+    gap: 12px; flex-wrap: wrap;
+  }
+  .card h3 { font-size: 15px; margin-bottom: 2px; }
+  .card p { margin: 0; font-size: 12px; }
+  .card.disabled { opacity: 0.5; }
+  .terms-box {
+    background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 8px;
+    padding: 16px; max-height: 220px; overflow-y: auto; font-size: 12px;
+    line-height: 1.7; color: var(--muted); margin-bottom: 16px;
+  }
+  .terms-box h4 { font-family: var(--font-head); color: var(--text); font-size: 13px; margin: 14px 0 6px; }
+  .terms-box h4:first-child { margin-top: 0; }
+  .terms-box strong { color: var(--text); }
+  .terms-box a { color: var(--green); }
+  .checklist { list-style: none; margin: 12px 0; }
+  .checklist li {
+    display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px;
+    font-size: 14px; color: var(--text); line-height: 1.5;
+  }
+  .checklist li input[type="checkbox"] {
+    margin-top: 3px; accent-color: var(--green); width: 16px; height: 16px; flex-shrink: 0;
+  }
+  .mono { font-family: var(--font-mono); font-size: 12px; }
+  .note {
+    font-size: 12px; color: var(--muted); border-left: 2px solid var(--border);
+    padding-left: 12px; margin: 16px 0; line-height: 1.6;
+  }
+  .note strong { color: var(--text); }
+  .footer {
+    margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; color: var(--muted); flex-wrap: wrap; gap: 8px;
+  }
+  /* Download page (Gumroad-style) */
+  .dl-card {
+    background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 12px;
+    padding: 24px; margin-bottom: 16px;
+  }
+  .dl-card .price { font-family: var(--font-head); font-size: 32px; color: var(--text); margin-bottom: 4px; }
+  .dl-card .price-note { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+  .dl-file {
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 14px; margin-bottom: 8px; font-size: 13px;
+  }
+  .dl-file .name { color: var(--text); font-family: var(--font-mono); font-size: 12px; }
+  .dl-file .size { color: var(--muted); font-size: 11px; }
+  .dl-file a { color: var(--green); font-size: 12px; text-decoration: none; }
+  .dl-file a:hover { text-decoration: underline; }
+  .progress-bar { height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; margin: 16px 0; }
+  .progress-bar .fill { height: 100%; width: 0%; background: var(--green); transition: width 0.3s; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="progress" id="progress">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <!-- STEP 1: GUMROAD DOWNLOAD -->
+  <div class="step active" data-step="1">
+    <h1>Your download is ready.</h1>
+    <p>Thanks for buying KalshiBot Desktop. Download the installer for your platform below.</p>
+
+    <div class="dl-card">
+      <div class="price">$99.00</div>
+      <div class="price-note">One-time payment · Source code included · 30-day refund</div>
+
+      <div class="dl-file">
+        <div>
+          <div class="name">KalshiBot-Desktop-Setup-1.0.exe</div>
+          <div class="size">Windows 10/11 · 84 MB</div>
+        </div>
+        <a href="#" onclick="go(2); return false;">Download →</a>
+      </div>
+      <div class="dl-file">
+        <div>
+          <div class="name">KalshiBot-Desktop-1.0.dmg</div>
+          <div class="size">macOS 12+ · 91 MB</div>
+        </div>
+        <a href="#" onclick="go(2); return false;">Download →</a>
+      </div>
+      <div class="dl-file">
+        <div>
+          <div class="name">KalshiBot-Source-1.0.zip</div>
+          <div class="size">Python 3.12+ · MIT licensed · 2 MB</div>
+        </div>
+        <a href="#" onclick="go(2); return false;">Download →</a>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Design note for Max:</strong> the source zip must be downloadable from day one — it's the "you own the code" promise. The MIT LICENSE file inside must include the attribution line from the handover doc.
+    </div>
+
+    <div class="actions">
+      <button class="primary" onclick="go(2)">Continue to install →</button>
+    </div>
+    <div class="footer">
+      <span class="mono">step 1 / 11</span>
+      <span>Need help? <a href="#" style="color:var(--text);">Contact Steve →</a></span>
+    </div>
+  </div>
+
+  <!-- STEP 2: SMARTSSCREEN -->
+  <div class="step" data-step="2">
+    <div class="smartscreen">
+      <div class="smartscreen-header">Windows protected your PC</div>
+      <div class="smartscreen-body">
+        <h3>Microsoft Defender SmartScreen prevented an unrecognized app from starting.</h3>
+        <p>Running this app might put your PC at risk.</p>
+        <div class="detail"><strong>App:</strong> KalshiBot-Desktop-Setup-1.0.exe</div>
+        <div class="detail"><strong>Publisher:</strong> Unknown publisher</div>
+        <div class="smartscreen-buttons">
+          <button class="btn-link" onclick="go(3)">More info</button>
+          <button class="btn-win" onclick="go(1)">Don't run</button>
+          <button class="btn-win primary" onclick="go(3)">Run anyway</button>
+        </div>
+      </div>
+    </div>
+    <div class="note" style="margin-top:24px;">
+      <strong>Design note for Max:</strong> this is the #1 abandonment point for desktop apps from independent developers. Two mitigations: (a) code-sign the installer if budget allows — a $100–300/year cert eliminates this screen entirely; (b) if not signing, the download email and Gumroad page must include a one-line "Windows may show a SmartScreen warning — click More info → Run anyway" with a screenshot. This mockup shows the "More info" state already expanded.
+    </div>
+    <div class="footer">
+      <span class="mono">step 2 / 11</span>
+      <button class="ghost" onclick="go(1)">← Back to download</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: INSTALLER WELCOME -->
+  <div class="step" data-step="3">
+    <div class="installer">
+      <div class="installer-titlebar">
+        <span>KalshiBot Desktop Setup</span>
+        <span class="win-controls">— □ ✕</span>
+      </div>
+      <div class="installer-body">
+        <h2>Welcome to KalshiBot Desktop Setup</h2>
+        <p>This will install KalshiBot Desktop version 1.0 on your computer.</p>
+        <p class="small">It is recommended that you close all other applications before continuing.</p>
+        <div class="installer-buttons">
+          <button class="btn-win" onclick="go(1)">Cancel</button>
+          <button class="btn-win primary" onclick="go(4)">Next ></button>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <strong>Design note for Max:</strong> native Windows installer chrome (Inno Setup or NSIS). The GUI app itself uses the KalshiBot dark theme — this screen is intentionally native Windows so it feels like a real installer, not a web page.
+    </div>
+    <div class="footer">
+      <span class="mono">step 3 / 11</span>
+    </div>
+  </div>
+
+  <!-- STEP 4: LICENSE + TERMS -->
+  <div class="step" data-step="4">
+    <div class="installer">
+      <div class="installer-titlebar">
+        <span>KalshiBot Desktop Setup</span>
+        <span class="win-controls">— □ ✕</span>
+      </div>
+      <div class="installer-body">
+        <h2>License Agreement and Terms of Use</h2>
+        <p class="small">Please read the following before continuing. You must accept to install.</p>
+        <div class="terms-box" id="termsBox">
+          <h4>1. KalshiBot Desktop</h4>
+          <p>KalshiBot Desktop is a desktop application that places orders on Kalshi prediction markets. It runs locally on your machine. No trading data or API keys are sent to KalshiBot servers.</p>
+
+          <h4>2. Open Source Attribution (MIT License)</h4>
+          <p><strong>KalshiBot wraps the open-source kalshi-ai-trading-bot by Ryan Frigo et al. (MIT License).</strong> We built the desktop UI, installer, and strategy packaging. The core trading engine remains open source. The full MIT license is included in the <span class="mono">LICENSE</span> file in your install directory and in the app's About screen.</p>
+
+          <h4>3. Not Investment Advice</h4>
+          <p><strong>KalshiBot is a tool, not investment advice.</strong> It places trades based on rules and AI models. Past performance does not indicate future results. You are solely responsible for any trades placed by the bot. Prediction markets involve risk, and you can lose money.</p>
+
+          <h4>4. BYO API Keys</h4>
+          <p>You provide your own Kalshi API key. If you use AI strategies (AI Directional, Beast Mode), you provide your own OpenRouter API key and pay OpenRouter directly for model usage. KalshiBot does not resell AI credits.</p>
+
+          <h4>5. Demo Mode</h4>
+          <p>Demo mode uses simulated funds and does not place real orders. You can test the bot indefinitely in demo mode at no cost. Live trading requires explicit confirmation.</p>
+
+          <h4>6. 30-Day Refund Policy</h4>
+          <p>If you are not satisfied within 30 days of purchase, email support for a full refund, no questions asked.</p>
+
+          <h4>7. Limitation of Liability</h4>
+          <p>KalshiBot is provided "as is" without warranty of any kind. In no event shall the authors or copyright holders be liable for any claim, damages, or other liability arising from the use of the software.</p>
+
+          <h4>8. Source Code</h4>
+          <p>The full source code is included in your purchase and is licensed under MIT. You may modify it, run it, and inspect it. See <span class="mono">LICENSE</span> in the install directory.</p>
+        </div>
+        <div class="installer-buttons">
+          <button class="btn-win" onclick="go(3)">< Back</button>
+          <button class="btn-win" id="acceptBtn" disabled onclick="go(5)">I accept</button>
+        </div>
+        <p class="small" style="margin-top:8px;">Scroll to the bottom to enable "I accept."</p>
+      </div>
+    </div>
+    <div class="note">
+      <strong>Design note for Max:</strong> scroll-to-accept is required here — this is the legal gate. The MIT attribution (section 2) must appear verbatim per the handover doc's legal reminder. The "Not Investment Advice" line (section 3) must also appear in the app's About screen.
+    </div>
+    <div class="footer">
+      <span class="mono">step 4 / 11</span>
+    </div>
+  </div>
+
+  <!-- STEP 5: INSTALL LOCATION -->
+  <div class="step" data-step="5">
+    <div class="installer">
+      <div class="installer-titlebar">
+        <span>KalshiBot Desktop Setup</span>
+        <span class="win-controls">— □ ✕</span>
+      </div>
+      <div class="installer-body">
+        <h2>Choose Install Location</h2>
+        <p>Setup will install KalshiBot Desktop in the following folder.</p>
+        <div class="installer-path">
+          <span>C:\Program Files\KalshiBot</span>
+          <span style="color:#0078d4; cursor:pointer;">Browse...</span>
+        </div>
+        <p class="small">Space required: 84 MB<br>Space available: 245 GB</p>
+        <div class="installer-buttons">
+          <button class="btn-win" onclick="go(4)">< Back</button>
+          <button class="btn-win primary" onclick="go(6)">Install ></button>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <strong>Design note for Max:</strong> default to <span class="mono">C:\Program Files\KalshiBot</span> on Windows and <span class="mono">/Applications/KalshiBot.app</span> on Mac. The per-user app data (keys, DB) goes to <span class="mono">%LOCALAPPDATA%\KalshiBot</span> / <span class="mono">~/Library/Application Support/KalshiBot</span> — never in the install folder, so users can update without losing keys.
+    </div>
+    <div class="footer">
+      <span class="mono">step 5 / 11</span>
+    </div>
+  </div>
+
+  <!-- STEP 6: INSTALL PROGRESS -->
+  <div class="step" data-step="6">
+    <div class="installer">
+      <div class="installer-titlebar">
+        <span>KalshiBot Desktop Setup</span>
+        <span class="win-controls">— □ ✕</span>
+      </div>
+      <div class="installer-body">
+        <h2>Installing</h2>
+        <p>Please wait while KalshiBot Desktop is being installed.</p>
+        <div class="progress-bar"><div class="fill" id="installFill"></div></div>
+        <p class="small" id="installStatus">Extracting files...</p>
+        <div class="installer-buttons">
+          <button class="btn-win" disabled>Show details</button>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <strong>Design note for Max:</strong> keep the install under 15 seconds. The bundled Python runtime is the slow part — pre-compile to a single binary if possible (PyInstaller / Nuitka), or bundle a minimal Python embed. If install exceeds 30s, users assume it's hung.
+    </div>
+    <div class="footer">
+      <span class="mono">step 6 / 11</span>
+    </div>
+  </div>
+
+  <!-- STEP 7: INSTALL COMPLETE -->
+  <div class="step" data-step="7">
+    <div class="installer">
+      <div class="installer-titlebar">
+        <span>KalshiBot Desktop Setup</span>
+        <span class="win-controls">— □ ✕</span>
+      </div>
+      <div class="installer-body">
+        <h2>Completing KalshiBot Desktop Setup</h2>
+        <p>KalshiBot Desktop has been installed on your computer.</p>
+        <p>Click Finish to close Setup.</p>
+        <p><label style="font-size:13px; display:flex; gap:8px; align-items:center;"><input type="checkbox" checked> Launch KalshiBot Desktop</label></p>
+        <div class="installer-buttons">
+          <button class="btn-win" onclick="go(1)">Cancel</button>
+          <button class="btn-win primary" onclick="go(8)">Finish</button>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <strong>Design note for Max:</strong> "Launch KalshiBot Desktop" is checked by default — the buyer has just paid, they want to see the app. Don't make them hunt for it in the Start menu.
+    </div>
+    <div class="footer">
+      <span class="mono">step 7 / 11</span>
+    </div>
+  </div>
+
+  <!-- STEP 8: FIRST-RUN WELCOME -->
+  <div class="step" data-step="8">
+    <h1>Welcome to KalshiBot.</h1>
+    <p>KalshiBot runs locally on your machine. Nothing is sent to our servers.</p>
+    <p>You'll need a Kalshi API key. It takes about 2 minutes to create one.</p>
+    <p><strong style="color:var(--text);">Safe Compounder works without an AI key.</strong> The AI strategies need an OpenRouter key.</p>
+
+    <div class="note">
+      <strong>Design note for Max:</strong> re-show this screen if no saved config is detected. Footer link routes to Formspree <span class="mono">xnjrbroy</span> with <span class="mono">source=onboarding</span>.
+    </div>
+
+    <div class="actions">
+      <button class="primary" onclick="go(9)">Set up Kalshi key</button>
+      <button class="secondary" onclick="go(9)">I already have a key file</button>
+    </div>
+    <div class="footer">
+      <span>Need something custom? <a href="#" style="color:var(--text);">Contact Steve →</a></span>
+      <span class="mono">step 8 / 11</span>
+    </div>
+  </div>
+
+  <!-- STEP 9: KALSHI KEY -->
+  <div class="step" data-step="9">
+    <h1>Connect your Kalshi account.</h1>
+
+    <div class="toggle-row">
+      <button onclick="toggleError('kalshiError', true)" class="danger">Preview: wrong file type</button>
+      <button onclick="toggleError('kalshiError2', true)" class="danger">Preview: key revoked</button>
+      <button onclick="toggleError('kalshiError', false); toggleError('kalshiError2', false); toggleSuccess('kalshiSuccess', true)">Preview: success</button>
+    </div>
+
+    <div class="error" id="kalshiError">That file doesn't look like a Kalshi private key. Make sure you downloaded the <span class="mono">.pem</span>, not the <span class="mono">.json</span>.</div>
+    <div class="error" id="kalshiError2">Kalshi rejected this key. It may be revoked — create a new one in Settings → API Keys.</div>
+    <div class="success" id="kalshiSuccess">Kalshi connected. Key saved to your app data folder.</div>
+
+    <p style="color:var(--text); font-weight:500; margin-bottom:8px;">Three steps:</p>
+    <ol style="margin: 0 0 16px 20px; color:var(--muted); font-size:14px; line-height:1.8;">
+      <li>Log in to Kalshi → Settings → API Keys → Create key.</li>
+      <li>Download the <span class="mono">.pem</span> file and the API key ID. Keep both.</li>
+      <li>Drop the <span class="mono">.pem</span> file below, or click to browse.</li>
+    </ol>
+
+    <div class="dropzone" id="dropzone" onclick="fillDropzone()">
+      Drop your <span class="mono">.pem</span> file here, or click to browse
+    </div>
+
+    <div class="field">
+      <label>API KEY ID</label>
+      <input type="text" placeholder="paste your API key ID" />
+    </div>
+
+    <div class="note">
+      <strong>Design note for Max:</strong> the user should never see a file path. Show "Saved to your app data folder. You won't need to do this again." On drop, validate in this order: file readable → key parses → key authenticates against Kalshi (one lightweight call).
+    </div>
+
+    <div class="actions">
+      <button class="primary" onclick="go(10)">Test connection</button>
+      <button class="secondary" onclick="go(11)">Skip for now (demo only)</button>
+    </div>
+    <div class="footer">
+      <span class="mono">step 9 / 11</span>
+      <button class="ghost" onclick="go(8)">← Back</button>
+    </div>
+  </div>
+
+  <!-- STEP 10: AI KEY -->
+  <div class="step" data-step="10">
+    <h1>Optional: add an AI key.</h1>
+    <p><strong style="color:var(--text);">Safe Compounder uses pure math and works without this.</strong> AI Directional and Beast Mode need an OpenRouter key.</p>
+
+    <div class="toggle-row">
+      <button onclick="toggleError('aiError', true)" class="danger">Preview: 401 invalid key</button>
+      <button onclick="toggleError('aiError2', true)" class="warn">Preview: 402 no credit</button>
+      <button onclick="toggleError('aiError', false); toggleError('aiError2', false); toggleSuccess('aiSuccess', true)">Preview: success</button>
+    </div>
+
+    <div class="error" id="aiError">OpenRouter rejected this key. Check it in openrouter.ai/keys.</div>
+    <div class="error" id="aiError2">This key has no credit. Add credit at openrouter.ai/settings/credits, or skip and use Safe Compounder.</div>
+    <div class="success" id="aiSuccess">AI key saved. AI Directional and Beast Mode are ready.</div>
+
+    <div class="field">
+      <label>OPENROUTER API KEY</label>
+      <input type="password" placeholder="sk-or-..." />
+    </div>
+
+    <div class="note">
+      <strong>Design note for Max:</strong> if the user clicks Beast Mode or AI Directional later without a key, they get <em>this modal</em>, not a 401 in a log file. This is the explicit requirement from the handover doc.
+    </div>
+
+    <div class="actions">
+      <button class="primary" onclick="go(11)">Save and test</button>
+      <button class="secondary" onclick="go(11)">Skip — I'll use Safe Compounder for now</button>
+    </div>
+    <div class="footer">
+      <span class="mono">step 10 / 11</span>
+      <button class="ghost" onclick="go(9)">← Back</button>
+    </div>
+  </div>
+
+  <!-- STEP 11: READY -->
+  <div class="step" data-step="11">
+    <h1>You're set up.</h1>
+
+    <div class="toggle-row">
+      <button onclick="setStatus('ok')">Status: healthy</button>
+      <button onclick="setStatus('degraded')" class="warn">Status: AI unreachable</button>
+      <button onclick="setStatus('stalled')" class="danger">Status: stalled</button>
+    </div>
+
+    <div class="status-bar" id="statusBar">
+      <span>[ DEMO ]</span>
+      <span>Cash $100.00</span>
+      <span>·</span>
+      <span>Positions 0</span>
+      <span>·</span>
+      <span>Strategy: Safe Compounder</span>
+      <span>·</span>
+      <span class="ok" id="aiStatus">AI: OK</span>
+      <span>·</span>
+      <span id="cycleStatus">Last cycle: 12s ago</span>
+    </div>
+
+    <p>Demo mode uses simulated funds. No real money is at risk until you switch to Live.</p>
+
+    <div class="cards">
+      <div class="card">
+        <div>
+          <h3>Safe Compounder</h3>
+          <p>Runs now. No AI key needed.</p>
+        </div>
+        <button class="primary">Start Safe Compounder</button>
+      </div>
+      <div class="card">
+        <div>
+          <h3>AI Directional</h3>
+          <p>Needs OpenRouter key.</p>
+        </div>
+        <button class="secondary">Run one cycle</button>
+      </div>
+      <div class="card disabled">
+        <div>
+          <h3>Beast Mode</h3>
+          <p>Aggressive. No guardrails. Needs AI key.</p>
+        </div>
+        <button class="secondary" disabled>Run one cycle</button>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Design note for Max:</strong> on first launch with no AI key, auto-run Safe Compounder once and show a humanized progress indicator (not raw logs). The persistent status bar above is the single most important UI element — it makes the "HEALTHY while doing nothing" problem visible at a glance.
+    </div>
+
+    <div class="actions">
+      <button class="secondary" onclick="go(1)">Start over</button>
+      <button class="ghost" style="margin-left:auto;">Settings →</button>
+    </div>
+    <div class="footer">
+      <span class="mono">step 11 / 11</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function go(n) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.querySelector(`[data-step="${n}"]`).classList.add('active');
+    document.querySelectorAll('#progress span').forEach((s, i) => {
+      s.classList.toggle('active', i < n);
+    });
+
+    // Trigger the install progress animation when entering step 6
+    if (n === 6) {
+      const fill = document.getElementById('installFill');
+      const status = document.getElementById('installStatus');
+      fill.style.width = '0%';
+      status.textContent = 'Extracting files...';
+      setTimeout(() => { fill.style.width = '40%'; status.textContent = 'Installing Python runtime...'; }, 400);
+      setTimeout(() => { fill.style.width = '75%'; status.textContent = 'Registering application...'; }, 1200);
+      setTimeout(() => { fill.style.width = '100%'; status.textContent = 'Creating shortcuts...'; }, 2000);
+      setTimeout(() => { go(7); }, 2800);
+    }
+
+    // Reset scroll-to-accept on step 4
+    if (n === 4) {
+      const box = document.getElementById('termsBox');
+      const btn = document.getElementById('acceptBtn');
+      btn.disabled = true;
+      box.scrollTop = 0;
+      box.onscroll = function() {
+        if (box.scrollTop + box.clientHeight >= box.scrollHeight - 10) {
+          btn.disabled = false;
+        }
+      };
+    }
+  }
+
+  function toggleError(id, show) { document.getElementById(id).classList.toggle('show', show); }
+  function toggleSuccess(id, show) { document.getElementById(id).classList.toggle('show', show); }
+
+  function fillDropzone() {
+    const dz = document.getElementById('dropzone');
+    dz.classList.add('filled');
+    dz.innerHTML = '<span class="mono">kalshi_private_key.pem</span> — <span style="color:var(--green);">validated ✓</span>';
+  }
+
+  function setStatus(kind) {
+    const ai = document.getElementById('aiStatus');
+    const cyc = document.getElementById('cycleStatus');
+    ai.className = ''; cyc.className = '';
+    if (kind === 'ok') {
+      ai.textContent = 'AI: OK'; ai.className = 'ok';
+      cyc.textContent = 'Last cycle: 12s ago';
+    } else if (kind === 'degraded') {
+      ai.textContent = 'AI: unreachable (402)'; ai.className = 'degraded';
+      cyc.textContent = 'Last cycle: 45s ago';
+    } else if (kind === 'stalled') {
+      ai.textContent = 'AI: unreachable (402)'; ai.className = 'degraded';
+      cyc.textContent = 'stalled (45m)'; cyc.className = 'stalled';
+    }
+  }
+</script>
+</body>
+</html>
