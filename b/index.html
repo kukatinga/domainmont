@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern House Plan Explorer</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#ecfdf5', 100: '#d1fae5', 500: '#10b981', 600: '#059669', 700: '#047857', 900: '#065f46' }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { height: 6px; width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-full flex flex-col selection:bg-brand-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 backdrop-blur-md bg-white/90">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-11 h-11 bg-gradient-to-br from-emerald-500 to-teal-700 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
+                    <i class="fa-solid fa-house-chimney text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-tight text-slate-900 block">Arch<span class="text-emerald-600">Visions</span></span>
+                    <span class="text-xs text-slate-500 font-medium tracking-wide uppercase">Architectural Excellence</span>
+                </div>
+            </div>
+            
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
+                <a href="#" class="text-emerald-600 font-semibold transition hover:text-emerald-700">House Plans</a>
+                <a href="#" class="transition hover:text-slate-900">Architects</a>
+                <a href="#" class="transition hover:text-slate-900">Custom Design</a>
+                <a href="#" class="transition hover:text-slate-900">Saved <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full text-xs font-bold ml-1">3</span></a>
+            </nav>
+
+            <div class="flex items-center space-x-4">
+                <button class="hidden sm:inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-slate-700 hover:text-slate-900 transition">Sign In</button>
+                <button class="inline-flex items-center justify-center px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium rounded-xl shadow-md transition transform active:scale-95">Get Consultation</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Hero & Search Section -->
+    <section class="relative bg-gradient-to-b from-white via-slate-50/80 to-slate-100/50 pt-10 pb-8 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Heading & Subtitle -->
+            <div class="max-w-3xl mb-8">
+                <div class="inline-flex items-center space-x-2 bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-3 border border-emerald-200/60">
+                    <i class="fa-solid fa-sparkles"></i>
+                    <span>Curated Collection 2026</span>
+                </div>
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                    Find Your Perfect House Plan
+                </h1>
+                <p class="mt-3 text-base sm:text-lg text-slate-600">
+                    Browse our exclusive portfolio of architect-designed modern masterpieces, engineered for modern living and timeless beauty.
+                </p>
+            </div>
+
+            <!-- Search Bar & Filters Card -->
+            <div class="bg-white rounded-3xl p-4 shadow-xl shadow-slate-200/60 border border-slate-200/80 backdrop-blur-sm flex flex-col gap-4">
+                
+                <!-- ROW 1: Search Group + Actions (Stretched perfectly) -->
+                <div class="flex flex-col lg:flex-row items-center gap-3 w-full">
+                    
+                    <!-- Search Group stretches to fill space -->
+                    <div class="flex items-center gap-2 w-full lg:flex-1">
+                        <div class="relative w-full flex-1">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-magnifying-glass text-sm"></i>
+                            </span>
+                            <input type="text" id="searchInput" placeholder="Search style, name, feature..." 
+                                class="w-full pl-9 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all shadow-inner">
+                            <button id="clearSearch" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 transition hidden">
+                                <i class="fa-solid fa-circle-xmark text-sm"></i>
+                            </button>
+                        </div>
+
+                        <button id="searchBtn" class="inline-flex items-center px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-semibold text-sm rounded-xl shadow-md shadow-emerald-600/20 transition transform active:scale-95 flex-shrink-0">
+                            <i class="fa-solid fa-search mr-2"></i> Search
+                        </button>
+                    </div>
+
+                    <!-- Actions & View Controls (fixed width on the right) -->
+                    <div class="flex items-center gap-2 w-full lg:w-auto overflow-x-auto custom-scrollbar pb-1 lg:pb-0">
+                        
+                        <button id="toggleFiltersBtn" class="flex-shrink-0 inline-flex items-center px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium text-slate-700 hover:bg-slate-100 hover:border-slate-300 shadow-sm transition active:scale-95">
+                            <i class="fa-solid fa-sliders text-emerald-600 mr-2"></i>
+                            <span>Show Filters</span>
+                            <span id="activeFilterBadge" class="ml-1.5 hidden bg-emerald-600 text-white rounded-full w-4 h-4 text-[10px] items-center justify-center font-bold">0</span>
+                        </button>
+
+                        <div class="flex-shrink-0 bg-slate-50 border border-slate-200 rounded-xl p-0.5 flex items-center shadow-sm">
+                            <button id="gridViewBtn" title="Grid View" class="p-2 rounded-lg bg-emerald-50 text-emerald-600 transition">
+                                <i class="fa-solid fa-table-cells-large text-xs"></i>
+                            </button>
+                            <button id="listViewBtn" title="List View" class="p-2 rounded-lg text-slate-400 hover:text-slate-700 transition">
+                                <i class="fa-solid fa-list text-xs"></i>
+                            </button>
+                        </div>
+
+                        <div class="relative flex-shrink-0">
+                            <select id="sortSelect" class="bg-slate-50 border border-slate-200 rounded-xl pl-3 pr-8 py-2.5 text-xs sm:text-sm font-medium text-slate-700 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm cursor-pointer appearance-none">
+                                <option value="popularity">Sort by Popularity</option>
+                                <option value="newest">Sort by Newest</option>
+                                <option value="price-asc">Price: Low to High</option>
+                                <option value="price-desc">Price: High to Low</option>
+                                <option value="sqft">Square Footage</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-400">
+                                <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ROW 2: Category Filter Chips (Full Width Spanning Grid - 8 columns) -->
+                <div class="w-full border-t border-slate-100 pt-3">
+                    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 w-full" id="filterTags">
+                        <button data-filter="all" class="filter-chip active w-full inline-flex items-center justify-center px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow-sm shadow-emerald-600/20">All Plans</button>
+                        <button data-filter="Modern" class="filter-chip w-full inline-flex items-center justify-center px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900">Modern</button>
+                        <button data-filter="Traditional" class="filter-chip w-full inline-flex items-center justify-center px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900">Traditional</button>
+                        <button data-filter="Craftsman" class="filter-chip w-full inline-flex items-center justify-center px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900">Craftsman</button>
+                        <button data-filter="Farmhouse" class="filter-chip w-full inline-flex items-center justify-center px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900">Farmhouse</button>
+                        <button data-filter="compact" class="filter-chip w-full inline-flex items-center justify-center px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900">Under 2,000 M²</button>
+                        <button data-filter="medium" class="filter-chip w-full inline-flex items-center justify-center px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900">2,000-3,000 M²</button>
+                        <button data-filter="large" class="filter-chip w-full inline-flex items-center justify-center px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900">Over 3,000 M²</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Control & Catalog Header -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Sub-header row: Title & Result Count -->
+        <div class="mb-6 pb-2 border-b border-slate-200/60 flex items-center justify-between">
+            <div>
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight leading-none">House Plans</h2>
+                <p id="resultCountText" class="text-xs sm:text-sm text-slate-500 mt-1.5 font-medium">Showing 12 of 12 Plans and Designs</p>
+            </div>
+            <span id="clearAllLink" class="text-xs text-emerald-600 font-semibold cursor-pointer hover:underline hidden">Clear All Filters</span>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8 items-start">
+            
+            <!-- Collapsible Advanced Filters Drawer (Sidebar) -->
+            <aside id="advancedFilters" class="w-full lg:w-72 flex-shrink-0 bg-white rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/50 p-6 hidden lg:block transition-all duration-300">
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="font-bold text-slate-900 text-lg">Filters</h3>
+                    <button id="clearAllBtn" class="text-xs text-emerald-600 font-semibold hover:underline">Clear All</button>
+                </div>
+
+                <div class="mb-6 border-b border-slate-100 pb-6">
+                    <h4 class="text-sm font-semibold text-slate-900 mb-3">Architectural Style</h4>
+                    <label class="flex items-center space-x-2.5 mb-2.5 cursor-pointer text-sm text-slate-600 hover:text-slate-900">
+                        <input type="checkbox" class="style-filter w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" value="Farmhouse"> <span>Farm House</span>
+                    </label>
+                    <label class="flex items-center space-x-2.5 mb-2.5 cursor-pointer text-sm text-slate-600 hover:text-slate-900">
+                        <input type="checkbox" class="style-filter w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" value="Lodge"> <span>Lodge</span>
+                    </label>
+                    <label class="flex items-center space-x-2.5 mb-2.5 cursor-pointer text-sm text-slate-600 hover:text-slate-900">
+                        <input type="checkbox" class="style-filter w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" value="Rustic"> <span>Rustic</span>
+                    </label>
+                    <label class="flex items-center space-x-2.5 mb-2.5 cursor-pointer text-sm text-slate-600 hover:text-slate-900">
+                        <input type="checkbox" class="style-filter w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" value="Family Home"> <span>Family Home</span>
+                    </label>
+                    <label class="flex items-center space-x-2.5 mb-2.5 cursor-pointer text-sm text-slate-600 hover:text-slate-900">
+                        <input type="checkbox" class="style-filter w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" value="Contemporary"> <span>Contemporary</span>
+                    </label>
+                </div>
+
+                <div class="mb-6 border-b border-slate-100 pb-6">
+                    <h4 class="text-sm font-semibold text-slate-900 mb-3">Bedrooms</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <button class="bedroom-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition" data-filter="2">2+</button>
+                        <button class="bedroom-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition" data-filter="3">3+</button>
+                        <button class="bedroom-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition" data-filter="4">4+</button>
+                        <button class="bedroom-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition" data-filter="5">5+</button>
+                    </div>
+                </div>
+
+                <div class="mb-6 border-b border-slate-100 pb-6">
+                    <h4 class="text-sm font-semibold text-slate-900 mb-3">Bathrooms</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <button class="bathroom-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition" data-filter="2">2+</button>
+                        <button class="bathroom-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition" data-filter="2.5">2.5+</button>
+                        <button class="bathroom-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition" data-filter="3">3+</button>
+                        <button class="bathroom-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition" data-filter="4">4+</button>
+                    </div>
+                </div>
+
+                <div class="mb-6 border-b border-slate-100 pb-6">
+                    <h4 class="text-sm font-semibold text-slate-900 mb-3">Total Floor Area (M²)</h4>
+                    <div class="flex items-center space-x-2">
+                        <input type="number" id="minArea" placeholder="Min" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <span class="text-slate-400">-</span>
+                        <input type="number" id="maxArea" placeholder="Max" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h4 class="text-sm font-semibold text-slate-900 mb-3">Price Range (KSH)</h4>
+                    <div class="flex items-center space-x-2">
+                        <input type="number" id="minPrice" placeholder="Min" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <span class="text-slate-400">-</span>
+                        <input type="number" id="maxPrice" placeholder="Max" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Plans Grid (Strictly 3 columns) -->
+            <div id="plansGrid" class="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-300">
+                
+                <!-- Card 1 -->
+                <div class="plan-card group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:shadow-slate-200/60 transition-all duration-300 flex flex-col" 
+                     data-style="Contemporary" data-beds="3" data-baths="2" data-area="1620" data-price="34800" data-name="Modern 3-Bedroom Bungalow">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Modern Bungalow" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded-md shadow-sm">Newly Added</span>
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-bold text-slate-900 text-base leading-snug mb-1 line-clamp-2">Modern 3-Bedroom Bungalow with Skillion Roof</h3>
+                        <p class="text-xs text-slate-500 mb-3">Plan Ref: PLAN-90</p>
+                        <div class="flex items-center text-xs text-slate-600 space-x-3 mb-4">
+                            <span class="flex items-center"><i class="fa-solid fa-vector-square mr-1.5 text-emerald-600 text-[10px]"></i>1620 M²</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bed mr-1.5 text-emerald-600 text-[10px]"></i>3 Beds</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bath mr-1.5 text-emerald-600 text-[10px]"></i>2 Baths</span>
+                        </div>
+                        <div class="mt-auto">
+                            <p class="text-lg font-extrabold text-slate-900 mb-4">KSH 34,800</p>
+                            <div class="flex space-x-2">
+                                <button class="flex-1 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition">View Details</button>
+                                <button class="flex-1 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow-sm flex items-center justify-center"><i class="fa-solid fa-cart-shopping mr-1.5"></i>Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="plan-card group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:shadow-slate-200/60 transition-all duration-300 flex flex-col" 
+                     data-style="Contemporary" data-beds="3" data-baths="2" data-area="1620" data-price="38400" data-name="Modern 3 Bedroom Bungalow">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Modern Bungalow" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded-md shadow-sm">Newly Added</span>
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-bold text-slate-900 text-base leading-snug mb-1 line-clamp-2">Modern 3 Bedroom Bungalow House with Spacious Veranda</h3>
+                        <p class="text-xs text-slate-500 mb-3">Plan Ref: PLAN-88</p>
+                        <div class="flex items-center text-xs text-slate-600 space-x-3 mb-4">
+                            <span class="flex items-center"><i class="fa-solid fa-vector-square mr-1.5 text-emerald-600 text-[10px]"></i>1620 M²</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bed mr-1.5 text-emerald-600 text-[10px]"></i>3 Beds</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bath mr-1.5 text-emerald-600 text-[10px]"></i>2 Baths</span>
+                        </div>
+                        <div class="mt-auto">
+                            <p class="text-lg font-extrabold text-slate-900 mb-4">KSH 38,400</p>
+                            <div class="flex space-x-2">
+                                <button class="flex-1 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition">View Details</button>
+                                <button class="flex-1 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow-sm flex items-center justify-center"><i class="fa-solid fa-cart-shopping mr-1.5"></i>Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="plan-card group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:shadow-slate-200/60 transition-all duration-300 flex flex-col" 
+                     data-style="Modern" data-beds="3" data-baths="3" data-area="150" data-price="24500" data-name="3-Bedroom Skillion Roof House Design">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Skillion Roof House" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded-md shadow-sm">Newly Added</span>
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-bold text-slate-900 text-base leading-snug mb-1 line-clamp-2">3-Bedroom Skillion Roof House Design</h3>
+                        <p class="text-xs text-slate-500 mb-3">Plan Ref: PLAN-87</p>
+                        <div class="flex items-center text-xs text-slate-600 space-x-3 mb-4">
+                            <span class="flex items-center"><i class="fa-solid fa-vector-square mr-1.5 text-emerald-600 text-[10px]"></i>150 M²</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bed mr-1.5 text-emerald-600 text-[10px]"></i>3 Beds</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bath mr-1.5 text-emerald-600 text-[10px]"></i>3 Baths</span>
+                        </div>
+                        <div class="mt-auto">
+                            <p class="text-lg font-extrabold text-slate-900 mb-4">KSH 24,500</p>
+                            <div class="flex space-x-2">
+                                <button class="flex-1 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition">View Details</button>
+                                <button class="flex-1 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow-sm flex items-center justify-center"><i class="fa-solid fa-cart-shopping mr-1.5"></i>Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="plan-card group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:shadow-slate-200/60 transition-all duration-300 flex flex-col" 
+                     data-style="Modern" data-beds="5" data-baths="3" data-area="150" data-price="45000" data-name="5-Bedroom Contemporary Bungalow">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Contemporary Bungalow" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded-md shadow-sm">Newly Added</span>
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-bold text-slate-900 text-base leading-snug mb-1 line-clamp-2">5-Bedroom Contemporary Bungalow</h3>
+                        <p class="text-xs text-slate-500 mb-3">Plan Ref: PLAN-86</p>
+                        <div class="flex items-center text-xs text-slate-600 space-x-3 mb-4">
+                            <span class="flex items-center"><i class="fa-solid fa-vector-square mr-1.5 text-emerald-600 text-[10px]"></i>150 M²</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bed mr-1.5 text-emerald-600 text-[10px]"></i>5 Beds</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bath mr-1.5 text-emerald-600 text-[10px]"></i>3 Baths</span>
+                        </div>
+                        <div class="mt-auto">
+                            <p class="text-lg font-extrabold text-slate-900 mb-4">KSH 45,000</p>
+                            <div class="flex space-x-2">
+                                <button class="flex-1 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition">View Details</button>
+                                <button class="flex-1 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow-sm flex items-center justify-center"><i class="fa-solid fa-cart-shopping mr-1.5"></i>Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="plan-card group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:shadow-slate-200/60 transition-all duration-300 flex flex-col" 
+                     data-style="Traditional" data-beds="4" data-baths="3" data-area="200" data-price="39000" data-name="4-Bedroom Gable Roof Bungalow">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Gable Roof Bungalow" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded-md shadow-sm">Newly Added</span>
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-bold text-slate-900 text-base leading-snug mb-1 line-clamp-2">4-Bedroom Gable Roof Bungalow</h3>
+                        <p class="text-xs text-slate-500 mb-3">Plan Ref: PLAN-85</p>
+                        <div class="flex items-center text-xs text-slate-600 space-x-3 mb-4">
+                            <span class="flex items-center"><i class="fa-solid fa-vector-square mr-1.5 text-emerald-600 text-[10px]"></i>200 M²</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bed mr-1.5 text-emerald-600 text-[10px]"></i>4 Beds</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bath mr-1.5 text-emerald-600 text-[10px]"></i>3 Baths</span>
+                        </div>
+                        <div class="mt-auto">
+                            <p class="text-lg font-extrabold text-slate-900 mb-4">KSH 39,000</p>
+                            <div class="flex space-x-2">
+                                <button class="flex-1 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition">View Details</button>
+                                <button class="flex-1 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow-sm flex items-center justify-center"><i class="fa-solid fa-cart-shopping mr-1.5"></i>Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="plan-card group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:shadow-slate-200/60 transition-all duration-300 flex flex-col" 
+                     data-style="Modern" data-beds="4" data-baths="3" data-area="120" data-price="22000" data-name="4-Bedroom Skillion Roof House">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Skillion Roof Master Ensuite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded-md shadow-sm">Newly Added</span>
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-bold text-slate-900 text-base leading-snug mb-1 line-clamp-2">4-Bedroom Skillion Roof House Design</h3>
+                        <p class="text-xs text-slate-500 mb-3">Plan Ref: PLAN-84</p>
+                        <div class="flex items-center text-xs text-slate-600 space-x-3 mb-4">
+                            <span class="flex items-center"><i class="fa-solid fa-vector-square mr-1.5 text-emerald-600 text-[10px]"></i>120 M²</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bed mr-1.5 text-emerald-600 text-[10px]"></i>4 Beds</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bath mr-1.5 text-emerald-600 text-[10px]"></i>3 Baths</span>
+                        </div>
+                        <div class="mt-auto">
+                            <p class="text-lg font-extrabold text-slate-900 mb-4">KSH 22,000</p>
+                            <div class="flex space-x-2">
+                                <button class="flex-1 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition">View Details</button>
+                                <button class="flex-1 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow-sm flex items-center justify-center"><i class="fa-solid fa-cart-shopping mr-1.5"></i>Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 7 -->
+                <div class="plan-card group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:shadow-slate-200/60 transition-all duration-300 flex flex-col" 
+                     data-style="Modern" data-beds="3" data-baths="2" data-area="120" data-price="21500" data-name="3-Bedroom Skillion Roof">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Skillion Roof House Design" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded-md shadow-sm">Newly Added</span>
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-bold text-slate-900 text-base leading-snug mb-1 line-clamp-2">3-Bedroom Skillion Roof House Design</h3>
+                        <p class="text-xs text-slate-500 mb-3">Plan Ref: PLAN-83</p>
+                        <div class="flex items-center text-xs text-slate-600 space-x-3 mb-4">
+                            <span class="flex items-center"><i class="fa-solid fa-vector-square mr-1.5 text-emerald-600 text-[10px]"></i>120 M²</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bed mr-1.5 text-emerald-600 text-[10px]"></i>3 Beds</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bath mr-1.5 text-emerald-600 text-[10px]"></i>2 Baths</span>
+                        </div>
+                        <div class="mt-auto">
+                            <p class="text-lg font-extrabold text-slate-900 mb-4">KSH 21,500</p>
+                            <div class="flex space-x-2">
+                                <button class="flex-1 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition">View Details</button>
+                                <button class="flex-1 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow-sm flex items-center justify-center"><i class="fa-solid fa-cart-shopping mr-1.5"></i>Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 8 -->
+                <div class="plan-card group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:shadow-slate-200/60 transition-all duration-300 flex flex-col" 
+                     data-style="Modern" data-beds="2" data-baths="2" data-area="120" data-price="21000" data-name="2-Bedroom All-En-Suite">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Contemporary Bungalow" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded-md shadow-sm">Newly Added</span>
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-bold text-slate-900 text-base leading-snug mb-1 line-clamp-2">2-Bedroom All-En-Suite Contemporary Bungalow</h3>
+                        <p class="text-xs text-slate-500 mb-3">Plan Ref: PLAN-82</p>
+                        <div class="flex items-center text-xs text-slate-600 space-x-3 mb-4">
+                            <span class="flex items-center"><i class="fa-solid fa-vector-square mr-1.5 text-emerald-600 text-[10px]"></i>120 M²</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bed mr-1.5 text-emerald-600 text-[10px]"></i>2 Beds</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bath mr-1.5 text-emerald-600 text-[10px]"></i>2 Baths</span>
+                        </div>
+                        <div class="mt-auto">
+                            <p class="text-lg font-extrabold text-slate-900 mb-4">KSH 21,000</p>
+                            <div class="flex space-x-2">
+                                <button class="flex-1 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition">View Details</button>
+                                <button class="flex-1 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow-sm flex items-center justify-center"><i class="fa-solid fa-cart-shopping mr-1.5"></i>Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 9 -->
+                <div class="plan-card group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:shadow-slate-200/60 transition-all duration-300 flex flex-col" 
+                     data-style="Modern" data-beds="2" data-baths="2" data-area="60" data-price="35000" data-name="2-Bedroom Container House">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Container House" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded-md shadow-sm">Newly Added</span>
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-bold text-slate-900 text-base leading-snug mb-1 line-clamp-2">2-Bedroom Container House | 40ft Containers</h3>
+                        <p class="text-xs text-slate-500 mb-3">Plan Ref: PLAN-80</p>
+                        <div class="flex items-center text-xs text-slate-600 space-x-3 mb-4">
+                            <span class="flex items-center"><i class="fa-solid fa-vector-square mr-1.5 text-emerald-600 text-[10px]"></i>60 M²</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bed mr-1.5 text-emerald-600 text-[10px]"></i>2 Beds</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bath mr-1.5 text-emerald-600 text-[10px]"></i>2 Baths</span>
+                        </div>
+                        <div class="mt-auto">
+                            <p class="text-lg font-extrabold text-slate-900 mb-4">KSH 35,000</p>
+                            <div class="flex space-x-2">
+                                <button class="flex-1 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition">View Details</button>
+                                <button class="flex-1 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow-sm flex items-center justify-center"><i class="fa-solid fa-cart-shopping mr-1.5"></i>Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 10 -->
+                <div class="plan-card group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:shadow-slate-200/60 transition-all duration-300 flex flex-col" 
+                     data-style="Traditional" data-beds="4" data-baths="2" data-area="120" data-price="31000" data-name="4 Bedroom A-Frame House">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1449844908441-8829872d2607?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="A-Frame House" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded-md shadow-sm">Newly Added</span>
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-bold text-slate-900 text-base leading-snug mb-1 line-clamp-2">4 Bedroom A-Frame House | Modern Family</h3>
+                        <p class="text-xs text-slate-500 mb-3">Plan Ref: PLAN-79</p>
+                        <div class="flex items-center text-xs text-slate-600 space-x-3 mb-4">
+                            <span class="flex items-center"><i class="fa-solid fa-vector-square mr-1.5 text-emerald-600 text-[10px]"></i>120 M²</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bed mr-1.5 text-emerald-600 text-[10px]"></i>4 Beds</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bath mr-1.5 text-emerald-600 text-[10px]"></i>2 Baths</span>
+                        </div>
+                        <div class="mt-auto">
+                            <p class="text-lg font-extrabold text-slate-900 mb-4">KSH 31,000</p>
+                            <div class="flex space-x-2">
+                                <button class="flex-1 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition">View Details</button>
+                                <button class="flex-1 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow-sm flex items-center justify-center"><i class="fa-solid fa-cart-shopping mr-1.5"></i>Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 11 -->
+                <div class="plan-card group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:shadow-slate-200/60 transition-all duration-300 flex flex-col" 
+                     data-style="Farmhouse" data-beds="2" data-baths="1" data-area="60" data-price="14000" data-name="2 Bedroom Brick House">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1576941089067-2de3c901e126?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Brick House" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded-md shadow-sm">Newly Added</span>
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-bold text-slate-900 text-base leading-snug mb-1 line-clamp-2">2 Bedroom Brick House | Affordable Rural</h3>
+                        <p class="text-xs text-slate-500 mb-3">Plan Ref: PLAN-78</p>
+                        <div class="flex items-center text-xs text-slate-600 space-x-3 mb-4">
+                            <span class="flex items-center"><i class="fa-solid fa-vector-square mr-1.5 text-emerald-600 text-[10px]"></i>60 M²</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bed mr-1.5 text-emerald-600 text-[10px]"></i>2 Beds</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bath mr-1.5 text-emerald-600 text-[10px]"></i>1 Bath</span>
+                        </div>
+                        <div class="mt-auto">
+                            <p class="text-lg font-extrabold text-slate-900 mb-4">KSH 14,000</p>
+                            <div class="flex space-x-2">
+                                <button class="flex-1 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition">View Details</button>
+                                <button class="flex-1 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow-sm flex items-center justify-center"><i class="fa-solid fa-cart-shopping mr-1.5"></i>Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 12 -->
+                <div class="plan-card group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:shadow-slate-200/60 transition-all duration-300 flex flex-col" 
+                     data-style="Craftsman" data-beds="2" data-baths="2" data-area="105" data-price="35000" data-name="2 Bedroom A-Frame Cottage">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1523217582562-09d0def993a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="A-Frame Cottage" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded-md shadow-sm">Newly Added</span>
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-bold text-slate-900 text-base leading-snug mb-1 line-clamp-2">2 Bedroom A-Frame Cottage with Upper Deck</h3>
+                        <p class="text-xs text-slate-500 mb-3">Plan Ref: PLAN-77</p>
+                        <div class="flex items-center text-xs text-slate-600 space-x-3 mb-4">
+                            <span class="flex items-center"><i class="fa-solid fa-vector-square mr-1.5 text-emerald-600 text-[10px]"></i>105 M²</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bed mr-1.5 text-emerald-600 text-[10px]"></i>2 Beds</span>
+                            <span class="flex items-center"><i class="fa-solid fa-bath mr-1.5 text-emerald-600 text-[10px]"></i>2 Baths</span>
+                        </div>
+                        <div class="mt-auto">
+                            <p class="text-lg font-extrabold text-slate-900 mb-4">KSH 35,000</p>
+                            <div class="flex space-x-2">
+                                <button class="flex-1 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition">View Details</button>
+                                <button class="flex-1 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow-sm flex items-center justify-center"><i class="fa-solid fa-cart-shopping mr-1.5"></i>Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Load More -->
+        <div class="mt-10 flex justify-center">
+            <button class="px-6 py-3 bg-white border border-slate-200 hover:border-slate-300 text-slate-700 text-sm font-semibold rounded-xl shadow-sm transition flex items-center space-x-2">
+                <span>Load More Plans</span>
+                <i class="fa-solid fa-arrow-down text-xs"></i>
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div class="md:col-span-1">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-9 h-9 bg-emerald-500 rounded-xl flex items-center justify-center text-white">
+                            <i class="fa-solid fa-house-chimney text-sm"></i>
+                        </div>
+                        <span class="text-lg font-bold text-white">Arch<span class="text-emerald-500">Visions</span></span>
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed">Premium house plans marketplace with expert architectural guidance for your dream home.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-4">Quick Links</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#" class="hover:text-white transition">Browse Plans</a></li>
+                        <li><a href="#" class="hover:text-white transition">Architects</a></li>
+                        <li><a href="#" class="hover:text-white transition">Custom Design</a></li>
+                        <li><a href="#" class="hover:text-white transition">About Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-4">Support</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#" class="hover:text-white transition">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white transition">Building Guides</a></li>
+                        <li><a href="#" class="hover:text-white transition">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-4">Contact</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start space-x-3"><i class="fa-solid fa-location-dot text-emerald-500 mt-1"></i><span>Garden Estate Road, Nairobi, Kenya</span></li>
+                        <li class="flex items-start space-x-3"><i class="fa-solid fa-envelope text-emerald-500 mt-1"></i><span>info@archvisions.com</span></li>
+                        <li class="flex items-start space-x-3"><i class="fa-solid fa-phone text-emerald-500 mt-1"></i><span>+254 722 118 188</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
+                <p>&copy; 2026 ArchVisions. All Rights Reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition">Terms of Service</a>
+                    <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition">Partnership</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleFiltersBtn = document.getElementById('toggleFiltersBtn');
+            const advancedFilters = document.getElementById('advancedFilters');
+            const plansGrid = document.getElementById('plansGrid');
+            const planCards = Array.from(document.querySelectorAll('.plan-card'));
+            const resultCountText = document.getElementById('resultCountText');
+            const activeFilterBadge = document.getElementById('activeFilterBadge');
+            const clearAllLink = document.getElementById('clearAllLink');
+            const clearAllBtn = document.getElementById('clearAllBtn');
+            
+            const searchInput = document.getElementById('searchInput');
+            const clearSearch = document.getElementById('clearSearch');
+            const searchBtn = document.getElementById('searchBtn');
+            const filterChips = document.querySelectorAll('.filter-chip');
+            const styleFilters = document.querySelectorAll('.style-filter');
+            const bedroomPills = document.querySelectorAll('.bedroom-pill');
+            const bathroomPills = document.querySelectorAll('.bathroom-pill');
+            
+            const minArea = document.getElementById('minArea');
+            const maxArea = document.getElementById('maxArea');
+            const minPrice = document.getElementById('minPrice');
+            const maxPrice = document.getElementById('maxPrice');
+
+            const gridViewBtn = document.getElementById('gridViewBtn');
+            const listViewBtn = document.getElementById('listViewBtn');
+            const sortSelect = document.getElementById('sortSelect');
+
+            // State
+            let activeChip = 'all';
+            let activeStyles = [];
+            let activeBeds = 0;
+            let activeBaths = 0;
+            let searchQuery = '';
+
+            // --- Toggle Sidebar (Strictly 3 columns, no 4th column) ---
+            toggleFiltersBtn.addEventListener('click', () => {
+                if (window.innerWidth < 1024) {
+                    advancedFilters.classList.toggle('hidden');
+                } else {
+                    const isHidden = advancedFilters.style.display === 'none';
+                    advancedFilters.style.display = isHidden ? 'block' : 'none';
+                    plansGrid.className = 'flex-1 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-300';
+                }
+                const btnSpan = toggleFiltersBtn.querySelector('span');
+                btnSpan.textContent = advancedFilters.style.display === 'none' ? 'Show Filters' : 'Hide Filters';
+            });
+
+            // --- View Switcher ---
+            gridViewBtn.addEventListener('click', () => {
+                plansGrid.className = 'flex-1 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-300';
+                gridViewBtn.classList.add('bg-emerald-50', 'text-emerald-600');
+                gridViewBtn.classList.remove('text-slate-400');
+                listViewBtn.classList.remove('bg-emerald-50', 'text-emerald-600');
+                listViewBtn.classList.add('text-slate-400');
+            });
+
+            listViewBtn.addEventListener('click', () => {
+                plansGrid.className = 'flex-1 w-full flex flex-col gap-4 transition-all duration-300';
+                listViewBtn.classList.add('bg-emerald-50', 'text-emerald-600');
+                listViewBtn.classList.remove('text-slate-400');
+                gridViewBtn.classList.remove('bg-emerald-50', 'text-emerald-600');
+                gridViewBtn.classList.add('text-slate-400');
+                planCards.forEach(card => {
+                    card.classList.add('flex-row');
+                    card.querySelector('.h-48').classList.replace('h-48', 'h-48', 'w-64');
+                    card.querySelector('.relative.h-48').classList.add('w-64', 'flex-shrink-0');
+                });
+            });
+
+            // --- Filter Logic ---
+            function applyFilters() {
+                let visibleCount = 0;
+                const areaMinVal = parseFloat(minArea.value) || 0;
+                const areaMaxVal = parseFloat(maxArea.value) || Infinity;
+                const priceMinVal = parseFloat(minPrice.value) || 0;
+                const priceMaxVal = parseFloat(maxPrice.value) || Infinity;
+
+                planCards.forEach(card => {
+                    const style = card.dataset.style.toLowerCase();
+                    const beds = parseInt(card.dataset.beds);
+                    const baths = parseFloat(card.dataset.baths);
+                    const area = parseFloat(card.dataset.area);
+                    const price = parseFloat(card.dataset.price);
+                    const name = card.dataset.name.toLowerCase();
+
+                    // Updated Chip Logic to handle all 8 categories
+                    let matchesChip = false;
+                    if (activeChip === 'all') matchesChip = true;
+                    else if (activeChip === 'compact') matchesChip = area < 2000;
+                    else if (activeChip === 'medium') matchesChip = area >= 2000 && area <= 3000;
+                    else if (activeChip === 'large') matchesChip = area > 3000;
+                    else matchesChip = style === activeChip.toLowerCase();
+
+                    const matchesStyle = activeStyles.length === 0 || activeStyles.some(s => style.includes(s.toLowerCase()));
+                    const matchesBed = activeBeds === 0 || beds >= activeBeds;
+                    const matchesBath = activeBaths === 0 || baths >= activeBaths;
+                    const matchesArea = area >= areaMinVal && area <= areaMaxVal;
+                    const matchesPrice = price >= priceMinVal && price <= priceMaxVal;
+                    const matchesSearch = searchQuery === '' || name.includes(searchQuery);
+
+                    if (matchesChip && matchesStyle && matchesBed && matchesBath && matchesArea && matchesPrice && matchesSearch) {
+                        card.style.display = 'flex';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                resultCountText.textContent = `Showing ${visibleCount} of ${planCards.length} Plans and Designs`;
+                
+                let activeCount = activeStyles.length + (activeBeds > 0 ? 1 : 0) + (activeBaths > 0 ? 1 : 0) + 
+                                 (minArea.value ? 1 : 0) + (maxArea.value ? 1 : 0) + 
+                                 (minPrice.value ? 1 : 0) + (maxPrice.value ? 1 : 0) +
+                                 (activeChip !== 'all' ? 1 : 0) + (searchQuery ? 1 : 0);
+                
+                if (activeCount > 0) {
+                    activeFilterBadge.textContent = activeCount;
+                    activeFilterBadge.classList.remove('hidden');
+                    activeFilterBadge.classList.add('flex');
+                    clearAllLink.classList.remove('hidden');
+                } else {
+                    activeFilterBadge.classList.add('hidden');
+                    activeFilterBadge.classList.remove('flex');
+                    clearAllLink.classList.add('hidden');
+                }
+            }
+
+            // --- Event Listeners for Filters ---
+            filterChips.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    filterChips.forEach(c => {
+                        c.classList.remove('bg-emerald-600', 'text-white', 'shadow-sm', 'shadow-emerald-600/20', 'font-semibold');
+                        c.classList.add('bg-slate-100', 'text-slate-600', 'font-medium');
+                    });
+                    chip.classList.remove('bg-slate-100', 'text-slate-600', 'font-medium');
+                    chip.classList.add('bg-emerald-600', 'text-white', 'shadow-sm', 'shadow-emerald-600/20', 'font-semibold');
+                    activeChip = chip.dataset.filter;
+                    applyFilters();
+                });
+            });
+
+            styleFilters.forEach(cb => {
+                cb.addEventListener('change', (e) => {
+                    if (e.target.checked) activeStyles.push(e.target.value);
+                    else activeStyles = activeStyles.filter(s => s !== e.target.value);
+                    applyFilters();
+                });
+            });
+
+            bedroomPills.forEach(pill => {
+                pill.addEventListener('click', () => {
+                    const val = parseInt(pill.dataset.filter);
+                    if (activeBeds === val) {
+                        activeBeds = 0;
+                        bedroomPills.forEach(p => p.classList.remove('bg-emerald-600', 'text-white', 'border-emerald-600'));
+                    } else {
+                        activeBeds = val;
+                        bedroomPills.forEach(p => p.classList.remove('bg-emerald-600', 'text-white', 'border-emerald-600'));
+                        pill.classList.add('bg-emerald-600', 'text-white', 'border-emerald-600');
+                    }
+                    applyFilters();
+                });
+            });
+
+            bathroomPills.forEach(pill => {
+                pill.addEventListener('click', () => {
+                    const val = parseFloat(pill.dataset.filter);
+                    if (activeBaths === val) {
+                        activeBaths = 0;
+                        bathroomPills.forEach(p => p.classList.remove('bg-emerald-600', 'text-white', 'border-emerald-600'));
+                    } else {
+                        activeBaths = val;
+                        bathroomPills.forEach(p => p.classList.remove('bg-emerald-600', 'text-white', 'border-emerald-600'));
+                        pill.classList.add('bg-emerald-600', 'text-white', 'border-emerald-600');
+                    }
+                    applyFilters();
+                });
+            });
+
+            [minArea, maxArea, minPrice, maxPrice].forEach(input => {
+                input.addEventListener('input', applyFilters);
+            });
+
+            // Search
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value.toLowerCase();
+                clearSearch.classList.toggle('hidden', searchQuery === '');
+                applyFilters();
+            });
+
+            clearSearch.addEventListener('click', () => {
+                searchInput.value = '';
+                searchQuery = '';
+                clearSearch.classList.add('hidden');
+                applyFilters();
+            });
+
+            searchBtn.addEventListener('click', () => {
+                searchQuery = searchInput.value.toLowerCase();
+                applyFilters();
+            });
+
+            // Sort
+            sortSelect.addEventListener('change', () => {
+                const val = sortSelect.value;
+                const sorted = [...planCards].sort((a, b) => {
+                    if (val === 'price-asc') return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+                    if (val === 'price-desc') return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+                    if (val === 'sqft') return parseFloat(a.dataset.area) - parseFloat(b.dataset.area);
+                    return 0;
+                });
+                sorted.forEach(card => plansGrid.appendChild(card));
+            });
+
+            // Clear All
+            function resetFilters() {
+                activeChip = 'all';
+                activeStyles = [];
+                activeBeds = 0;
+                activeBaths = 0;
+                searchQuery = '';
+                searchInput.value = '';
+                clearSearch.classList.add('hidden');
+                
+                filterChips.forEach(c => {
+                    c.classList.remove('bg-emerald-600', 'text-white', 'shadow-sm', 'shadow-emerald-600/20', 'font-semibold');
+                    c.classList.add('bg-slate-100', 'text-slate-600', 'font-medium');
+                });
+                filterChips[0].classList.remove('bg-slate-100', 'text-slate-600', 'font-medium');
+                filterChips[0].classList.add('bg-emerald-600', 'text-white', 'shadow-sm', 'shadow-emerald-600/20', 'font-semibold');
+
+                styleFilters.forEach(cb => cb.checked = false);
+                bedroomPills.forEach(p => p.classList.remove('bg-emerald-600', 'text-white', 'border-emerald-600'));
+                bathroomPills.forEach(p => p.classList.remove('bg-emerald-600', 'text-white', 'border-emerald-600'));
+                [minArea, maxArea, minPrice, maxPrice].forEach(input => input.value = '');
+                
+                applyFilters();
+            }
+
+            clearAllBtn.addEventListener('click', resetFilters);
+            clearAllLink.addEventListener('click', resetFilters);
+        });
+    </script>
+</body>
+</html>
