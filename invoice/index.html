@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Piedmont Ventures — Monthly Invoice Generator</title>
+<style>
+  :root{
+    --navy:#0F2A43; --accent:#0F5AA6; --bg:#EEF2F6; --panel:#FFFFFF;
+    --rule:#C9D4DE; --muted:#5A6B7A; --soft:#F2F6FA;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:'Segoe UI', Arial, sans-serif; background:var(--bg); color:#1B1B1B; padding:24px;}
+  .app{max-width:1200px; margin:0 auto; display:grid; grid-template-columns:320px 1fr; gap:24px; align-items:start;}
+  h1.app-title{grid-column:1/-1; text-align:center; color:var(--navy); font-size:22px; letter-spacing:.5px;}
+  h1.app-title span{display:block; font-size:12px; font-style:italic; color:var(--accent); font-weight:normal; margin-top:4px;}
+
+  .panel{background:var(--panel); border:1px solid var(--rule); border-radius:10px; padding:18px; box-shadow:0 1px 3px rgba(15,42,67,.08);}
+  .panel h2{font-size:13px; color:var(--navy); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; border-bottom:1px solid var(--rule); padding-bottom:8px;}
+  label{display:block; font-size:11px; color:var(--muted); font-weight:600; margin:10px 0 3px;}
+  input, select{width:100%; padding:7px 9px; border:1px solid var(--rule); border-radius:6px; font-size:13px;}
+  input:focus{outline:2px solid var(--accent); outline-offset:-1px;}
+  .btn{display:block; width:100%; margin-top:10px; padding:10px; border:none; border-radius:6px; font-size:13px; font-weight:700; cursor:pointer;}
+  .btn-primary{background:var(--navy); color:#fff;}
+  .btn-accent{background:var(--accent); color:#fff;}
+  .btn-ghost{background:#fff; color:var(--navy); border:1px solid var(--rule);}
+  .btn:hover{filter:brightness(1.12);}
+  .seq-row{display:flex; gap:8px;} .seq-row input{flex:1;}
+  .seq-row .btn{width:auto; margin-top:0; padding:7px 12px; font-size:12px;}
+  .hint{font-size:11px; color:var(--muted); margin-top:10px; line-height:1.5;}
+  .extra-toggle{display:flex; align-items:center; gap:8px; margin-top:14px; font-size:12px;}
+  .extra-toggle input{width:auto;}
+
+  /* History */
+  .history{margin-top:24px; max-height:320px; overflow:auto;}
+  .history table{width:100%; border-collapse:collapse; font-size:11px;}
+  .history th{text-align:left; color:var(--muted); padding:4px 6px; border-bottom:1px solid var(--rule);}
+  .history td{padding:5px 6px; border-bottom:1px solid #EDF1F5;}
+  .history .del{color:#B33; cursor:pointer; border:none; background:none; font-size:13px;}
+
+  /* ===== Invoice sheet ===== */
+  .sheet-wrap{background:#fff; border:1px solid var(--rule); border-radius:4px; padding:40px 48px; box-shadow:0 2px 8px rgba(15,42,67,.10);}
+  .brand{text-align:center; font-size:26px; font-weight:800; color:var(--navy); letter-spacing:1px;}
+  .tagline{text-align:center; font-style:italic; color:var(--accent); margin-top:8px; font-size:13px;}
+  .rule{border:none; border-top:1.5px solid var(--navy); margin:22px 0 20px;}
+  .meta-row{display:flex; justify-content:space-between; margin-bottom:22px;}
+  .meta-label{font-size:9px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.5px;}
+  .meta-row .client div, .meta-row .inv div{font-size:12px; margin-top:2px;}
+  .inv{text-align:right;}
+
+  table.charges{width:100%; border-collapse:collapse; font-size:12px; margin-bottom:8px;}
+  table.charges th{background:var(--navy); color:#fff; padding:8px 10px; text-align:left; font-size:12px;}
+  table.charges th.amt, table.charges td.amt{text-align:right; width:110px;}
+  table.charges td{padding:9px 10px; border:1px solid var(--rule);}
+  table.charges tr.alt td{background:var(--soft);}
+  table.charges tr.total td{background:#E3EDF6; border-top:2px solid var(--navy); font-weight:800; color:var(--navy); font-size:14px;}
+  .note{font-size:10px; color:#44535F; margin-bottom:22px; line-height:1.5;}
+  .sec{font-size:13px; font-weight:700; color:var(--navy); margin:18px 0 8px;}
+  .svc-name{font-size:12px; margin-bottom:6px;}
+  ul.svc{list-style:none; font-size:12px; line-height:1.8; padding-left:14px;}
+  ul.svc li::before{content:"• "; color:var(--navy);}
+  table.pay{width:100%; border-collapse:collapse; margin-top:6px;}
+  table.pay td{width:50%; background:var(--soft); border:1px solid var(--rule); padding:12px 14px; font-size:12px; line-height:1.7; vertical-align:top;}
+  table.pay .plabel{font-size:9px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.5px;}
+  .pay-note{font-size:10px; color:#44535F; margin-top:8px;}
+  .footer-line{text-align:center; font-size:10px; color:var(--muted); border-top:1px solid var(--rule); margin-top:26px; padding-top:8px;}
+
+  @media (max-width:900px){ .app{grid-template-columns:1fr;} }
+  @media print{
+    body{background:#fff; padding:0;}
+    .no-print{display:none !important;}
+    .app{display:block; max-width:none;}
+    .sheet-wrap{border:none; box-shadow:none; padding:0;}
+    @page{size:A4; margin:15mm 20mm 24mm 20mm;}
+  }
+</style>
+<base target="_blank">
+</head>
+<body>
+<div class="app">
+  <h1 class="app-title no-print">PIEDMONT VENTURES
+    <span>Monthly Invoice Generator — Bomaplans Maintenance</span>
+  </h1>
+
+  <!-- ============ CONTROL PANEL ============ -->
+  <div class="panel no-print">
+    <h2>Invoice Setup</h2>
+    <label>Client name</label>
+    <input id="f_client" value="Bani Builders">
+    <label>Address line 1</label>
+    <input id="f_addr1" value="Akai Plaza">
+    <label>Address line 2</label>
+    <input id="f_addr2" value="Garden Estate">
+    <label>Attention</label>
+    <input id="f_att" value="Moses">
+    <label>Project / website</label>
+    <input id="f_project" value="Bomaplans">
+    <label>Monthly amount (KSh)</label>
+    <input id="f_amount" type="number" value="20000" step="0.01">
+    <label>Billing month</label>
+    <input id="f_month" type="month">
+    <label>Issue date</label>
+    <input id="f_issue" type="date">
+
+    <label>Invoice number</label>
+    <div class="seq-row">
+      <input id="f_invno" placeholder="PV-INV-XXXX-XX">
+      <button class="btn btn-ghost" id="btn_nextno" title="Generate next invoice number">Next&nbsp;№</button>
+    </div>
+
+    <div class="extra-toggle">
+      <input type="checkbox" id="f_extra_on">
+      <label for="f_extra_on" style="margin:0;">Add extra charge line</label>
+    </div>
+    <div id="extra_fields" style="display:none;">
+      <label>Extra description</label>
+      <input id="f_extra_desc" placeholder="e.g. Additional 12 days of maintenance (19–30 Nov)">
+      <label>Extra amount (KSh)</label>
+      <input id="f_extra_amt" type="number" value="0" step="0.01">
+    </div>
+
+    <button class="btn btn-primary" id="btn_update">Update Preview</button>
+    <button class="btn btn-accent" id="btn_print">🖨 Print / Save as PDF</button>
+    <button class="btn btn-ghost" id="btn_save">✔ Save to History</button>
+    <p class="hint">The billing period, prorated extras, and totals update automatically from the month and amounts you enter. Invoice numbers and history are stored in this browser only.</p>
+
+    <div class="history">
+      <h2>Issued Invoices</h2>
+      <table>
+        <thead><tr><th>Invoice №</th><th>Date</th><th>Client</th><th style="text-align:right">Amount</th><th></th></tr></thead>
+        <tbody id="hist_body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============ INVOICE SHEET ============ -->
+  <div class="sheet-wrap" id="sheet">
+    <div class="brand">PIEDMONT VENTURES</div>
+    <div class="tagline">INVOICE | Professional Web &amp; Digital Services</div>
+    <hr class="rule">
+    <div class="meta-row">
+      <div class="client">
+        <div class="meta-label">Bill To</div>
+        <div><b id="v_client">Bani Builders</b></div>
+        <div id="v_addr1">Akai Plaza</div>
+        <div id="v_addr2">Garden Estate</div>
+        <div>Att: <span id="v_att">Moses</span></div>
+      </div>
+      <div class="inv">
+        <div class="meta-label">Invoice No.</div>
+        <div><b id="v_invno">—</b></div>
+        <div class="meta-label" style="margin-top:10px;">Invoice Date</div>
+        <div><b id="v_issue">—</b></div>
+      </div>
+    </div>
+
+    <table class="charges">
+      <thead><tr><th>Description</th><th>Type</th><th class="amt">Amount</th></tr></thead>
+      <tbody>
+        <tr>
+          <td id="v_main_desc">Website Maintenance &amp; Feature Development — Bomaplans (1 Dec–31 Dec)</td>
+          <td>Monthly</td>
+          <td class="amt" id="v_main_amt">Kshs 20,000</td>
+        </tr>
+        <tr class="alt" id="row_extra" style="display:none;">
+          <td id="v_extra_desc"></td>
+          <td>Prorated</td>
+          <td class="amt" id="v_extra_amt"></td>
+        </tr>
+        <tr class="total">
+          <td>TOTAL DUE</td>
+          <td></td>
+          <td class="amt" id="v_total">Kshs 20,000</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note" id="v_note"></p>
+
+    <div class="sec">Service Details</div>
+    <div class="svc-name"><b>Monthly Website Maintenance — Kshs 20,000/month</b></div>
+    <ul class="svc">
+      <li>Ongoing maintenance of the <span class="v_proj">Bomaplans</span> website</li>
+      <li>Bug fixes and troubleshooting</li>
+      <li>Website updates and improvements</li>
+      <li>Feature additions and modifications</li>
+      <li>Performance and security maintenance</li>
+      <li>General technical support</li>
+    </ul>
+
+    <div class="sec">Payment Instructions</div>
+    <table class="pay">
+      <tr>
+        <td>
+          <div class="plabel">Bank Transfer</div>
+          Bank: <b>Equity Bank</b><br>
+          Account Name: <b>Stephen Mwangi</b><br>
+          Account Number: <b>1290160555082</b>
+        </td>
+        <td>
+          <div class="plabel">M-PESA</div>
+          Till Number: <b>9734997</b><br>
+          Till Name: <b>Piedmont Ventures</b>
+        </td>
+      </tr>
+    </table>
+    <p class="pay-note">Please use <b id="v_ref">Bani Builders</b> as the payment reference.</p>
+
+    <div class="footer-line">Piedmont Ventures • Zuri Business Park • Tel: 0701 119 699</div>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const LS_SET='pv_settings', LS_HIST='pv_history', LS_SEQ='pv_seq';
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function fmt(n){
+  const hasDec = Math.round(n*100)%100 !== 0;
+  return 'Kshs ' + n.toLocaleString('en-US',{minimumFractionDigits: hasDec?2:0, maximumFractionDigits:2});
+}
+function parseMonth(m){ // "2026-12"
+  const [y,mo] = m.split('-').map(Number);
+  return {y, mo, last: new Date(y, mo, 0).getDate()};
+}
+function dateStr(iso){
+  if(!iso) return '';
+  const [y,m,d] = iso.split('-').map(Number);
+  return `${d} ${MONTHS[m-1]} ${y}`;
+}
+
+function loadSettings(){
+  try{ return JSON.parse(localStorage.getItem(LS_SET)) || {}; }catch(e){ return {}; }
+}
+function saveSettings(){
+  const s = {};
+  ['f_client','f_addr1','f_addr2','f_att','f_project','f_amount','f_month','f_issue','f_invno','f_extra_desc','f_extra_amt'].forEach(id=>s[id]=$(id).value);
+  s.f_extra_on = $('f_extra_on').checked;
+  localStorage.setItem(LS_SET, JSON.stringify(s));
+}
+function applySettings(s){
+  Object.keys(s).forEach(k=>{ if($(k)){ if(k==='f_extra_on') $(k).checked=!!s[k]; else $(k).value=s[k]; }});
+  $('extra_fields').style.display = $('f_extra_on').checked ? 'block':'none';
+}
+
+function suggestDefaults(){
+  const now = new Date();
+  const nextMonth = new Date(now.getFullYear(), now.getMonth()+1, 1);
+  $('f_month').value = `${nextMonth.getFullYear()}-${String(nextMonth.getMonth()+1).padStart(2,'0')}`;
+  $('f_issue').value = `${nextMonth.getFullYear()}-${String(nextMonth.getMonth()+1).padStart(2,'0')}-01`;
+  $('f_invno').value = nextNumber(nextMonth);
+}
+function nextNumber(d){
+  let seq = parseInt(localStorage.getItem(LS_SEQ)||'2', 10); // 03 was last issued
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const yy = String(d.getFullYear()).slice(-2);
+  const no = `PV-INV-${mm}${yy}-${String(seq+1).padStart(2,'0')}`;
+  localStorage.setItem(LS_SEQ, String(seq+1));
+  return no;
+}
+
+function updatePreview(){
+  const {last} = parseMonth($('f_month').value);
+  const {y, mo} = parseMonth($('f_month').value);
+  const mName = MONTHS[mo-1];
+  const proj = $('f_project').value || 'Bomaplans';
+  const amt = parseFloat($('f_amount').value)||0;
+  const extraOn = $('f_extra_on').checked;
+  const extraAmt = parseFloat($('f_extra_amt').value)||0;
+
+  $('v_client').textContent = $('f_client').value;
+  $('v_addr1').textContent = $('f_addr1').value;
+  $('v_addr2').textContent = $('f_addr2').value;
+  $('v_att').textContent = $('f_att').value;
+  $('v_ref').textContent = $('f_client').value;
+  document.querySelectorAll('.v_proj').forEach(e=>e.textContent=proj);
+
+  $('v_invno').textContent = $('f_invno').value || '—';
+  $('v_issue').textContent = dateStr($('f_issue').value);
+
+  $('v_main_desc').textContent = `Website Maintenance & Feature Development — ${proj} (1 ${mName}–${last} ${y})`;
+  $('v_main_amt').textContent = fmt(amt);
+
+  const total = amt + (extraOn?extraAmt:0);
+  if(extraOn){
+    $('row_extra').style.display='';
+    $('v_extra_desc').textContent = $('f_extra_desc').value || 'Additional service';
+    $('v_extra_amt').textContent = fmt(extraAmt);
+  } else { $('row_extra').style.display='none'; }
+  $('v_total').textContent = fmt(total);
+
+  $('v_note').textContent = extraOn
+    ? `This invoice includes a prorated charge (30-day billing basis) to align the billing cycle. Subsequent regular monthly invoices of ${fmt(amt)} will be issued on the 1st of each month.`
+    : `This is a regular monthly invoice. Subsequent invoices of ${fmt(amt)} will be issued on the 1st of each month.`;
+  saveSettings();
+}
+
+/* ---- history ---- */
+function loadHist(){ try{ return JSON.parse(localStorage.getItem(LS_HIST))||[]; }catch(e){ return []; } }
+function renderHist(){
+  const h = loadHist();
+  $('hist_body').innerHTML = h.map((r,i)=>`<tr>
+    <td>${r.no}</td><td>${r.date}</td><td>${r.client}</td>
+    <td style="text-align:right">${r.total}</td>
+    <td><button class="del" data-i="${i}" title="Remove">✕</button></td></tr>`).join('')
+    || '<tr><td colspan="5" style="color:#5A6B7A">No invoices saved yet.</td></tr>';
+  document.querySelectorAll('.del').forEach(b=>b.onclick=()=>{
+    const h=loadHist(); h.splice(+b.dataset.i,1);
+    localStorage.setItem(LS_HIST, JSON.stringify(h)); renderHist();
+  });
+}
+function saveToHistory(){
+  const h = loadHist();
+  h.unshift({no:$('v_invno').textContent, date:$('v_issue').textContent,
+             client:$('v_client').textContent, total:$('v_total').textContent});
+  localStorage.setItem(LS_HIST, JSON.stringify(h));
+  renderHist();
+}
+
+/* ---- wire up ---- */
+$('f_extra_on').addEventListener('change', e=>{
+  $('extra_fields').style.display = e.target.checked?'block':'none'; updatePreview();
+});
+['f_client','f_addr1','f_addr2','f_att','f_project','f_amount','f_month','f_issue','f_invno','f_extra_desc','f_extra_amt']
+  .forEach(id=> $(id).addEventListener('input', updatePreview));
+$('btn_update').onclick = updatePreview;
+$('btn_print').onclick = ()=>window.print();
+$('btn_save').onclick = saveToHistory;
+$('btn_nextno').onclick = ()=>{
+  const d = new Date(parseMonth($('f_month').value).y, parseMonth($('f_month').value).mo-1, 1);
+  $('f_invno').value = nextNumber(d); updatePreview();
+};
+
+const saved = loadSettings();
+if(saved && Object.keys(saved).length){ applySettings(saved); } else { suggestDefaults(); }
+if(!$('f_invno').value) suggestDefaults();
+updatePreview(); renderHist();
+</script>
+</body>
+</html>
