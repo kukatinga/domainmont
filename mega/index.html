@@ -4,251 +4,49 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SportPesa Mega Jackpot Predictions 17 Games | MULTIBET</title>
-<meta name="description" content="Get this week's SportPesa Mega Jackpot predictions for all 17 games. Free picks, bonus details, and how to play. 18+ only. Bet responsibly.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* ---------- RESET & VARIABLES ---------- */
-  :root {
-    --bg: #0f1115;
-    --card: #161a22;
-    --card-hover: #1a1f2a;
-    --border: #232936;
-    --text: #e5e7eb;
-    --muted: #9ca3af;
-    --brand: #4ade80;
-    --brand-d: #22c55e;
-    --gold: #fbbf24;
-    --danger: #f87171;
-    --blue: #60a5fa;
-  }
+  :root { --bg: #0f1115; --card: #161a22; --border: #232936; --text: #e5e7eb; --muted: #9ca3af; --brand: #4ade80; --gold: #fbbf24; --danger: #f87171; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.5;
-    font-size: 15px;
-    padding-bottom: 60px;
-  }
-  a { color: var(--brand); text-decoration: none; }
-  a:hover { text-decoration: underline; }
-
-  /* ---------- LAYOUT ---------- */
-  .container {
-    max-width: 1150px;
-    margin: 0 auto;
-    padding: 20px 16px;
-    display: grid;
-    grid-template-columns: 1fr 340px;
-    gap: 24px;
-    align-items: start;
-  }
-  @media (max-width: 950px) {
-    .container { grid-template-columns: 1fr; }
-    aside { order: -1; }
-  }
-
-  /* ---------- HEADER ---------- */
-  header {
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-    padding: 14px 0;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-  }
-  .header-inner {
-    max-width: 1150px;
-    margin: 0 auto;
-    padding: 0 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .brand { font-weight: 800; font-size: 20px; letter-spacing: -0.5px; color: #fff; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; font-size: 15px; padding-bottom: 60px; }
+  .container { max-width: 1000px; margin: 0 auto; padding: 20px 16px; }
+  header { background: var(--card); border-bottom: 1px solid var(--border); padding: 14px 0; margin-bottom: 20px; }
+  .header-inner { max-width: 1000px; margin: 0 auto; padding: 0 16px; display: flex; justify-content: space-between; align-items: center; }
+  .brand { font-weight: 800; font-size: 20px; color: #fff; }
   .brand span { color: var(--brand); }
-  .header-meta { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
-  .live-dot { width: 6px; height: 6px; background: var(--brand); border-radius: 50%; animation: pulse 2s infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-  /* ---------- TYPOGRAPHY ---------- */
-  h1 { font-size: 26px; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 10px; letter-spacing: -0.5px; }
+  h1 { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 8px; }
   h1 span { color: var(--brand); }
   .intro { color: var(--muted); margin-bottom: 20px; font-size: 14px; }
-  h2 { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 12px; }
-  h3 { font-size: 15px; font-weight: 600; color: #d1d5db; margin: 16px 0 8px; }
-  p { margin-bottom: 12px; color: var(--muted); font-size: 14px; }
-  ul, ol { color: var(--muted); padding-left: 20px; margin-bottom: 12px; font-size: 14px; }
-  li { margin-bottom: 6px; }
-
-  /* ---------- MAIN PREDICTION TABLE ---------- */
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 20px;
-  }
-  .card-head {
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border);
-    background: var(--card-hover);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .card-head h2 { margin: 0; font-size: 15px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+  .card-head { padding: 14px 16px; border-bottom: 1px solid var(--border); background: #1a1f2a; display: flex; justify-content: space-between; align-items: center; }
+  .card-head h2 { font-size: 15px; font-weight: 700; margin: 0; color: #fff; }
   .card-head .meta { font-size: 11px; color: var(--muted); }
-
-  .fixture-row {
-    display: grid;
-    grid-template-columns: 40px 1fr 100px 140px;
-    align-items: center;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    gap: 8px;
-    transition: background 0.15s;
-  }
-  .fixture-row:hover { background: var(--card-hover); }
+  .fixture-row { display: grid; grid-template-columns: 40px 1fr 100px 140px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); gap: 8px; }
+  .fixture-row:hover { background: #1a1f2a; }
   .fixture-row:last-child { border-bottom: none; }
-
   .game-num { font-size: 12px; color: var(--muted); font-weight: 600; text-align: center; }
-  .fixture-teams { min-width: 0; }
-  .fixture-teams .teams { font-size: 14px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .fixture-teams .kickoff { font-size: 11px; color: var(--muted); margin-top: 2px; }
-  
+  .teams { font-size: 14px; font-weight: 600; color: #fff; }
+  .kickoff { font-size: 11px; color: var(--muted); margin-top: 2px; }
   .pick-box { display: flex; justify-content: center; }
-  .pick-badge {
-    display: inline-flex; align-items: center; justify-content: center;
-    min-width: 44px; padding: 6px 10px; border-radius: 6px;
-    font-weight: 700; font-size: 13px; background: var(--brand); color: #0f1115;
-  }
-  .pick-badge.locked { background: #2a3140; color: var(--muted); font-size: 14px; }
-  .pick-badge.locked svg { width: 14px; height: 14px; margin-right: 4px; }
-  
-  .reason { font-size: 12px; color: var(--muted); line-height: 1.3; }
+  .pick-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; padding: 6px 10px; border-radius: 6px; font-weight: 700; font-size: 13px; background: var(--brand); color: #0f1115; }
+  .pick-badge.locked { background: #2a3140; color: var(--muted); font-size: 12px; }
+  .reason { font-size: 12px; color: var(--muted); }
   .reason.free { color: var(--brand); }
-  .reason.locked { font-style: italic; color: #6b7280; }
-
-  @media (max-width: 700px) {
-    .fixture-row { grid-template-columns: 32px 1fr 70px; grid-template-rows: auto auto; gap: 4px 8px; }
-    .game-num { grid-row: 1 / 3; }
-    .fixture-teams { grid-column: 2; grid-row: 1; }
-    .pick-box { grid-column: 3; grid-row: 1; }
-    .reason { grid-column: 2 / 4; grid-row: 2; }
-  }
-
-  /* ---------- RESULTS & STATS WIDGETS ---------- */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 16px;
-  }
-  .stat-card {
-    background: var(--card-hover);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px;
-    text-align: center;
-  }
-  .stat-card b { display: block; font-size: 20px; font-weight: 800; color: #fff; line-height: 1.1; }
-  .stat-card span { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
-
-  .chip-row { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
-  .chip {
-    width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 13px; border-radius: 6px; background: #2a3140; color: var(--text); border: 1px solid var(--border);
-  }
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 16px; }
+  .stat-card { background: #1a1f2a; border: 1px solid var(--border); border-radius: 8px; padding: 12px; text-align: center; }
+  .stat-card b { display: block; font-size: 20px; font-weight: 800; color: #fff; }
+  .stat-card span { font-size: 11px; color: var(--muted); text-transform: uppercase; font-weight: 600; }
+  .chip-row { display: flex; gap: 4px; flex-wrap: wrap; padding: 0 16px 16px 16px; }
+  .chip { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; border-radius: 6px; background: #2a3140; color: var(--text); border: 1px solid var(--border); }
   .chip.hit { background: rgba(74, 222, 128, 0.15); color: var(--brand); border-color: var(--brand); }
   .chip.miss { background: rgba(248, 113, 113, 0.15); color: var(--danger); border-color: var(--danger); }
-
-  /* ---------- TABLES ---------- */
   .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .data-table th {
-    background: var(--bg); text-align: left; padding: 10px 12px;
-    font-weight: 700; font-size: 11px; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border);
-  }
-  .data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .data-table th { background: var(--bg); text-align: left; padding: 10px 12px; font-weight: 700; font-size: 11px; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); }
+  .data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
   .data-table tr:last-child td { border-bottom: none; }
   .data-table .num { text-align: right; font-variant-numeric: tabular-nums; }
-  .tier-badge { padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 12px; background: var(--bg); border: 1px solid var(--border); }
-  .tier-jackpot { border-color: var(--gold); color: var(--gold); background: rgba(251, 191, 36, 0.1); }
-
-  /* ---------- SLIP CHECKER ---------- */
-  .checker-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 8px;
-    margin: 16px 0;
-  }
-  @media (max-width: 500px) { .checker-grid { grid-template-columns: repeat(4, 1fr); } }
-  .checker-cell { position: relative; }
-  .checker-cell .checker-num { position: absolute; top: 2px; left: 6px; font-size: 10px; font-weight: 700; color: var(--muted); pointer-events: none; }
-  .checker-cell input {
-    width: 100%; padding: 18px 4px 6px 4px; text-align: center; font-size: 16px; font-weight: 800;
-    text-transform: uppercase; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: inherit;
-  }
-  .checker-cell input:focus { outline: 2px solid var(--brand); border-color: transparent; }
-  .checker-cell input.correct { border-color: var(--brand); color: var(--brand); background: rgba(74, 222, 128, 0.08); }
-  .checker-cell input.wrong { border-color: var(--danger); color: var(--danger); background: rgba(248, 113, 113, 0.08); }
-  
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center;
-    padding: 12px 20px; border-radius: 8px; font-weight: 700; font-size: 14px;
-    border: none; cursor: pointer; transition: transform 0.1s, opacity 0.15s; text-decoration: none;
-  }
-  .btn:hover { opacity: 0.9; text-decoration: none; }
-  .btn:active { transform: scale(0.98); }
-  .btn-primary { background: var(--brand); color: #0f1115; }
-  .btn-block { width: 100%; }
-  .btn-lg { padding: 16px 24px; font-size: 16px; }
-  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
-  .btn-outline:hover { border-color: var(--brand); }
-
-  /* ---------- SIDEBAR ---------- */
-  aside { position: relative; }
-  .sticky-box { position: sticky; top: 80px; display: flex; flex-direction: column; gap: 16px; }
-
-  .prize-card {
-    background: linear-gradient(135deg, #166534 0%, #14532d 100%);
-    border-radius: 12px; padding: 20px; text-align: center; border: 1px solid var(--brand-d);
-    box-shadow: 0 10px 30px rgba(34, 197, 94, 0.15);
-  }
-  .prize-card .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #bbf7d0; font-weight: 700; margin-bottom: 6px; }
-  .prize-card .amount { font-size: 32px; font-weight: 800; color: #fff; line-height: 1; letter-spacing: -1px; margin-bottom: 4px; }
-  .prize-card .sub { font-size: 12px; color: #bbf7d0; margin-bottom: 16px; }
-
-  .pay-box { background: var(--card); border: 1px solid var(--brand); border-radius: 12px; padding: 16px; }
-  .pay-box h3 { font-size: 14px; color: #fff; margin: 0 0 4px; }
-  .pay-box p { font-size: 12px; color: var(--muted); margin: 0 0 12px; }
-  .phone-input {
-    width: 100%; padding: 12px; background: var(--bg); border: 1px solid var(--border);
-    border-radius: 8px; color: #fff; font-size: 14px; margin-bottom: 8px; outline: none;
-  }
-  .phone-input:focus { border-color: var(--brand); }
-  .fallback { font-size: 11px; color: var(--muted); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
-  .fallback code { background: var(--bg); padding: 2px 4px; border-radius: 3px; color: var(--text); }
-
-  /* ---------- FAQ ---------- */
-  details { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
-  summary { cursor: pointer; font-weight: 600; font-size: 14px; color: #fff; list-style: none; display: flex; justify-content: space-between; }
-  summary::-webkit-details-marker { display: none; }
-  summary::after { content: "+"; color: var(--brand); font-size: 18px; }
-  details[open] summary::after { content: "−"; }
-  details p { margin: 10px 0 0; font-size: 13px; }
-
-  /* ---------- FOOTER ---------- */
-  footer { text-align: center; padding: 24px 16px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--border); margin-top: 32px; }
-  .footer-links { display: flex; justify-content: center; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
-  .footer-links a { color: var(--muted); font-size: 12px; }
-  
-  /* ---------- LOADERS & ALERTS ---------- */
+  .error-msg { background: #450a0a; border: 1px solid #7f1d1d; color: #fca5a5; padding: 12px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; display: none; }
   .loader { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--brand); border-radius: 50%; animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .error-msg { background: #450a0a; border: 1px solid #7f1d1d; color: #fca5a5; padding: 12px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; display: none; }
 </style>
 </head>
 <body>
@@ -256,188 +54,87 @@
 <header>
   <div class="header-inner">
     <div class="brand">MULTI<span>BET</span></div>
-    <div class="header-meta">
-      <span class="live-dot"></span> Live Data Feed
-    </div>
+    <div style="font-size: 12px; color: var(--muted);" id="prizeHeader">Live Data</div>
   </div>
 </header>
 
 <div class="container">
-  
-  <!-- MAIN COLUMN -->
-  <main>
-    <h1>SportPesa Mega Jackpot Predictions <span>17 Games</span></h1>
-    <p class="intro">This page gives you this week's full card and a 1X2 pick for each match. See the free picks below and get the full 17 by SMS.</p>
+  <h1>SportPesa Mega Jackpot Predictions <span>17 Games</span></h1>
+  <p class="intro">This week's 17 games, free picks, and last draw's exact results.</p>
 
-    <div class="error-msg" id="errorBox"></div>
+  <div class="error-msg" id="errorBox"></div>
 
-    <!-- 1. THE 17 GAMES TABLE -->
-    <div class="card">
-      <div class="card-head">
-        <h2>This Week's 17 Games</h2>
-        <span class="meta" id="roundLabel">Loading...</span>
-      </div>
-      <div id="fixtureList">
-        <div style="padding: 40px; text-align: center;"><div class="loader"></div></div>
-      </div>
+  <div class="card">
+    <div class="card-head">
+      <h2>This Week's 17 Games</h2>
+      <span class="meta" id="roundLabel">Loading...</span>
     </div>
-
-    <!-- 2. LATEST RESULTS WIDGET -->
-    <div class="card">
-      <div class="card-head">
-        <h2>Last Draw Performance</h2>
-        <span class="meta" id="latestDate">—</span>
-      </div>
-      <div style="padding: 16px;">
-        <div class="stats-grid" id="heroStats">
-          <div class="stat-card"><b id="statCorrect">—</b><span>Correct Picks</span></div>
-          <div class="stat-card"><b id="statBanker">—</b><span>Bankers Hit</span></div>
-          <div class="stat-card"><b id="statUpset">—</b><span>Upsets Hit</span></div>
-        </div>
-        
-        <div style="margin-top: 16px;">
-          <div style="font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; margin-bottom: 6px;">Winning Combination</div>
-          <div class="chip-row" id="drawComboReal"><span class="muted">Loading...</span></div>
-        </div>
-        <div style="margin-top: 12px;">
-          <div style="font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; margin-bottom: 6px;">Our Picks vs Outcome</div>
-          <div class="chip-row" id="drawComboPicks"><span class="muted">Loading...</span></div>
-        </div>
-      </div>
+    <div id="fixtureList">
+      <div style="padding: 40px; text-align: center;"><div class="loader"></div></div>
     </div>
-
-    <!-- 3. BONUS PAYOUTS -->
-    <div class="card">
-      <div class="card-head">
-        <h2>Bonus Tier Payouts</h2>
-      </div>
-      <div style="padding: 0;">
-        <table class="data-table">
-          <thead><tr><th>Correct Predictions</th><th class="num">Payout (KES)</th></tr></thead>
-          <tbody id="payoutBody">
-            <tr><td colspan="2"><div style="padding:20px;text-align:center;color:var(--muted)">Loading...</div></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- 4. SLIP CHECKER -->
-    <div class="card" id="checker">
-      <div class="card-head">
-        <h2>Check Your Slip</h2>
-      </div>
-      <div style="padding: 16px;">
-        <p style="font-size:13px; margin-bottom:12px;">Pick a draw, paste your 17 predictions, and see how many you got right.</p>
-        
-        <label style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase;">Draw to check</label>
-        <select id="checker-draw" class="phone-input" style="margin-bottom:16px; cursor:pointer;" disabled>
-          <option>Loading draws...</option>
-        </select>
-
-        <div id="checkerMain">
-          <div style="margin-bottom: 12px;">
-            <input id="checker-paste" class="phone-input" type="text" placeholder="Paste 1X21X2..." style="text-transform:uppercase; letter-spacing:2px;">
-            <div style="font-size:11px; color:var(--muted);">Type all 17 picks to auto-fill</div>
-          </div>
-
-          <div class="checker-grid" id="checker-grid"></div>
-          <p class="error-msg" id="checker-error" style="margin-bottom:12px;"></p>
-          
-          <div style="display:flex; gap:8px;">
-            <button class="btn btn-primary" style="flex:2;" id="checker-submit" type="button" disabled>Check My Slip</button>
-            <button class="btn btn-outline" style="flex:1;" id="checker-reset" type="button">Clear</button>
-          </div>
-
-          <div id="checker-result" style="margin-top:16px; padding:14px; border-radius:8px; display:none; border:1px solid var(--border); background:var(--bg);"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 5. INFORMATION SECTIONS -->
-    <section style="margin-top: 24px;">
-      <h2>What is the SportPesa Mega Jackpot?</h2>
-      <p>The SportPesa Mega Jackpot is a weekly pool of 17 pre-selected football matches. You predict the result of each game: <strong>1</strong> for a home win, <strong>X</strong> for a draw, <strong>2</strong> for an away win. A single bet costs <strong>KES 99</strong>. You play through the SportPesa app or website. The jackpot closes before the first kickoff of the round, usually on a weekend afternoon. If nobody predicts all 17 correctly, the top prize rolls over and grows the following week.</p>
-
-      <h2>How the Bonus Prizes Work</h2>
-      <p>You do not need all 17 correct to win. SportPesa pays bonuses from <strong>12 correct predictions upward</strong>. The tiers run through 12, 13, 14, 15, and 16 correct, with the full jackpot for 17. Bonus amounts vary by week depending on how many players hit each tier and the size of the pool. A "rolled over" jackpot means the top prize was not won in the previous round, so it carries forward and increases.</p>
-
-      <h2>How to Play, Step by Step</h2>
-      <ol>
-        <li>Log into your SportPesa account on the app or website.</li>
-        <li>Open the Mega Jackpot section.</li>
-        <li>For each of the 17 games, tap <strong>1</strong>, <strong>X</strong>, or <strong>2</strong>.</li>
-        <li>Check your bet slip. A single entry shows one combination.</li>
-        <li>Confirm the bet. The stake is KES 99.</li>
-        <li>Keep your bet ID. Results are published after the final match.</li>
-      </ol>
-    </section>
-
-    <!-- 6. FAQ -->
-    <section>
-      <h2>Frequently Asked Questions</h2>
-      <details><summary>How many games are in the Mega Jackpot?</summary><p>Seventeen. You predict 1, X, or 2 for each of the 17 pre-selected fixtures.</p></details>
-      <details><summary>How much does a bet cost?</summary><p>KES 99 per bet. Multiple entries cost KES 99 each.</p></details>
-      <details><summary>Do I need all 17 right to win?</summary><p>No. Bonuses start from 12 correct predictions. The top jackpot requires 17, but 12 through 16 all pay.</p></details>
-      <details><summary>When does it close?</summary><p>Before the first kickoff of the round, usually on a weekend. Check the countdown on the live block above.</p></details>
-      <details><summary>When are results out?</summary><p>After the final match of the 17. SportPesa publishes results and bonus tiers on its jackpot page.</p></details>
-      <details><summary>Are your predictions guaranteed?</summary><p>No. No prediction is guaranteed. We publish our record honestly and you should treat every bet as entertainment, not income.</p></details>
-    </section>
-  </main>
-
-  <!-- SIDEBAR -->
-  <aside>
-    <div class="sticky-box">
-      
-      <!-- PRIZE CARD -->
-      <div class="prize-card">
-        <div class="label">Current Jackpot</div>
-        <div class="amount" id="prizeAmount">--</div>
-        <div class="sub">SportPesa Mega Jackpot</div>
-        <button class="btn btn-primary btn-block btn-lg" onclick="document.getElementById('phoneInput').focus()">Get All 17 Picks</button>
-      </div>
-
-      <!-- PAY BOX -->
-      <div class="pay-box">
-        <h3>Get our picks by SMS</h3>
-        <p>Enter your M-Pesa number. Pay KES 99 for the Mega & Midweek slips.</p>
-        <form id="payForm" onsubmit="return handlePay(event)">
-          <input type="tel" class="phone-input" id="phoneInput" placeholder="07XX XXX XXX" maxlength="13" required>
-          <button type="submit" class="btn btn-primary btn-block" id="payBtn">Pay KES 99 via M-Pesa</button>
-        </form>
-        <div class="fallback">
-          If the pay box fails, use Paybill <code>553491</code> with account <code>JP</code>.
-        </div>
-      </div>
-
-    </div>
-  </aside>
-</div>
-
-<footer>
-  <div class="footer-links">
-    <a href="#">Mega Jackpot guide</a>
-    <a href="#">This week's predictions</a>
-    <a href="#">Tips for playing</a>
-    <a href="#">Midweek predictions</a>
-    <a href="#">Our results</a>
   </div>
-  <div>18+ only. Gambling can be addictive. Bet responsibly.</div>
-</footer>
+
+  <div class="card">
+    <div class="card-head">
+      <h2>Last Draw Performance</h2>
+      <span class="meta" id="latestDate">—</span>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card"><b id="statCorrect">—</b><span>Correct Picks</span></div>
+      <div class="stat-card"><b id="statBanker">—</b><span>Bankers Hit</span></div>
+      <div class="stat-card"><b id="statUpset">—</b><span>Upsets Hit</span></div>
+    </div>
+    <div style="padding: 0 16px 8px; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase;">Winning Combination</div>
+    <div class="chip-row" id="drawComboReal"><span style="color:var(--muted)">Loading...</span></div>
+    <div style="padding: 0 16px 8px; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase;">Our Picks vs Outcome</div>
+    <div class="chip-row" id="drawComboPicks"><span style="color:var(--muted)">Loading...</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><h2>Bonus Tier Payouts</h2></div>
+    <table class="data-table">
+      <thead><tr><th>Correct Predictions</th><th class="num">Payout (KES)</th></tr></thead>
+      <tbody id="payoutBody">
+        <tr><td colspan="2" style="text-align:center;padding:20px;color:var(--muted)">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <script>
 // ============================================
-// CONFIGURATION
+// HARDENED FETCH
 // ============================================
-const API_BASE = "https://www.namex.co.ke";
+async function apiFetch(url) {
+  console.log(`[FETCH] ${url}`);
+  try {
+    const res = await fetch(url, {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'omit',
+      cache: 'no-store'
+    });
+    console.log(`[FETCH] ${url} → ${res.status}`);
+    if (!res.ok) {
+      const t = await res.text();
+      console.error(`[FETCH] Body: ${t.substring(0,200)}`);
+      throw new Error(`HTTP ${res.status}`);
+    }
+    const data = await res.json();
+    console.log(`[FETCH] JSON:`, data);
+    return data;
+  } catch (e) {
+    console.error(`[FETCH] Failed ${url}:`, e);
+    throw e;
+  }
+}
+
+const API = "https://www.namex.co.ke";
 const SLUG = "sportpesa_mega";
-const FREE_PICKS_COUNT = 5;
+const FREE_PICKS = 5;
 
-const $ = (s, c=document) => c.querySelector(s);
-const $$ = (s, c=document) => [...c.querySelectorAll(s)];
+const $ = (s) => document.querySelector(s);
 
-// ============================================
-// HELPERS
-// ============================================
 function formatMoney(n) {
   if (n === null || n === undefined) return "--";
   return "KES " + Number(n).toLocaleString("en-KE", { maximumFractionDigits: 0 });
@@ -447,378 +144,149 @@ function fmtDate(iso) {
   try { return new Date(iso + 'T00:00:00Z').toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }); }
   catch(e) { return iso; }
 }
-function formatDateShort(str) {
-  if (!str) return "--";
-  const d = new Date(str);
-  if (isNaN(d.getTime())) return "--";
-  return d.toLocaleString("en-GB", { weekday: "short", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
-}
-function showError(msg) {
-  const box = $("#errorBox");
-  box.style.display = "block";
-  box.textContent = msg;
-}
-
-// ============================================
-// FETCH: FIXTURES & PREDICTIONS
-// ============================================
-async function loadJackpot() {
-  try {
-    const [fixRes, predRes] = await Promise.all([
-      fetch(`${API_BASE}/api/jackpots.php?type=${SLUG}`),
-      fetch(`${API_BASE}/api/predictions.php?type=${SLUG}`)
-    ]);
-    if (!fixRes.ok || !predRes.ok) throw new Error("Failed to load jackpot data.");
-    
-    const fixData = await fixRes.json();
-    const predData = await predRes.json();
-    
-    if (!fixData.success) throw new Error("Jackpot fixtures unavailable.");
-    
-    renderFixtures(fixData, predData);
-    loadPrize();
-    loadResults();
-  } catch (err) {
-    $("#fixtureList").innerHTML = '<div style="padding: 30px; text-align: center; color: var(--muted);">Unable to load fixtures right now. Please refresh.</div>';
-    showError(err.message);
-  }
-}
-
-function renderFixtures(fixData, predData) {
-  const list = $("#fixtureList");
-  const fixtures = fixData.fixtures || [];
-  const typeInfo = fixData.type || {};
-  
-  const predMap = {};
-  const showPicks = predData.show_picks !== false;
-  if (predData.games) predData.games.forEach(g => { predMap[g.no] = g.prediction; });
-  
-  $("#roundLabel").textContent = predData.round ? `Round ${predData.round}` : "";
-
-  if (fixtures.length === 0) {
-    list.innerHTML = '<div style="padding: 30px; text-align: center; color: var(--muted);">No fixtures loaded yet.</div>';
-    return;
-  }
-
-  let html = "";
-  fixtures.forEach((f, idx) => {
-    const isFree = idx < FREE_PICKS_COUNT;
-    const gameNo = f.game_number || (idx + 1);
-    let pickRaw = predMap[gameNo];
-    if (!showPicks) pickRaw = null;
-
-    let pickHtml = "", reasonHtml = "";
-
-    if (isFree) {
-      if (pickRaw) {
-        pickHtml = `<span class="pick-badge">${pickRaw}</span>`;
-        reasonHtml = `<span class="reason free">Free pick</span>`;
-      } else {
-        pickHtml = `<span class="pick-badge locked">?</span>`;
-        reasonHtml = `<span class="reason locked">Awaiting pick</span>`;
-      }
-    } else {
-      pickHtml = `<span class="pick-badge locked"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Locked</span>`;
-      reasonHtml = `<span class="reason locked">Get all 17 by SMS</span>`;
-    }
-
-    html += `
-      <div class="fixture-row">
-        <div class="game-num">${gameNo}</div>
-        <div class="fixture-teams">
-          <div class="teams">${f.home || "TBD"} <span style="color:var(--muted);font-weight:400;">vs</span> ${f.away || "TBD"}</div>
-          <div class="kickoff">${f.kickoff_display || formatDateShort(f.kickoff)}</div>
-        </div>
-        <div class="pick-box">${pickHtml}</div>
-        <div>${reasonHtml}</div>
-      </div>`;
-  });
-  list.innerHTML = html;
-}
-
-// ============================================
-// FETCH: PRIZE
-// ============================================
-async function loadPrize() {
-  try {
-    const res = await fetch(`${API_BASE}/api/prize.php?type=${SLUG}`);
-    const data = await res.json();
-    if (data.success) $("#prizeAmount").textContent = formatMoney(data.prize_amount);
-  } catch (e) {
-    $("#prizeAmount").textContent = "KES 100M+";
-  }
-}
-
-// ============================================
-// FETCH & RENDER: RESULTS (Hero + Payouts + Checker)
-// ============================================
-let latestJackpotAmount = null;
-let availableDraws = [];
-
-async function loadResults() {
-  try {
-    const res = await fetch(`${API_BASE}/api/results.php?type=${SLUG}&limit=10`);
-    const data = await res.json();
-    if (!data.success || !data.latest) return;
-
-    const L = data.latest;
-    latestJackpotAmount = data.prize_amount || null;
-
-    // 1. Render Hero Stats
-    $("#latestDate").textContent = "Draw: " + fmtDate(L.draw_date);
-    $("#statCorrect").textContent = `${L.correct}/${L.total || 17}`;
-    
-    const banker = L.banker || { hit: '—', total: '—' };
-    $("#statBanker").textContent = `${banker.hit}/${banker.total}`;
-    
-    const upset = L.upset || { hit: '—', total: '—' };
-    $("#statUpset").textContent = `${upset.hit}/${upset.total}`;
-
-    // 2. Render Chips
-    renderChipRow("#drawComboReal", L.winning_combination, 'real');
-    renderChipRowWithHit("#drawComboPicks", L.winning_combination, L.our_picks);
-
-    // 3. Render Payouts
-    renderPayouts(L);
-
-    // 4. Init Slip Checker
-    loadDrawsIntoChecker(data);
-
-  } catch (e) {
-    console.error("Results load failed", e);
-  }
-}
-
-function renderChipRow(selector, arr, mode) {
-  const el = $(selector);
-  if (!arr || !arr.length) { el.innerHTML = '<span class="muted">—</span>'; return; }
-  el.innerHTML = arr.map(v => {
-    let cls = 'chip';
-    if (mode === 'real') cls += ' hit'; // Green chip for outcome
-    return `<span class="${cls}">${v}</span>`;
-  }).join('');
-}
-
-function renderChipRowWithHit(selector, outcomes, picks) {
-  const el = $(selector);
-  if (!outcomes || !outcomes.length) { el.innerHTML = '<span class="muted">—</span>'; return; }
-  el.innerHTML = outcomes.map((res, i) => {
-    const p = picks && picks[i] ? String(picks[i]).toUpperCase() : null;
-    if (!p) return `<span class="chip">—</span>`;
-    const isHit = p.indexOf(res) !== -1;
-    return `<span class="chip ${isHit ? 'hit' : 'miss'}">${p}</span>`;
-  }).join('');
-}
-
-function renderPayouts(L) {
-  const tbody = $("#payoutBody");
-  if (!L.payouts || Object.keys(L.payouts).length === 0) {
-    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;color:var(--muted)">No payout data</td></tr>';
-    return;
-  }
-  
-  const tiers = Object.keys(L.payouts).map(Number).sort((a,b) => a - b);
-  tbody.innerHTML = tiers.map(tier => {
-    const raw = L.payouts[tier];
-    const isJackpot = tier === (L.total || 17);
-    const val = parseFloat(raw);
-    const isZero = isNaN(val) || val === 0;
-    
-    let display = isZero ? (isJackpot ? 'Rolled over' : 'No winner') : formatMoney(val);
-    let cls = isJackpot ? 'tier-badge tier-jackpot' : 'tier-badge';
-    
-    return `<tr>
-      <td><span class="${cls}">${tier} / ${L.total || 17} ${isJackpot ? '(Jackpot)' : ''}</span></td>
-      <td class="num" style="font-weight:700;color:${isZero ? 'var(--muted)' : (isJackpot ? 'var(--gold)' : 'var(--brand)')}">${display}</td>
-    </tr>`;
-  }).join('');
-}
-
-// ============================================
-// SLIP CHECKER LOGIC
-// ============================================
-const checkerSelect = $("#checker-draw");
-const checkerGrid = $("#checker-grid");
-const checkerPaste = $("#checker-paste");
-const checkerSubmit = $("#checker-submit");
-const checkerReset = $("#checker-reset");
-const checkerResult = $("#checker-result");
-const checkerError = $("#checker-error");
-
-function loadDrawsIntoChecker(data) {
-  availableDraws = [];
-  if (data.latest && data.latest.winning_combination) {
-    availableDraws.push({ key: 'latest', label: fmtDate(data.latest.draw_date) + ' (latest)', combo: data.latest.winning_combination, draw: data.latest });
-  }
-  if (data.history) {
-    data.history.slice(0, 4).forEach((h, i) => {
-      if (h.winning_combination && (!data.latest || h.draw_date !== data.latest.draw_date)) {
-        availableDraws.push({ key: 'h'+i, label: fmtDate(h.draw_date), combo: h.winning_combination, draw: h });
-      }
-    });
-  }
-
-  if (availableDraws.length === 0) {
-    checkerSelect.innerHTML = '<option>No draws available</option>';
-    return;
-  }
-
-  checkerSelect.innerHTML = availableDraws.map((d, i) => 
-    `<option value="${d.key}" ${i===0?'selected':''}>${d.label}</option>`
-  ).join('');
-  
-  checkerSelect.disabled = false;
-  buildCheckerGrid(availableDraws[0].combo.length);
-  checkerSubmit.disabled = false;
-  checkerResult.style.display = "none";
-}
-
-function buildCheckerGrid(n) {
-  checkerGrid.innerHTML = '';
-  checkerPaste.value = '';
-  for (let i = 0; i < n; i++) {
-    const cell = document.createElement('div');
-    cell.className = 'checker-cell';
-    cell.innerHTML = `<span class="checker-num">${String(i+1).padStart(2,'0')}</span>`;
-    
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.maxLength = 1;
-    input.id = 'checker-pick-' + i;
-    input.addEventListener('input', e => {
-      const v = e.target.value.toUpperCase();
-      if (v && !['1','X','2'].includes(v)) { e.target.value = ''; return; }
-      e.target.value = v;
-      e.target.classList.remove('correct', 'wrong');
-      checkerError.style.display = 'none';
-      if (v && i < n - 1) document.getElementById('checker-pick-' + (i+1))?.focus();
-    });
-    input.addEventListener('keydown', e => {
-      if (e.key === 'Backspace' && !e.target.value && i > 0) document.getElementById('checker-pick-' + (i-1))?.focus();
-    });
-    cell.appendChild(input);
-    checkerGrid.appendChild(cell);
-  }
-}
-
-checkerSelect.addEventListener('change', () => {
-  const dr = availableDraws.find(d => d.key === checkerSelect.value);
-  if (dr) { buildCheckerGrid(dr.combo.length); checkerResult.style.display = 'none'; }
-});
-
-checkerPaste.addEventListener('input', e => {
-  const raw = e.target.value.toUpperCase().replace(/[^1X2]/g, '');
-  if (!raw) return;
-  const dr = availableDraws.find(d => d.key === checkerSelect.value);
-  if (!dr) return;
-  
-  for (let i = 0; i < dr.combo.length; i++) {
-    const inp = document.getElementById('checker-pick-' + i);
-    if (inp) { inp.value = raw[i] || ''; inp.classList.remove('correct', 'wrong'); }
-  }
-  if (raw.length >= dr.combo.length) checkerPaste.value = raw.slice(0, dr.combo.length);
-});
-
-checkerReset.addEventListener('click', () => {
-  $$('#checker-grid input').forEach(i => { i.value = ''; i.classList.remove('correct', 'wrong'); });
-  checkerPaste.value = '';
-  checkerResult.style.display = 'none';
-  checkerError.style.display = 'none';
-});
-
-checkerSubmit.addEventListener('click', () => {
-  const dr = availableDraws.find(d => d.key === checkerSelect.value);
-  if (!dr) return;
-
-  const picks = [];
-  for (let i = 0; i < dr.combo.length; i++) {
-    const inp = document.getElementById('checker-pick-' + i);
-    const v = inp.value.toUpperCase();
-    if (!['1','X','2'].includes(v)) {
-      checkerError.textContent = `Fill in game ${i+1} with 1, X, or 2.`;
-      checkerError.style.display = 'block';
-      inp.focus();
-      return;
-    }
-    picks.push(v);
-  }
-
-  let correct = 0;
-  picks.forEach((p, i) => {
-    const inp = document.getElementById('checker-pick-' + i);
-    if (p === dr.combo[i]) { correct++; inp.classList.add('correct'); }
-    else inp.classList.add('wrong');
-  });
-
-  const total = dr.combo.length;
-  const isJackpot = correct === total;
-  const hasBonus = correct >= 12;
-  
-  let title, msg, color;
-  if (isJackpot) {
-    title = "🎉 JACKPOT WINNER!";
-    msg = `You got all ${total}/${total} correct! ${latestJackpotAmount ? 'You would have won ' + formatMoney(latestJackpotAmount) : ''}`;
-    color = 'var(--gold)';
-  } else if (hasBonus) {
-    title = "✓ Bonus Won";
-    msg = `You got ${correct}/${total} correct. That's a bonus tier!`;
-    color = 'var(--brand)';
-  } else {
-    title = "✗ No Bonus";
-    msg = `You got ${correct}/${total} correct. You needed 12 for a bonus.`;
-    color = 'var(--muted)';
-  }
-
-  checkerResult.style.display = 'block';
-  checkerResult.style.borderColor = color;
-  checkerResult.innerHTML = `<div style="font-weight:800; color:${color}; margin-bottom:4px;">${title}</div><div style="font-size:13px;">${msg}</div>`;
-});
-
-// ============================================
-// M-PESA STK PUSH
-// ============================================
-async function handlePay(e) {
-  e.preventDefault();
-  const input = $("#phoneInput");
-  const btn = $("#payBtn");
-  const fallback = $(".fallback");
-
-  let phone = input.value.replace(/\s+/g, "").replace(/^0/, "254").replace(/^\+/, "");
-  if (!/^2547\d{8}$/.test(phone)) {
-    fallback.innerHTML = '<span style="color:var(--danger)">Enter a valid Safaricom number (07XX XXX XXX).</span>';
-    return false;
-  }
-
-  btn.disabled = true;
-  btn.innerHTML = '<span class="loader" style="border-top-color:#0f1115"></span> Sending...';
-  fallback.textContent = "Check your phone for the M-Pesa prompt.";
-
-  try {
-    const res = await fetch(`${API_BASE}/slips/send_stk.php`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ phone })
-    });
-    const data = await res.json();
-    if (data.success) {
-      fallback.innerHTML = '<span style="color:var(--brand)">Prompt sent! Enter your PIN.</span>';
-      input.value = "";
-    } else {
-      fallback.innerHTML = '<span style="color:var(--danger)">Payment failed. Try again or use Paybill.</span>';
-    }
-  } catch (err) {
-    fallback.innerHTML = 'Network error. Use Paybill <code>553491</code> account <code>JP</code>.';
-  } finally {
-    btn.disabled = false;
-    btn.textContent = "Pay KES 99 via M-Pesa";
-  }
-  return false;
-}
 
 // ============================================
 // INIT
 // ============================================
-loadJackpot();
+async function init() {
+  // --- 1. FIXTURES ---
+  let fixData = null;
+  let predData = null;
+
+  try {
+    fixData = await apiFetch(`${API}/api/jackpots.php?type=${SLUG}`);
+    console.log("Fixtures loaded:", fixData.fixtures?.length, "games");
+    console.log("Prize:", fixData.type?.prize_amount);
+    
+    if (fixData.type?.prize_amount) {
+      $("#prizeHeader").textContent = formatMoney(fixData.type.prize_amount);
+    }
+  } catch (err) {
+    console.error("FIXTURES FAILED:", err);
+    $("#fixtureList").innerHTML = '<div style="padding: 30px; text-align: center; color: var(--muted);">Fixtures failed. See Console (F12).</div>';
+    $("#errorBox").style.display = "block";
+    $("#errorBox").textContent = "Fixtures fetch failed: " + err.message;
+  }
+
+  // --- 2. PREDICTIONS ---
+  try {
+    predData = await apiFetch(`${API}/api/predictions.php?type=${SLUG}`);
+  } catch (err) {
+    console.error("PREDICTIONS FAILED:", err);
+  }
+
+  if (fixData) {
+    renderFixtures(fixData, predData || { games: [] });
+  }
+
+  // --- 3. RESULTS ---
+  try {
+    const resData = await apiFetch(`${API}/api/results.php?type=${SLUG}`);
+    if (resData && resData.success && resData.latest) {
+      renderResults(resData);
+    } else {
+      console.warn("Results returned no latest:", resData);
+    }
+  } catch (err) {
+    console.error("RESULTS FAILED:", err);
+  }
+}
+
+// ============================================
+// RENDER FIXTURES
+// ============================================
+function renderFixtures(fixData, predData) {
+  const list = $("#fixtureList");
+  const fixtures = fixData.fixtures || [];
+  const predMap = {};
+  
+  if (predData.games && Array.isArray(predData.games)) {
+    predData.games.forEach(g => { predMap[g.no] = g.prediction; });
+  }
+
+  const round = predData.round || "Current Round";
+  $("#roundLabel").textContent = `${round} · ${fixtures.length} games`;
+
+  if (fixtures.length === 0) {
+    list.innerHTML = '<div style="padding: 30px; text-align: center; color: var(--muted);">No fixtures.</div>';
+    return;
+  }
+
+  list.innerHTML = fixtures.map((f, idx) => {
+    const isFree = idx < FREE_PICKS;
+    const gameNo = f.game_number || (idx + 1);
+    const pick = predMap[gameNo];
+    
+    let pickHtml, reasonHtml;
+    if (isFree && pick) {
+      pickHtml = `<span class="pick-badge">${pick}</span>`;
+      reasonHtml = `<span class="reason free">Free pick</span>`;
+    } else if (isFree) {
+      pickHtml = `<span class="pick-badge locked">?</span>`;
+      reasonHtml = `<span class="reason">No pick</span>`;
+    } else {
+      pickHtml = `<span class="pick-badge locked">🔒</span>`;
+      reasonHtml = `<span class="reason">Get by SMS</span>`;
+    }
+
+    return `<div class="fixture-row">
+      <div class="game-num">${gameNo}</div>
+      <div>
+        <div class="teams">${f.home || "TBD"} vs ${f.away || "TBD"}</div>
+        <div class="kickoff">${f.kickoff_display || f.kickoff || ""}</div>
+      </div>
+      <div class="pick-box">${pickHtml}</div>
+      <div>${reasonHtml}</div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================
+// RENDER RESULTS
+// ============================================
+function renderResults(data) {
+  const L = data.latest;
+  
+  $("#latestDate").textContent = "Draw: " + fmtDate(L.draw_date);
+  $("#statCorrect").textContent = `${L.correct}/${L.total || 17}`;
+  $("#statBanker").textContent = `${(L.banker||{}).hit || '—'}/${(L.banker||{}).total || '—'}`;
+  $("#statUpset").textContent = `${(L.upset||{}).hit || '—'}/${(L.upset||{}).total || '—'}`;
+
+  const combos = L.winning_combination || [];
+  $("#drawComboReal").innerHTML = combos.length 
+    ? combos.map(v => `<span class="chip hit">${v}</span>`).join('')
+    : '<span style="color:var(--muted)">No data</span>';
+
+  const picks = L.our_picks || [];
+  $("#drawComboPicks").innerHTML = combos.length
+    ? combos.map((res, i) => {
+        const p = picks[i];
+        if (!p) return `<span class="chip">—</span>`;
+        const isHit = String(p).toUpperCase().indexOf(res) !== -1;
+        return `<span class="chip ${isHit ? 'hit' : 'miss'}">${p}</span>`;
+      }).join('')
+    : '<span style="color:var(--muted)">No data</span>';
+
+  const tbody = $("#payoutBody");
+  if (L.payouts && Object.keys(L.payouts).length > 0) {
+    const tiers = Object.keys(L.payouts).map(Number).sort((a,b) => a-b);
+    tbody.innerHTML = tiers.map(tier => {
+      const raw = L.payouts[tier];
+      const val = parseFloat(raw);
+      const isZero = isNaN(val) || val === 0;
+      const isJackpot = tier === (L.total || 17);
+      const display = isZero ? (isJackpot ? 'Rolled over' : 'No winner') : formatMoney(val);
+      return `<tr>
+        <td><span style="background:#1a1f2a;padding:2px 8px;border-radius:4px;font-weight:700;font-size:12px;border:1px solid var(--border);${isJackpot ? 'color:var(--gold);border-color:var(--gold)' : ''}">${tier}/${L.total || 17}${isJackpot ? ' (Jackpot)' : ''}</span></td>
+        <td class="num" style="font-weight:700;color:${isZero ? 'var(--muted)' : (isJackpot ? 'var(--gold)' : 'var(--brand)')}">${display}</td>
+      </tr>`;
+    }).join('');
+  } else {
+    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;color:var(--muted)">No payout data</td></tr>';
+  }
+}
+
+init();
 </script>
 </body>
 </html>
