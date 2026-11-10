@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Waitlist · SnapItForms ready</title>
-  <!-- Google Fonts for Syne, if needed -->
+  <title>Waitlist · SnapItForms integrated</title>
+  <!-- Google Fonts for Syne -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700&display=swap" rel="stylesheet">
@@ -193,13 +193,22 @@
     </p>
 
     <!--
-      SnapItForms note:
-      Make sure to replace "YOUR_SNAPITFORMS_ACCESS_KEY" with your actual access key.
-      The hidden input is required for SnapItForms authentication.
+      SnapItForms integration:
+      - action="https://api.snapitforms.com/submit"
+      - method="POST"
+      - hidden access_key input with YOUR key (sf_543cbe8f8cbe211d16438305b29ebc50)
+      - The official SnapItForms JS handles the rest (validation, spam protection, etc.)
+      - form id="snapitForm" and class="snapit-form" (optional but recommended)
     -->
-    <form class="wl-form" id="wlForm" onsubmit="handleSubmit(event)">
+    <form 
+      id="snapitForm" 
+      class="wl-form snapit-form" 
+      action="https://api.snapitforms.com/submit" 
+      method="POST" 
+      enctype="multipart/form-data"
+    >
       <!-- SnapItForms access key (required) -->
-      <input type="hidden" name="access_key" value="YOUR_SNAPITFORMS_ACCESS_KEY">
+      <input type="hidden" name="access_key" value="sf_543cbe8f8cbe211d16438305b29ebc50">
       
       <!-- additional hidden fields -->
       <input type="hidden" name="_subject" value="New KalshiBot Waitlist Signup">
@@ -232,8 +241,11 @@
     <p class="wl-note">No spam. Unsubscribe anytime. Trading involves risk.</p>
   </div>
 
+  <!-- SnapItForms official script (handles form submission, validation, spam protection, etc.) -->
+  <script src="https://snapitforms.com/forms.js" defer></script>
+
   <script>
-    /* Nav scroll – kept from original */
+    /* Nav scroll */
     const nav = document.getElementById('nav');
     if (nav) {
       window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40));
@@ -243,7 +255,7 @@
     const ro = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('active'); ro.unobserve(e.target); } }), {threshold:0.08});
     document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 
-    /* FAQ – kept */
+    /* FAQ */
     function toggleFaq(btn) {
       const item = btn.parentElement;
       const was = item.classList.contains('open');
@@ -262,55 +274,13 @@
     /* Affiliate tracking */
     (function() {
       const p = new URLSearchParams(location.search);
-      document.getElementById('wlSrc').value = p.get('ref') || p.get('source') || document.referrer || 'direct';
-      document.getElementById('wlCampaign').value = p.get('utm_campaign') || p.get('campaign') || 'organic';
+      const srcField = document.getElementById('wlSrc');
+      const campaignField = document.getElementById('wlCampaign');
+      if (srcField) srcField.value = p.get('ref') || p.get('source') || document.referrer || 'direct';
+      if (campaignField) campaignField.value = p.get('utm_campaign') || p.get('campaign') || 'organic';
       const plan = p.get('plan');
       if(plan) { const s = document.getElementById('wlPlan'); if(s) s.value = plan; }
     })();
-
-    /* SnapItForms submission — immediate redirect to sales thank-you page */
-    async function handleSubmit(e) {
-      e.preventDefault();
-      const email = document.getElementById('wlEmail').value.trim();
-      const volume = document.getElementById('wlVolume').value;
-      const msg = document.getElementById('formMsg');
-      const btn = document.getElementById('wlBtn');
-
-      if(!volume) {
-        msg.className = 'form-msg err';
-        msg.textContent = 'Please select your trading volume.';
-        return;
-      }
-
-      btn.disabled = true;
-      btn.textContent = 'Submitting…';
-      msg.className = 'form-msg';
-
-      const data = new FormData(e.target);
-      try {
-        const res = await fetch('https://api.snapitforms.com/submit', {
-          method: 'POST',
-          body: data,
-          headers: { 'Accept': 'application/json' }
-        });
-
-        if(res.ok) {
-          // Immediate redirect — no delay, no double message
-          window.location.href = '/thank-you-sales.html';
-        } else {
-          const json = await res.json();
-          throw new Error(json.error || 'Submission failed');
-        }
-      } catch(err) {
-        msg.className = 'form-msg err';
-        msg.textContent = 'Something went wrong. Please try again or email us directly.';
-        btn.disabled = false;
-        btn.textContent = 'Reserve My Spot →';
-      }
-    }
-
-    // expose globally for the inline handler
-    window.handleSubmit = handleSubmit;
   </script>
 </body>
 </html>
