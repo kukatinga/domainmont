@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Waitlist · SnapItForms integrated</title>
+  <title>Waitlist · SnapItForms with redirect</title>
   <!-- Google Fonts for Syne -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -141,6 +141,11 @@
       background: #071122;
     }
 
+    .wl-submit:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
     .form-msg {
       font-size: 0.9rem;
       min-height: 1.2rem;
@@ -197,8 +202,7 @@
       - action="https://api.snapitforms.com/submit"
       - method="POST"
       - hidden access_key input with YOUR key (sf_543cbe8f8cbe211d16438305b29ebc50)
-      - The official SnapItForms JS handles the rest (validation, spam protection, etc.)
-      - form id="snapitForm" and class="snapit-form" (optional but recommended)
+      - We handle submission via JS to enable a custom redirect after success.
     -->
     <form 
       id="snapitForm" 
@@ -233,6 +237,9 @@
       <input type="hidden" name="affiliate_source" id="wlSrc" value="">
       <input type="hidden" name="affiliate_campaign" id="wlCampaign" value="">
       
+      <!-- Optional: SnapItForms redirect URL – can also be set in dashboard -->
+      <input type="hidden" name="redirect" value="https://kalshibot.com/thank-you-sales.html">
+      
       <button type="submit" class="wl-submit" id="wlBtn">Reserve My Spot →</button>
       
       <div class="form-msg" id="formMsg"></div>
@@ -240,9 +247,6 @@
 
     <p class="wl-note">No spam. Unsubscribe anytime. Trading involves risk.</p>
   </div>
-
-  <!-- SnapItForms official script (handles form submission, validation, spam protection, etc.) -->
-  <script src="https://snapitforms.com/forms.js" defer></script>
 
   <script>
     /* Nav scroll */
@@ -281,6 +285,60 @@
       const plan = p.get('plan');
       if(plan) { const s = document.getElementById('wlPlan'); if(s) s.value = plan; }
     })();
+
+    /* Custom submission handler to enable redirect after success */
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('snapitForm');
+      const msg = document.getElementById('formMsg');
+      const btn = document.getElementById('wlBtn');
+
+      if (!form) return;
+
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        // Basic client-side check
+        const volume = document.getElementById('wlVolume').value;
+        if (!volume) {
+          msg.className = 'form-msg err';
+          msg.textContent = 'Please select your trading volume.';
+          return;
+        }
+
+        // UI feedback
+        btn.disabled = true;
+        btn.textContent = 'Submitting…';
+        msg.className = 'form-msg';
+        msg.textContent = '';
+
+        const data = new FormData(form);
+
+        try {
+          const res = await fetch(form.action, {
+            method: 'POST',
+            body: data,
+            headers: { 'Accept': 'application/json' }
+          });
+
+          if (res.ok) {
+            // ✅ Redirect to your thank-you page after success
+            window.location.href = 'https://kalshibot.com/thank-you-sales.html';
+          } else {
+            let errMsg = 'Submission failed. Please try again.';
+            try {
+              const json = await res.json();
+              if (json.error) errMsg = json.error;
+            } catch (_) {}
+            throw new Error(errMsg);
+          }
+        } catch (err) {
+          msg.className = 'form-msg err';
+          msg.textContent = err.message || 'Something went wrong. Please try again or email us directly.';
+          btn.disabled = false;
+          btn.textContent = 'Reserve My Spot →';
+        }
+      });
+    });
   </script>
 </body>
 </html>
