@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Waitlist form · KalshiBot</title>
-  <!-- Google Fonts for Syne, if needed (only used in heading, but kept for exact look) -->
+  <title>Waitlist · SnapItForms ready</title>
+  <!-- Google Fonts for Syne, if needed -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700&display=swap" rel="stylesheet">
   <style>
-    /* minimal reset & base – only what's needed for the isolated form */
+    /* minimal reset & base */
     * {
       margin: 0;
       padding: 0;
@@ -17,7 +17,7 @@
     }
 
     body {
-      background: #f7f9fc;  /* soft background to make the card pop */
+      background: #f7f9fc;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -26,7 +26,7 @@
       padding: 1.5rem;
     }
 
-    /* replicate the waitlist-box style from the snippet, but fully self-contained */
+    /* waitlist-box style – self-contained */
     .waitlist-box {
       max-width: 680px;
       width: 100%;
@@ -39,13 +39,12 @@
       transition: box-shadow 0.2s;
     }
 
-    /* the .sh-label small eyebrow */
     .sh-label {
       font-size: 0.8rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       font-weight: 600;
-      color: #2563eb;          /* blue accent */
+      color: #2563eb;
       background: #eef4ff;
       display: inline-block;
       padding: 0.25rem 0.9rem;
@@ -54,7 +53,6 @@
       font-family: 'Syne', sans-serif;
     }
 
-    /* heading (identical inline styles are not needed, we override for consistency) */
     .waitlist-box h2 {
       font-family: 'Syne', sans-serif;
       font-size: clamp(1.7rem, 4vw, 2.4rem);
@@ -65,16 +63,14 @@
       color: #0c1b33;
     }
 
-    /* description paragraph */
     .waitlist-box > p {
-      color: #3b4e6b;          /* var(--text-2) approximation */
+      color: #3b4e6b;
       font-size: 1rem;
       line-height: 1.7;
       max-width: 460px;
       margin: 0 auto 2rem auto;
     }
 
-    /* the form itself — vertical stack with consistent gaps */
     .wl-form {
       display: flex;
       flex-direction: column;
@@ -82,7 +78,6 @@
       margin-top: 1.2rem;
     }
 
-    /* shared input & select styles */
     .wl-form input[type="email"],
     .wl-form select {
       width: 100%;
@@ -103,26 +98,22 @@
       background-size: 1.1rem;
     }
 
-    /* email input has no dropdown arrow */
     .wl-form input[type="email"] {
       background-image: none;
       background-position: initial;
     }
 
-    /* focus rings */
     .wl-form input[type="email"]:focus,
     .wl-form select:focus {
       border-color: #2563eb;
       box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
     }
 
-    /* placeholder text */
     .wl-form input::placeholder {
       color: #94a3b8;
       font-weight: 400;
     }
 
-    /* submit button */
     .wl-submit {
       width: 100%;
       background: #0c1b33;
@@ -150,7 +141,6 @@
       background: #071122;
     }
 
-    /* form message area (empty by default) */
     .form-msg {
       font-size: 0.9rem;
       min-height: 1.2rem;
@@ -158,8 +148,10 @@
       color: #2b6e4e;
       font-weight: 500;
     }
+    .form-msg.err {
+      color: #b91c1c;
+    }
 
-    /* note under the form */
     .wl-note {
       font-size: 0.8rem;
       color: #7b8ba5;
@@ -168,7 +160,6 @@
       text-align: center;
     }
 
-    /* fix select color when no option is selected (placeholder) */
     select:invalid,
     select option[value=""] {
       color: #94a3b8;
@@ -178,12 +169,10 @@
       color: #0c1b33;
     }
 
-    /* hidden inputs are not displayed — fine by default */
     input[type="hidden"] {
       display: none;
     }
 
-    /* ensure that the email and selects look good on small screens */
     @media (max-width: 480px) {
       .waitlist-box {
         padding: 2rem 1.25rem;
@@ -196,7 +185,6 @@
   </style>
 </head>
 <body>
-  <!-- Waitlist section (form only, no outer wrap) -->
   <div class="waitlist-box reveal">
     <div class="sh-label">Join the Waitlist</div>
     <h2>Be among the first 500</h2>
@@ -204,8 +192,16 @@
       Get beta access, lifetime pricing, and exclusive strategy guides. We're onboarding traders in order of signup.
     </p>
 
+    <!--
+      SnapItForms note:
+      Make sure to replace "YOUR_SNAPITFORMS_ACCESS_KEY" with your actual access key.
+      The hidden input is required for SnapItForms authentication.
+    -->
     <form class="wl-form" id="wlForm" onsubmit="handleSubmit(event)">
-      <!-- hidden fields exactly as provided -->
+      <!-- SnapItForms access key (required) -->
+      <input type="hidden" name="access_key" value="YOUR_SNAPITFORMS_ACCESS_KEY">
+      
+      <!-- additional hidden fields -->
       <input type="hidden" name="_subject" value="New KalshiBot Waitlist Signup">
       
       <input type="email" name="email" id="wlEmail" placeholder="your@email.com" required>
@@ -236,35 +232,84 @@
     <p class="wl-note">No spam. Unsubscribe anytime. Trading involves risk.</p>
   </div>
 
-  <!-- minimal javascript: dummy handleSubmit so the form doesn't reload / alert, purely for demo -->
   <script>
-    // The original inline onsubmit calls handleSubmit(event) which isn't defined here.
-    // We define a simple stub that prevents page reload and shows a temporary message.
-    function handleSubmit(e) {
-      e.preventDefault();  // stop actual submission for this standalone example
-      const msg = document.getElementById('formMsg');
-      const email = document.getElementById('wlEmail').value.trim();
-      const volume = document.getElementById('wlVolume').value;
-      
-      if (!email || !volume) {
-        msg.textContent = 'Please fill in all required fields.';
-        msg.style.color = '#b91c1c';
-        return;
-      }
-      
-      // simulate success (in real integration, you'd send to server)
-      msg.textContent = '✓ Spot reserved! Check your email for confirmation.';
-      msg.style.color = '#0f6e3f';
-      
-      // Optionally reset form – uncomment if you want
-      // document.getElementById('wlForm').reset();
-      // but keep placeholders visible? You decide. Leave as is for demo.
-      
-      // Also, hide after a few seconds? (optional)
-      // Not needed for the snippet.
+    /* Nav scroll – kept from original */
+    const nav = document.getElementById('nav');
+    if (nav) {
+      window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40));
     }
 
-    // Because the original form uses a native submit, we attach the function globally.
+    /* Reveal */
+    const ro = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('active'); ro.unobserve(e.target); } }), {threshold:0.08});
+    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+    /* FAQ – kept */
+    function toggleFaq(btn) {
+      const item = btn.parentElement;
+      const was = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if(!was) item.classList.add('open');
+    }
+
+    /* Plan prefill */
+    window.prefill = function(plan) {
+      const s = document.getElementById('wlPlan');
+      if(s) s.value = plan;
+      document.getElementById('waitlist').scrollIntoView({behavior:'smooth'});
+      setTimeout(() => document.getElementById('wlEmail').focus(), 500);
+    };
+
+    /* Affiliate tracking */
+    (function() {
+      const p = new URLSearchParams(location.search);
+      document.getElementById('wlSrc').value = p.get('ref') || p.get('source') || document.referrer || 'direct';
+      document.getElementById('wlCampaign').value = p.get('utm_campaign') || p.get('campaign') || 'organic';
+      const plan = p.get('plan');
+      if(plan) { const s = document.getElementById('wlPlan'); if(s) s.value = plan; }
+    })();
+
+    /* SnapItForms submission — immediate redirect to sales thank-you page */
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('wlEmail').value.trim();
+      const volume = document.getElementById('wlVolume').value;
+      const msg = document.getElementById('formMsg');
+      const btn = document.getElementById('wlBtn');
+
+      if(!volume) {
+        msg.className = 'form-msg err';
+        msg.textContent = 'Please select your trading volume.';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Submitting…';
+      msg.className = 'form-msg';
+
+      const data = new FormData(e.target);
+      try {
+        const res = await fetch('https://api.snapitforms.com/submit', {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if(res.ok) {
+          // Immediate redirect — no delay, no double message
+          window.location.href = '/thank-you-sales.html';
+        } else {
+          const json = await res.json();
+          throw new Error(json.error || 'Submission failed');
+        }
+      } catch(err) {
+        msg.className = 'form-msg err';
+        msg.textContent = 'Something went wrong. Please try again or email us directly.';
+        btn.disabled = false;
+        btn.textContent = 'Reserve My Spot →';
+      }
+    }
+
+    // expose globally for the inline handler
     window.handleSubmit = handleSubmit;
   </script>
 </body>
