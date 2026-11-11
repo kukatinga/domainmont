@@ -641,9 +641,10 @@
       <div class="sh-label">Join the Waitlist</div>
       <h2 style="font-family:'Syne',sans-serif; font-size:clamp(1.7rem,2.8vw,2.4rem); font-weight:700; letter-spacing:-0.025em; line-height:1.15; margin-bottom:0.875rem;">Be among the first 500</h2>
       <p style="color:var(--text-2); font-size:1rem; line-height:1.7; max-width:460px; margin:0 auto;">Get beta access, lifetime pricing, and exclusive strategy guides. We're onboarding traders in order of signup.</p>
-  <form class="wl-form" id="wlForm" onsubmit="handleSubmit(event)" action="https://api.snapitforms.com/submit" method="POST" enctype="multipart/form-data">
-  <input type="hidden" name="access_key" value="sf_543cbe8f8cbe211d16438305b29ebc50">
-  <input type="hidden" name="_subject" value="New KalshiBot Waitlist Signup">
+      <form class="wl-form" id="wlForm" onsubmit="handleSubmit(event)" action="https://api.snapitforms.com/submit" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="access_key" value="sf_543cbe8f8cbe211d16438305b29ebc50">
+        <input type="hidden" name="_subject" value="New KalshiBot Waitlist Signup">
+        <input type="hidden" name="redirect" value="https://kalshibot.com/thank-you-sales.html">
         <input type="email" name="email" id="wlEmail" placeholder="your@email.com" required>
         <select name="trading_volume" id="wlVolume" required>
           <option value="">Monthly trading volume (required)</option>
@@ -714,10 +715,14 @@
 <script>
   /* Nav scroll */
   const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40));
+  if (nav) {
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40));
+  }
 
   /* Reveal */
-  const ro = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('active'); ro.unobserve(e.target); } }), {threshold:0.08});
+  const ro = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('active'); ro.unobserve(e.target); }
+  }), { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 
   /* FAQ */
@@ -725,66 +730,73 @@
     const item = btn.parentElement;
     const was = item.classList.contains('open');
     document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-    if(!was) item.classList.add('open');
+    if (!was) item.classList.add('open');
   }
 
   /* Plan prefill */
   window.prefill = function(plan) {
     const s = document.getElementById('wlPlan');
-    if(s) s.value = plan;
-    document.getElementById('waitlist').scrollIntoView({behavior:'smooth'});
+    if (s) s.value = plan;
+    document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
     setTimeout(() => document.getElementById('wlEmail').focus(), 500);
   };
 
-  /* Affiliate tracking */
+  /* Affiliate tracking — guarded so it can't throw */
   (function() {
     const p = new URLSearchParams(location.search);
-    document.getElementById('wlSrc').value = p.get('ref') || p.get('source') || document.referrer || 'direct';
-    document.getElementById('wlCampaign').value = p.get('utm_campaign') || p.get('campaign') || 'organic';
+    const srcEl  = document.getElementById('wlSrc');
+    const campEl = document.getElementById('wlCampaign');
+    const planEl = document.getElementById('wlPlan');
+    if (srcEl)  srcEl.value  = p.get('ref') || p.get('source') || document.referrer || 'direct';
+    if (campEl) campEl.value = p.get('utm_campaign') || p.get('campaign') || 'organic';
     const plan = p.get('plan');
-    if(plan) { const s = document.getElementById('wlPlan'); if(s) s.value = plan; }
+    if (plan && planEl) planEl.value = plan;
   })();
 
   /* SnapItForms submission — immediate redirect to sales thank-you page */
-async function handleSubmit(e) {
-  e.preventDefault();
-  const volume = document.getElementById('wlVolume').value;
-  const msg = document.getElementById('formMsg');
-  const btn = document.getElementById('wlBtn');
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const volume = document.getElementById('wlVolume').value;
+    const msg = document.getElementById('formMsg');
+    const btn = document.getElementById('wlBtn');
 
-  if(!volume) {
-    msg.className = 'form-msg err';
-    msg.textContent = 'Please select your trading volume.';
-    return;
-  }
-
-  btn.disabled = true;
-  btn.textContent = 'Submitting…';
-  msg.className = 'form-msg';
-
-  const data = new FormData(e.target);
-
-  try {
-    const res = await fetch('https://api.snapitforms.com/submit', {
-      method: 'POST',
-      body: data,
-      headers: { 'Accept': 'application/json' }
-    });
-
-    if(res.ok) {
-      // Immediate redirect — no delay, no double message
-      window.location.href = '/thank-you-sales';
-    } else {
-      const json = await res.json();
-      throw new Error(json.error || 'Submission failed');
+    if (!volume) {
+      msg.className = 'form-msg err';
+      msg.textContent = 'Please select your trading volume.';
+      return;
     }
-  } catch(err) {
-    msg.className = 'form-msg err';
-    msg.textContent = 'Something went wrong. Please try again or email us directly.';
-       btn.disabled = false;
-    btn.textContent = 'Reserve My Spot →';
+
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+    msg.className = 'form-msg';
+
+    const data = new FormData(e.target);
+
+    try {
+      const res = await fetch('https://api.snapitforms.com/submit', {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        // Redirect to the real, extension-correct URL
+        window.location.href = '/thank-you-sales.html';
+      } else {
+        let errMsg = 'Submission failed';
+        try { const j = await res.json(); if (j.error) errMsg = j.error; } catch(_) {}
+        throw new Error(errMsg);
+      }
+    } catch (err) {
+      msg.className = 'form-msg err';
+      msg.textContent = 'Something went wrong. Please try again or email us directly.';
+      btn.disabled = false;
+      btn.textContent = 'Reserve My Spot →';
+    }
   }
-}
+
+  // 🔑 Attach to window so the inline onsubmit="handleSubmit(event)" finds it
+  window.handleSubmit = handleSubmit;
 </script>
 </body>
 </html>
