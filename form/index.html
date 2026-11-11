@@ -773,7 +773,7 @@ async function handleSubmit(e) {
 
     if(res.ok) {
       // Immediate redirect — no delay, no double message
-      window.location.href = '/thank-you-sales.html';
+      window.location.href = '/thank-you-sales';
     } else {
       const json = await res.json();
       throw new Error(json.error || 'Submission failed');
