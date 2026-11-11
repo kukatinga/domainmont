@@ -748,6 +748,7 @@
   /* SnapItForms submission — immediate redirect to sales thank-you page */
   async function handleSubmit(e) {
     e.preventDefault();
+    const email = document.getElementById('wlEmail').value.trim();
     const volume = document.getElementById('wlVolume').value;
     const msg = document.getElementById('formMsg');
     const btn = document.getElementById('wlBtn');
