@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PesaLink · Card to USDT (TRC-20) · OTP</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: #f6f9fc;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ---- header / nav ---- */
+    .navbar {
+      background: white;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #e9edf2;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #0b2b4f;
+      letter-spacing: -0.5px;
+    }
+
+    .logo i {
+      color: #00a86b;
+      font-size: 1.8rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      font-weight: 500;
+      color: #4a5c6c;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: inherit;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #00a86b;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid #d0dae6;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #1e2f45;
+      cursor: default;
+      transition: 0.2s;
+    }
+
+    .btn-outline:hover {
+      border-color: #00a86b;
+      color: #00a86b;
+    }
+
+    .btn-primary-sm {
+      background: #00a86b;
+      border: none;
+      padding: 9px 22px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: white;
+      cursor: default;
+      box-shadow: 0 4px 10px rgba(0, 168, 107, 0.25);
+    }
+
+    /* ---- main layout ---- */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 48px;
+      flex: 1;
+    }
+
+    /* left side – hero & features */
+    .hero-section {
+      flex: 1.2;
+      min-width: 300px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #e3f5ec;
+      color: #006c45;
+      font-weight: 600;
+      font-size: 0.8rem;
+      padding: 6px 14px;
+      border-radius: 40px;
+      letter-spacing: 0.2px;
+      margin-bottom: 20px;
+    }
+
+    .badge i {
+      font-size: 0.8rem;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -1.2px;
+      color: #0b1e30;
+      margin-bottom: 20px;
+    }
+
+    h1 span {
+      color: #00a86b;
+      position: relative;
+    }
+
+    .hero-desc {
+      font-size: 1.15rem;
+      color: #3e5468;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      max-width: 480px;
+    }
+
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin: 36px 0 30px;
+      align-items: center;
+      color: #4f6a7f;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .trust-item i {
+      font-size: 1.2rem;
+      color: #00a86b;
+    }
+
+    /* manual verification notice card */
+    .manual-notice {
+      background: #fff8e7;
+      border-left: 5px solid #f5b342;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin: 28px 0 20px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+    }
+
+    .manual-notice i {
+      color: #d48c0c;
+      font-size: 1.4rem;
+      margin-top: 2px;
+    }
+
+    .manual-notice p {
+      font-size: 0.95rem;
+      color: #5e4a1d;
+      line-height: 1.5;
+    }
+
+    .manual-notice strong {
+      font-weight: 700;
+      color: #3f3210;
+    }
+
+    /* ---- right side card (form) ---- */
+    .form-card {
+      flex: 0.9;
+      min-width: 380px;
+      background: white;
+      border-radius: 32px;
+      box-shadow: 0 20px 40px -10px rgba(0, 40, 30, 0.12), 0 8px 20px -8px rgba(0, 0, 0, 0.05);
+      padding: 32px 30px;
+      align-self: start;
+      border: 1px solid #eef3f8;
+      transition: opacity 0.3s ease;
+    }
+
+    .form-card.blurred {
+      opacity: 0.5;
+      pointer-events: none;
+      filter: blur(2px);
+    }
+
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+
+    .form-header h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #0b1e30;
+      letter-spacing: -0.5px;
+    }
+
+    .form-header i {
+      font-size: 1.6rem;
+      color: #b0c8da;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #2c4055;
+      margin-bottom: 6px;
+      letter-spacing: 0.2px;
+    }
+
+    .input-wrapper {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid #d9e2ec;
+      border-radius: 16px;
+      padding: 0 16px;
+      transition: border 0.2s, box-shadow 0.2s;
+      background: #fafdff;
+    }
+
+    .input-wrapper:focus-within {
+      border-color: #00a86b;
+      box-shadow: 0 0 0 4px rgba(0, 168, 107, 0.1);
+      background: white;
+    }
+
+    .input-wrapper i {
+      color: #859fb2;
+      font-size: 1.1rem;
+      width: 20px;
+      flex-shrink: 0;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      border: none;
+      outline: none;
+      padding: 14px 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #0b1e30;
+      background: transparent;
+      min-width: 0;
+    }
+
+    .input-wrapper input::placeholder {
+      color: #b1c2d1;
+      font-weight: 400;
+    }
+
+    /* currency selector */
+    .currency-select {
+      border: none;
+      outline: none;
+      background: #eef3f8;
+      color: #2c4055;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 8px 10px;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-left: 6px;
+      font-family: inherit;
+      flex-shrink: 0;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232c4055' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 6px center;
+      background-size: 12px;
+      padding-right: 24px;
+    }
+
+    .currency-select:focus {
+      box-shadow: 0 0 0 3px rgba(0, 168, 107, 0.15);
+    }
+
+    /* fee rows */
+    .fee-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: #526c7f;
+      padding: 12px 0 8px;
+      border-bottom: 1px dashed #d9e2ec;
+      margin-bottom: 18px;
+    }
+
+    .fee-row strong {
+      color: #0b1e30;
+      font-weight: 700;
+    }
+
+    .recipient-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f0f9f4;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      font-size: 0.9rem;
+      color: #1c6b4a;
+    }
+
+    .recipient-row .label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    .recipient-row .value {
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: #006c45;
+    }
+
+    .btn-send {
+      width: 100%;
+      background: #00a86b;
+      border: none;
+      padding: 18px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 12px 24px -8px rgba(0, 168, 107, 0.4);
+      transition: 0.2s;
+      margin-top: 10px;
+      letter-spacing: 0.2px;
+    }
+
+    .btn-send:hover {
+      background: #008f5a;
+      transform: translateY(-1px);
+      box-shadow: 0 16px 28px -8px rgba(0, 168, 107, 0.5);
+    }
+
+    .btn-send:active {
+      transform: translateY(0);
+    }
+
+    .btn-send i {
+      font-size: 1rem;
+    }
+
+    .small-note {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #7d97ab;
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .small-note i {
+      color: #00a86b;
+    }
+
+    /* ---- steps section ---- */
+    .steps-section {
+      max-width: 1280px;
+      margin: 20px auto 60px;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    .steps-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: space-between;
+      background: white;
+      border-radius: 28px;
+      padding: 36px 40px;
+      border: 1px solid #e9f0f6;
+      box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.04);
+    }
+
+    .step {
+      flex: 1;
+      min-width: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .step-number {
+      background: #e3f5ec;
+      color: #006c45;
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.2rem;
+      margin-bottom: 18px;
+    }
+
+    .step h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0b1e30;
+      margin-bottom: 8px;
+    }
+
+    .step p {
+      font-size: 0.9rem;
+      color: #587184;
+      line-height: 1.5;
+    }
+
+    /* footer */
+    .footer {
+      background: white;
+      border-top: 1px solid #e2eaf1;
+      padding: 28px 32px;
+      text-align: center;
+      color: #6b8a9e;
+      font-size: 0.85rem;
+    }
+
+    .footer i {
+      color: #00a86b;
+      margin: 0 4px;
+    }
+
+    /* ===== OTP MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 22, 34, 0.55);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .otp-modal {
+      background: white;
+      width: 100%;
+      max-width: 440px;
+      border-radius: 32px;
+      padding: 36px 32px 32px;
+      box-shadow: 0 30px 60px -15px rgba(0, 30, 20, 0.35);
+      transform: translateY(16px) scale(0.98);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .modal-overlay.active .otp-modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      background: #f0f5f9;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #6b8a9e;
+      transition: 0.2s;
+    }
+
+    .modal-close:hover {
+      background: #e2ebf2;
+      color: #0b1e30;
+    }
+
+    .otp-icon {
+      width: 64px;
+      height: 64px;
+      background: #e3f5ec;
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 22px;
+    }
+
+    .otp-icon i {
+      font-size: 1.9rem;
+      color: #00a86b;
+    }
+
+    .otp-modal h3 {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #0b1e30;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .otp-modal .otp-sub {
+      font-size: 0.95rem;
+      color: #5a7285;
+      line-height: 1.55;
+      margin-bottom: 26px;
+    }
+
+    .otp-sub strong {
+      color: #0b1e30;
+      font-weight: 600;
+    }
+
+    .otp-inputs {
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .otp-inputs input {
+      width: 100%;
+      aspect-ratio: 1 / 1.15;
+      min-width: 0;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0b1e30;
+      border: 2px solid #d9e2ec;
+      border-radius: 16px;
+      background: #fafdff;
+      outline: none;
+      transition: 0.2s;
+      caret-color: #00a86b;
+      padding: 0;
+    }
+
+    .otp-inputs input:focus {
+      border-color: #00a86b;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(0, 168, 107, 0.12);
+    }
+
+    .otp-inputs input.filled {
+      border-color: #00a86b;
+      background: #f0fbf6;
+    }
+
+    .btn-verify {
+      width: 100%;
+      background: #00a86b;
+      border: none;
+      padding: 17px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 12px 24px -8px rgba(0, 168, 107, 0.4);
+      transition: 0.2s;
+      letter-spacing: 0.2px;
+    }
+
+    .btn-verify:hover {
+      background: #008f5a;
+      transform: translateY(-1px);
+    }
+
+    .btn-verify:disabled {
+      background: #c2d6cd;
+      box-shadow: none;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .resend-row {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #7d97ab;
+      margin-top: 18px;
+    }
+
+    .resend-row button {
+      background: none;
+      border: none;
+      color: #00a86b;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.85rem;
+      padding: 4px 6px;
+      border-radius: 6px;
+    }
+
+    .resend-row button:hover {
+      text-decoration: underline;
+    }
+
+    .resend-row button:disabled {
+      color: #b1c2d1;
+      cursor: not-allowed;
+      text-decoration: none;
+    }
+
+    .otp-error {
+      font-size: 0.85rem;
+      color: #c0392b;
+      margin: -12px 0 14px;
+      display: none;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .otp-error.show {
+      display: flex;
+    }
+
+    .otp-hint {
+      background: #f0f9f4;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 0.82rem;
+      color: #1c6b4a;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 22px;
+      line-height: 1.5;
+    }
+
+    .otp-hint i {
+      margin-top: 2px;
+    }
+
+    /* success state */
+    .otp-success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 10px 0 6px;
+    }
+
+    .otp-success.show {
+      display: flex;
+    }
+
+    .success-ring {
+      width: 84px;
+      height: 84px;
+      background: #e3f5ec;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 22px;
+      animation: pop 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .success-ring i {
+      font-size: 2.4rem;
+      color: #00a86b;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .otp-success h3 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #0b1e30;
+      margin-bottom: 10px;
+    }
+
+    .otp-success p {
+      font-size: 0.95rem;
+      color: #5a7285;
+      line-height: 1.55;
+      margin-bottom: 24px;
+    }
+
+    .otp-success .summary {
+      background: #f6fafd;
+      border: 1px solid #e2ebf2;
+      border-radius: 18px;
+      padding: 16px 20px;
+      width: 100%;
+      margin-bottom: 24px;
+      font-size: 0.9rem;
+      color: #2c4055;
+    }
+
+    .otp-success .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      gap: 12px;
+    }
+
+    .otp-success .summary-row span:first-child {
+      flex-shrink: 0;
+    }
+
+    .otp-success .summary-row strong {
+      color: #0b1e30;
+      text-align: right;
+      word-break: break-all;
+    }
+
+    .btn-done {
+      width: 100%;
+      background: #0b1e30;
+      border: none;
+      padding: 16px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1rem;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-done:hover {
+      background: #16324d;
+    }
+
+    /* responsive */
+    @media (max-width: 950px) {
+      .container {
+        flex-direction: column;
+      }
+      .form-card {
+        min-width: 100%;
+      }
+      h1 {
+        font-size: 2.2rem;
+      }
+      .steps-grid {
+        padding: 28px 24px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .navbar {
+        padding: 14px 18px;
+      }
+      .nav-links {
+        display: none;
+      }
+      .container {
+        padding: 24px 16px;
+      }
+      .form-card {
+        padding: 24px 18px;
+        border-radius: 24px;
+      }
+      h1 {
+        font-size: 1.9rem;
+      }
+      .hero-desc {
+        font-size: 1rem;
+      }
+      .steps-grid {
+        flex-direction: column;
+        gap: 24px;
+      }
+      .otp-modal {
+        padding: 28px 20px 24px;
+      }
+      .otp-inputs {
+        gap: 8px;
+      }
+      .otp-inputs input {
+        font-size: 1.5rem;
+        border-radius: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="logo">
+      <i class="fas fa-bolt"></i> PesaLink
+    </div>
+    <div class="nav-links">
+      <a href="#">How it works</a>
+      <a href="#">Rates</a>
+      <a href="#">Security</a>
+      <a href="#">Support</a>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-outline"><i class="fas fa-user" style="margin-right: 6px;"></i> Sign in</button>
+      <button class="btn-primary-sm">Get started</button>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div class="container">
+    <!-- Left: pitch & trust -->
+    <div class="hero-section">
+      <div class="badge">
+        <i class="fas fa-shield-alt"></i> Manual verification · zero fraud tolerance
+      </div>
+      <h1>Send money from <span>card to USDT (TRC-20)</span> — safely, with human review.</h1>
+      <p class="hero-desc">
+        PesaLink lets you fund transfers with your Visa or Mastercard in USD, GBP, EUR, KES and more. Every payout is manually verified by our team before it hits the USDT network — giving you peace of mind.
+      </p>
+
+      <div class="trust-row">
+        <div class="trust-item"><i class="fas fa-check-circle"></i> Card payments via PCI-DSS</div>
+        <div class="trust-item"><i class="fas fa-check-circle"></i> USDT on TRC-20</div>
+        <div class="trust-item"><i class="fas fa-check-circle"></i> Manual approval step</div>
+      </div>
+
+      <!-- Manual review warning -->
+      <div class="manual-notice">
+        <i class="fas fa-user-check"></i>
+        <p><strong>Manual review in place.</strong> To reduce fraud, every USDT payout is reviewed by our operations team before funds are released. This means transfers may take a little longer, but your money is protected.</p>
+      </div>
+
+      <div style="font-size: 0.9rem; color: #4e6c82; display: flex; gap: 24px; margin-top: 12px; flex-wrap: wrap;">
+        <span><i class="fas fa-lock" style="color: #00a86b; margin-right: 6px;"></i> 256-bit SSL</span>
+        <span><i class="fas fa-credit-card" style="color: #00a86b; margin-right: 6px;"></i> Visa / Mastercard</span>
+        <span><i class="fas fa-coins" style="color: #00a86b; margin-right: 6px;"></i> USDT TRC-20</span>
+      </div>
+    </div>
+
+    <!-- Right: card payment form mockup -->
+    <div class="form-card" id="formCard">
+      <div class="form-header">
+        <h2>Send to USDT</h2>
+        <i class="fas fa-paper-plane"></i>
+      </div>
+
+      <!-- Recipient USDT (TRC-20) address – EMPTY, user pastes -->
+      <div class="input-group">
+        <label>Recipient USDT (TRC-20) address</label>
+        <div class="input-wrapper">
+          <i class="fas fa-wallet"></i>
+          <input type="text" id="recipientAddress" placeholder="Paste TRC-20 address (T...)" autocomplete="off" spellcheck="false">
+        </div>
+      </div>
+
+      <!-- Amount to send (currency selectable) -->
+      <div class="input-group">
+        <label>Amount to send</label>
+        <div class="input-wrapper">
+          <i class="fas fa-coins"></i>
+          <input type="text" id="amountInput" value="5,000" placeholder="0" inputmode="numeric" autocomplete="off">
+          <select class="currency-select" id="currencySelect" aria-label="Currency">
+            <option value="KES" selected>KES</option>
+            <option value="USD">USD</option>
+            <option value="GBP">GBP</option>
+            <option value="EUR">EUR</option>
+            <option value="NGN">NGN</option>
+            <option value="ZAR">ZAR</option>
+            <option value="TZS">TZS</option>
+            <option value="UGX">UGX</option>
+            <option value="GHS">GHS</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Card details mockup (static) -->
+      <div class="input-group">
+        <label>Card information</label>
+        <div class="input-wrapper" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: none;">
+          <i class="fas fa-credit-card"></i>
+          <input type="text" value="4242 4242 4242 4242" readonly>
+        </div>
+        <div style="display: flex; gap: 0;">
+          <div class="input-wrapper" style="flex:1; border-radius: 0 0 0 16px; border-right: none; border-top: 1px solid #d9e2ec;">
+            <input type="text" value="12 / 28" placeholder="MM / YY" readonly style="padding-left: 16px;">
+          </div>
+          <div class="input-wrapper" style="flex:1; border-radius: 0 0 16px 0; border-top: 1px solid #d9e2ec;">
+            <input type="text" value="•••" placeholder="CVC" readonly style="padding-left: 16px;">
+          </div>
+        </div>
+      </div>
+
+      <!-- fee breakdown – 15% deducted from entered amount -->
+      <div class="fee-row">
+        <span>Processing fee (15%)</span>
+        <strong id="feeAmount">KES 750</strong>
+      </div>
+
+      <!-- recipient receives (net) -->
+      <div class="recipient-row">
+        <div class="label"><i class="fas fa-arrow-right"></i> Recipient receives</div>
+        <div class="value" id="recipientAmount">KES 4,250</div>
+      </div>
+
+      <div class="fee-row" style="border-bottom: none; margin-bottom: 8px;">
+        <span>Total charged to card</span>
+        <strong style="font-size: 1.15rem; color: #0b1e30;" id="totalAmount">KES 5,000</strong>
+      </div>
+
+      <!-- Manual review reminder inside form -->
+      <div style="background: #f0f9f4; border-radius: 14px; padding: 12px 14px; margin: 10px 0 16px; font-size: 0.85rem; color: #1c6b4a; display: flex; gap: 10px; align-items: center;">
+        <i class="fas fa-clock"></i>
+        <span><strong>Manual verification:</strong> Payouts are approved within 2 business hours.</span>
+      </div>
+
+      <button class="btn-send" id="payBtn">
+        <i class="fas fa-lock"></i> Pay & send USDT
+      </button>
+
+      <div class="small-note">
+        <i class="fas fa-shield-alt"></i> Your card is charged securely. USDT payout after manual review.
+      </div>
+    </div>
+  </div>
+
+  <!-- Steps / how it works -->
+  <div class="steps-section">
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h4>Enter details</h4>
+        <p>Paste your recipient USDT (TRC-20) address and enter the amount.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h4>Pay with card</h4>
+        <p>Visa or Mastercard in your preferred currency. Processed instantly.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h4>Verify with OTP</h4>
+        <p>We send a one-time code to your phone to confirm you authorised the payment.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">4</div>
+        <h4>USDT payout</h4>
+        <p>After manual review, we send USDT (TRC-20) to the recipient wallet.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <i class="fas fa-bolt"></i> PesaLink · Card to USDT (TRC-20) · <i class="fas fa-shield-alt"></i> Manual verification for enhanced security
+    <br><span style="font-size: 0.75rem; margin-top: 8px; display: inline-block;">Mockup for demonstration purposes only. Not a real financial service.</span>
+  </footer>
+
+  <!-- ===== OTP MODAL ===== -->
+  <div class="modal-overlay" id="otpOverlay">
+    <div class="otp-modal" role="dialog" aria-modal="true" aria-labelledby="otpTitle">
+      <button class="modal-close" id="closeModal" aria-label="Close">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <!-- OTP entry view -->
+      <div id="otpEntryView">
+        <div class="otp-icon">
+          <i class="fas fa-shield-halved"></i>
+        </div>
+        <h3 id="otpTitle">Verify your payment</h3>
+        <p class="otp-sub">
+          Enter the 4-digit code sent to <strong>your registered phone</strong> to authorise this payment of <strong id="otpTotalText">KES 5,000</strong>.
+        </p>
+
+        <div class="otp-hint">
+          <i class="fas fa-info-circle"></i>
+          <span>A one-time password (OTP) protects your card from unauthorised use. Never share this code with anyone.</span>
+        </div>
+
+        <div class="otp-inputs" id="otpInputs">
+          <input type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Digit 1">
+          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2">
+          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3">
+          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4">
+        </div>
+
+        <div class="otp-error" id="otpError">
+          <i class="fas fa-exclamation-circle"></i> <span>That code doesn’t match. Please try again.</span>
+        </div>
+
+        <button class="btn-verify" id="verifyBtn" disabled>
+          <i class="fas fa-lock-open"></i> Verify & authorise
+        </button>
+
+        <div class="resend-row">
+          Didn’t receive the code? <button id="resendBtn" disabled>Resend in <span id="resendTimer">30</span>s</button>
+        </div>
+      </div>
+
+      <!-- Success view -->
+      <div class="otp-success" id="otpSuccessView">
+        <div class="success-ring">
+          <i class="fas fa-check"></i>
+        </div>
+        <h3>Payment authorised</h3>
+        <p>Your card was charged successfully. The USDT payout is now queued for manual review by our team.</p>
+
+        <div class="summary">
+          <div class="summary-row"><span>Recipient</span> <strong id="summaryAddress">—</strong></div>
+          <div class="summary-row"><span>Amount charged</span> <strong id="summaryTotal">KES 5,000</strong></div>
+          <div class="summary-row"><span>Processing fee (15%)</span> <strong id="summaryFee">KES 750</strong></div>
+          <div class="summary-row"><span>Recipient receives</span> <strong id="summaryRecipient">KES 4,250</strong></div>
+          <div class="summary-row" style="color: #b06a00; font-weight: 600; margin-top: 6px;"><i class="fas fa-clock" style="margin-right: 6px;"></i> USDT payout pending manual review</div>
+        </div>
+
+        <button class="btn-done" id="doneBtn">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // ---- DOM elements ----
+      const payBtn = document.getElementById('payBtn');
+      const overlay = document.getElementById('otpOverlay');
+      const closeModalBtn = document.getElementById('closeModal');
+      const formCard = document.getElementById('formCard');
+      const otpInputsContainer = document.getElementById('otpInputs');
+      const otpInputs = Array.from(otpInputsContainer.querySelectorAll('input'));
+      const verifyBtn = document.getElementById('verifyBtn');
+      const otpError = document.getElementById('otpError');
+      const otpEntryView = document.getElementById('otpEntryView');
+      const otpSuccessView = document.getElementById('otpSuccessView');
+      const doneBtn = document.getElementById('doneBtn');
+      const resendBtn = document.getElementById('resendBtn');
+      const resendTimerSpan = document.getElementById('resendTimer');
+
+      // dynamic elements
+      const recipientAddress = document.getElementById('recipientAddress');
+      const amountInput = document.getElementById('amountInput');
+      const currencySelect = document.getElementById('currencySelect');
+      const feeAmountEl = document.getElementById('feeAmount');
+      const recipientAmountEl = document.getElementById('recipientAmount');
+      const totalAmountEl = document.getElementById('totalAmount');
+      const otpTotalText = document.getElementById('otpTotalText');
+      const summaryAddress = document.getElementById('summaryAddress');
+      const summaryTotal = document.getElementById('summaryTotal');
+      const summaryFee = document.getElementById('summaryFee');
+      const summaryRecipient = document.getElementById('summaryRecipient');
+
+      // Demo: correct OTP is 1234
+      const CORRECT_OTP = '1234';
+      let resendInterval = null;
+      let secondsLeft = 30;
+
+      // ---- fee calculation: 15% is deducted from the amount ----
+      // User enters total charged to card. Recipient receives (100% - 15%) = 85%.
+      function formatMoney(amount, currency) {
+        // round to 2 decimals, but show whole numbers without decimals for KES
+        if (currency === 'KES' || currency === 'NGN' || currency === 'TZS' || currency === 'UGX') {
+          return currency + ' ' + Math.round(amount).toLocaleString();
+        }
+        return currency + ' ' + amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+
+      function calculateFees() {
+        const currency = currencySelect.value;
+        const raw = amountInput.value.replace(/,/g, '').replace(/[^\d.]/g, '');
+        const total = raw ? parseFloat(raw) : 0;
+
+        const fee = total * 0.15;
+        const recipient = total - fee;
+
+        feeAmountEl.textContent = formatMoney(fee, currency);
+        recipientAmountEl.textContent = formatMoney(recipient, currency);
+        totalAmountEl.textContent = formatMoney(total, currency);
+        otpTotalText.textContent = formatMoney(total, currency);
+
+        // update summary (kept in sync)
+        summaryTotal.textContent = formatMoney(total, currency);
+        summaryFee.textContent = formatMoney(fee, currency);
+        summaryRecipient.textContent = formatMoney(recipient, currency);
+
+        return { total, fee, recipient, currency };
+      }
+
+      // ---- amount input: allow digits, commas and one decimal point ----
+      amountInput.addEventListener('input', (e) => {
+        let val = e.target.value.replace(/[^\d.,]/g, '');
+        // keep only one decimal point
+        const parts = val.split('.');
+        if (parts.length > 2) val = parts[0] + '.' + parts.slice(1).join('');
+        // remove commas for reformatting
+        const rawNoComma = val.replace(/,/g, '');
+        // reformat integer portion with commas
+        if (rawNoComma) {
+          const [intPart, decPart] = rawNoComma.split('.');
+          const formattedInt = intPart ? parseInt(intPart, 10).toLocaleString() : '';
+          val = formattedInt + (decPart !== undefined ? '.' + decPart : '');
+        }
+        e.target.value = val;
+        calculateFees();
+      });
+
+      // ---- currency change ----
+      currencySelect.addEventListener('change', calculateFees);
+
+      // ---- open modal ----
+      function openModal() {
+        // validate address
+        const addr = recipientAddress.value.trim();
+        if (!addr) {
+          recipientAddress.closest('.input-wrapper').style.borderColor = '#e74c3c';
+          recipientAddress.closest('.input-wrapper').style.boxShadow = '0 0 0 4px rgba(231, 76, 60, 0.12)';
+          recipientAddress.focus();
+          setTimeout(() => {
+            recipientAddress.closest('.input-wrapper').style.borderColor = '';
+            recipientAddress.closest('.input-wrapper').style.boxShadow = '';
+          }, 1500);
+          return;
+        }
+
+        // validate amount
+        const raw = amountInput.value.replace(/,/g, '').replace(/[^\d.]/g, '');
+        const total = raw ? parseFloat(raw) : 0;
+        if (total <= 0) {
+          amountInput.closest('.input-wrapper').style.borderColor = '#e74c3c';
+          amountInput.closest('.input-wrapper').style.boxShadow = '0 0 0 4px rgba(231, 76, 60, 0.12)';
+          amountInput.focus();
+          setTimeout(() => {
+            amountInput.closest('.input-wrapper').style.borderColor = '';
+            amountInput.closest('.input-wrapper').style.boxShadow = '';
+          }, 1500);
+          return;
+        }
+
+        calculateFees();
+        summaryAddress.textContent = addr.length > 16
+          ? addr.slice(0, 8) + '...' + addr.slice(-6)
+          : addr;
+
+        otpEntryView.style.display = 'block';
+        otpSuccessView.classList.remove('show');
+        otpError.classList.remove('show');
+        otpInputs.forEach(inp => {
+          inp.value = '';
+          inp.classList.remove('filled');
+        });
+        verifyBtn.disabled = true;
+        startResendTimer();
+        overlay.classList.add('active');
+        formCard.classList.add('blurred');
+        setTimeout(() => otpInputs[0].focus(), 300);
+      }
+
+      // ---- close modal ----
+      function closeModal() {
+        overlay.classList.remove('active');
+        formCard.classList.remove('blurred');
+        clearInterval(resendInterval);
+      }
+
+      // ---- resend timer ----
+      function startResendTimer() {
+        clearInterval(resendInterval);
+        secondsLeft = 30;
+        resendBtn.disabled = true;
+        resendTimerSpan.textContent = secondsLeft;
+        resendInterval = setInterval(() => {
+          secondsLeft--;
+          resendTimerSpan.textContent = secondsLeft;
+          if (secondsLeft <= 0) {
+            clearInterval(resendInterval);
+            resendBtn.disabled = false;
+            resendBtn.textContent = 'Resend code';
+          }
+        }, 1000);
+      }
+
+      // ---- OTP input handling ----
+      otpInputs.forEach((input, index) => {
+        input.addEventListener('input', (e) => {
+          let val = e.target.value.replace(/\D/g, '');
+          if (val.length > 1) val = val.slice(0, 1);
+          e.target.value = val;
+          e.target.classList.toggle('filled', val !== '');
+          otpError.classList.remove('show');
+
+          if (val && index < otpInputs.length - 1) {
+            otpInputs[index + 1].focus();
+          }
+          checkComplete();
+        });
+
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace' && !e.target.value && index > 0) {
+            otpInputs[index - 1].focus();
+          }
+          if (e.key === 'Enter') {
+            if (!verifyBtn.disabled) verifyBtn.click();
+          }
+        });
+
+        input.addEventListener('paste', (e) => {
+          e.preventDefault();
+          const paste = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, 4);
+          if (!paste) return;
+          for (let i = 0; i < otpInputs.length; i++) {
+            const char = paste[i] || '';
+            otpInputs[i].value = char;
+            otpInputs[i].classList.toggle('filled', char !== '');
+          }
+          const lastFilled = Math.min(paste.length, 4) - 1;
+          if (lastFilled >= 0) otpInputs[lastFilled].focus();
+          checkComplete();
+        });
+      });
+
+      function checkComplete() {
+        const complete = otpInputs.every(inp => inp.value !== '');
+        verifyBtn.disabled = !complete;
+      }
+
+      verifyBtn.addEventListener('click', () => {
+        const entered = otpInputs.map(inp => inp.value).join('');
+        if (entered === CORRECT_OTP) {
+          otpEntryView.style.display = 'none';
+          otpSuccessView.classList.add('show');
+          clearInterval(resendInterval);
+        } else {
+          otpError.classList.add('show');
+          otpInputs.forEach(inp => {
+            inp.value = '';
+            inp.classList.remove('filled');
+          });
+          verifyBtn.disabled = true;
+          otpInputs[0].focus();
+        }
+      });
+
+      resendBtn.addEventListener('click', () => {
+        if (resendBtn.disabled) return;
+        resendBtn.textContent = 'Resend in ';
+        const span = document.createElement('span');
+        span.id = 'resendTimer';
+        span.textContent = '30';
+        resendBtn.appendChild(span);
+        resendBtn.appendChild(document.createTextNode('s'));
+        clearInterval(resendInterval);
+        secondsLeft = 30;
+        resendBtn.disabled = true;
+        resendInterval = setInterval(() => {
+          secondsLeft--;
+          span.textContent = secondsLeft;
+          if (secondsLeft <= 0) {
+            clearInterval(resendInterval);
+            resendBtn.disabled = false;
+            resendBtn.textContent = 'Resend code';
+          }
+        }, 1000);
+        otpError.classList.remove('show');
+      });
+
+      doneBtn.addEventListener('click', () => {
+        closeModal();
+      });
+
+      payBtn.addEventListener('click', openModal);
+      closeModalBtn.addEventListener('click', closeModal);
+
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeModal();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('active')) {
+          closeModal();
+        }
+      });
+
+      const observer = new MutationObserver(() => {
+        if (overlay.classList.contains('active')) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+        }
+      });
+      observer.observe(overlay, { attributes: true, attributeFilter: ['class'] });
+
+      // initial fee calc
+      calculateFees();
+
+      window.addEventListener('beforeunload', () => clearInterval(resendInterval));
+    })();
+  </script>
+
+</body>
+</html>
