@@ -25,12 +25,18 @@
     .navbar {
       background: white;
       box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
-      padding: 16px 32px;
+      border-bottom: 1px solid #e9edf2;
+    }
+
+    .navbar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 16px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      border-bottom: 1px solid #e9edf2;
+      gap: 16px;
     }
 
     .logo {
@@ -110,6 +116,7 @@
       flex-wrap: wrap;
       gap: 48px;
       flex: 1;
+      width: 100%;
     }
 
     /* left side – hero & features */
@@ -477,7 +484,7 @@
     .site-footer {
       background: #0b1e30;
       color: #b9c9d8;
-      padding: 56px 32px 28px;
+      padding: 56px 24px 28px;
       margin-top: 20px;
     }
 
@@ -956,8 +963,8 @@
     }
 
     @media (max-width: 600px) {
-      .navbar {
-        padding: 14px 18px;
+      .navbar-inner {
+        padding: 14px 16px;
       }
       .nav-links {
         display: none;
@@ -975,6 +982,9 @@
       .hero-desc {
         font-size: 1rem;
       }
+      .steps-section {
+        padding: 0 16px;
+      }
       .steps-grid {
         flex-direction: column;
         gap: 24px;
@@ -989,12 +999,16 @@
         font-size: 1.5rem;
         border-radius: 12px;
       }
+      .site-footer {
+        padding: 40px 16px 24px;
+      }
       .footer-inner {
         gap: 32px;
       }
       .footer-bottom {
         flex-direction: column;
         text-align: center;
+        justify-content: center;
       }
     }
   </style>
@@ -1003,18 +1017,20 @@
 
   <!-- Navigation -->
   <nav class="navbar">
-    <div class="logo">
-      <i class="fas fa-bolt"></i> Reinpay
-    </div>
-    <div class="nav-links">
-      <a href="#">How it works</a>
-      <a href="#">Rates</a>
-      <a href="#">Security</a>
-      <a href="#">Support</a>
-    </div>
-    <div class="nav-buttons">
-      <button class="btn-outline"><i class="fas fa-user" style="margin-right: 6px;"></i> Sign in</button>
-      <button class="btn-primary-sm">Get started</button>
+    <div class="navbar-inner">
+      <div class="logo">
+        <i class="fas fa-bolt"></i> Reinpay
+      </div>
+      <div class="nav-links">
+        <a href="#">How it works</a>
+        <a href="#">Rates</a>
+        <a href="#">Security</a>
+        <a href="#">Support</a>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn-outline"><i class="fas fa-user" style="margin-right: 6px;"></i> Sign in</button>
+        <button class="btn-primary-sm">Get started</button>
+      </div>
     </div>
   </nav>
 
@@ -1210,7 +1226,7 @@
         <div class="support-line"><i class="fas fa-envelope"></i> support@reinpay.com</div>
         <div class="support-line"><i class="fas fa-phone-alt"></i> +254 700 000 000</div>
         <div class="support-line"><i class="fas fa-clock"></i> Mon–Fri, 8am–6pm EAT</div>
-        <div class="support-line"><i class="fas fa-map-marker-alt"></i> Nicosia, Cyprus</div>
+        <div class="support-line"><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</div>
       </div>
 
       <!-- legal -->
@@ -1237,7 +1253,7 @@
       <div class="footer-compliance">
         <i class="fas fa-shield-alt"></i> Secured with 256-bit SSL · Manual review on every payout
       </div>
-      <div>© 2026 Reinpay. All rights reserved.</div>
+      <div>© 2025 Reinpay. All rights reserved.</div>
     </div>
   </footer>
 
