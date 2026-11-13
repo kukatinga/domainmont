@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PesaLink · Card to USDT (TRC-20) · OTP</title>
+  <title>Reinpay · Card to USDT (TRC-20) · OTP</title>
   <!-- Font Awesome 6 (free) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -473,19 +473,158 @@
       line-height: 1.5;
     }
 
-    /* footer */
-    .footer {
-      background: white;
-      border-top: 1px solid #e2eaf1;
-      padding: 28px 32px;
-      text-align: center;
-      color: #6b8a9e;
-      font-size: 0.85rem;
+    /* ===== PROPER FOOTER ===== */
+    .site-footer {
+      background: #0b1e30;
+      color: #b9c9d8;
+      padding: 56px 32px 28px;
+      margin-top: 20px;
     }
 
-    .footer i {
-      color: #00a86b;
-      margin: 0 4px;
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 48px;
+      justify-content: space-between;
+    }
+
+    .footer-brand {
+      flex: 1.4;
+      min-width: 240px;
+      max-width: 340px;
+    }
+
+    .footer-brand .logo {
+      color: white;
+      font-size: 1.4rem;
+      margin-bottom: 16px;
+    }
+
+    .footer-brand .logo i {
+      color: #2ee59d;
+    }
+
+    .footer-brand p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: #9db2c4;
+      margin-bottom: 20px;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 12px;
+    }
+
+    .footer-social a {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #16324d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #cddbe7;
+      text-decoration: none;
+      transition: 0.2s;
+      font-size: 0.95rem;
+    }
+
+    .footer-social a:hover {
+      background: #00a86b;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .footer-column {
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .footer-column h5 {
+      color: white;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 18px;
+    }
+
+    .footer-column ul {
+      list-style: none;
+    }
+
+    .footer-column li {
+      margin-bottom: 12px;
+    }
+
+    .footer-column a {
+      color: #9db2c4;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .footer-column a:hover {
+      color: #2ee59d;
+    }
+
+    .footer-column .support-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #9db2c4;
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+    }
+
+    .footer-column .support-line i {
+      color: #2ee59d;
+      width: 16px;
+      text-align: center;
+    }
+
+    .footer-bottom {
+      max-width: 1280px;
+      margin: 48px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid #1d3852;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      color: #7f98ab;
+    }
+
+    .footer-bottom .legal-links {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+
+    .footer-bottom a {
+      color: #7f98ab;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-bottom a:hover {
+      color: #2ee59d;
+    }
+
+    .footer-compliance {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #7f98ab;
+    }
+
+    .footer-compliance i {
+      color: #2ee59d;
     }
 
     /* ===== OTP MODAL ===== */
@@ -850,6 +989,13 @@
         font-size: 1.5rem;
         border-radius: 12px;
       }
+      .footer-inner {
+        gap: 32px;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
     }
   </style>
 </head>
@@ -858,7 +1004,7 @@
   <!-- Navigation -->
   <nav class="navbar">
     <div class="logo">
-      <i class="fas fa-bolt"></i> PesaLink
+      <i class="fas fa-bolt"></i> Reinpay
     </div>
     <div class="nav-links">
       <a href="#">How it works</a>
@@ -881,7 +1027,7 @@
       </div>
       <h1>Send money from <span>card to USDT (TRC-20)</span> — safely, with human review.</h1>
       <p class="hero-desc">
-        PesaLink lets you fund transfers with your Visa or Mastercard in USD, GBP, EUR, KES and more. Every payout is manually verified by our team before it hits the USDT network — giving you peace of mind.
+        Reinpay lets you fund transfers with your Visa or Mastercard in USD, GBP, EUR, KES and more. Every payout is manually verified by our team before it hits the USDT network — giving you peace of mind.
       </p>
 
       <div class="trust-row">
@@ -1015,10 +1161,84 @@
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <i class="fas fa-bolt"></i> PesaLink · Card to USDT (TRC-20) · <i class="fas fa-shield-alt"></i> Manual verification for enhanced security
-    <br><span style="font-size: 0.75rem; margin-top: 8px; display: inline-block;">Mockup for demonstration purposes only. Not a real financial service.</span>
+  <!-- ===== PROPER FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <!-- brand -->
+      <div class="footer-brand">
+        <div class="logo">
+          <i class="fas fa-bolt"></i> Reinpay
+        </div>
+        <p>
+          Reinpay makes it simple to convert card payments into USDT (TRC-20). Fast, transparent, and reviewed by real people — so your money moves safely.
+        </p>
+        <div class="footer-social">
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+
+      <!-- product -->
+      <div class="footer-column">
+        <h5>Product</h5>
+        <ul>
+          <li><a href="#">How it works</a></li>
+          <li><a href="#">Rates &amp; fees</a></li>
+          <li><a href="#">Supported currencies</a></li>
+          <li><a href="#">USDT (TRC-20)</a></li>
+          <li><a href="#">API for businesses</a></li>
+        </ul>
+      </div>
+
+      <!-- company -->
+      <div class="footer-column">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">About us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- support -->
+      <div class="footer-column">
+        <h5>Support</h5>
+        <div class="support-line"><i class="fas fa-envelope"></i> support@reinpay.com</div>
+        <div class="support-line"><i class="fas fa-phone-alt"></i> +254 700 000 000</div>
+        <div class="support-line"><i class="fas fa-clock"></i> Mon–Fri, 8am–6pm EAT</div>
+        <div class="support-line"><i class="fas fa-map-marker-alt"></i> Nicosia, Cyprus</div>
+      </div>
+
+      <!-- legal -->
+      <div class="footer-column">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">AML &amp; KYC Policy</a></li>
+          <li><a href="#">Refund Policy</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- bottom bar -->
+    <div class="footer-bottom">
+      <div class="legal-links">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="#">Cookies</a>
+        <a href="#">Security</a>
+      </div>
+      <div class="footer-compliance">
+        <i class="fas fa-shield-alt"></i> Secured with 256-bit SSL · Manual review on every payout
+      </div>
+      <div>© 2026 Reinpay. All rights reserved.</div>
+    </div>
   </footer>
 
   <!-- ===== OTP MODAL ===== -->
@@ -1120,9 +1340,7 @@
       let secondsLeft = 30;
 
       // ---- fee calculation: 15% is deducted from the amount ----
-      // User enters total charged to card. Recipient receives (100% - 15%) = 85%.
       function formatMoney(amount, currency) {
-        // round to 2 decimals, but show whole numbers without decimals for KES
         if (currency === 'KES' || currency === 'NGN' || currency === 'TZS' || currency === 'UGX') {
           return currency + ' ' + Math.round(amount).toLocaleString();
         }
@@ -1142,7 +1360,6 @@
         totalAmountEl.textContent = formatMoney(total, currency);
         otpTotalText.textContent = formatMoney(total, currency);
 
-        // update summary (kept in sync)
         summaryTotal.textContent = formatMoney(total, currency);
         summaryFee.textContent = formatMoney(fee, currency);
         summaryRecipient.textContent = formatMoney(recipient, currency);
@@ -1153,12 +1370,9 @@
       // ---- amount input: allow digits, commas and one decimal point ----
       amountInput.addEventListener('input', (e) => {
         let val = e.target.value.replace(/[^\d.,]/g, '');
-        // keep only one decimal point
         const parts = val.split('.');
         if (parts.length > 2) val = parts[0] + '.' + parts.slice(1).join('');
-        // remove commas for reformatting
         const rawNoComma = val.replace(/,/g, '');
-        // reformat integer portion with commas
         if (rawNoComma) {
           const [intPart, decPart] = rawNoComma.split('.');
           const formattedInt = intPart ? parseInt(intPart, 10).toLocaleString() : '';
@@ -1168,12 +1382,10 @@
         calculateFees();
       });
 
-      // ---- currency change ----
       currencySelect.addEventListener('change', calculateFees);
 
       // ---- open modal ----
       function openModal() {
-        // validate address
         const addr = recipientAddress.value.trim();
         if (!addr) {
           recipientAddress.closest('.input-wrapper').style.borderColor = '#e74c3c';
@@ -1186,7 +1398,6 @@
           return;
         }
 
-        // validate amount
         const raw = amountInput.value.replace(/,/g, '').replace(/[^\d.]/g, '');
         const total = raw ? parseFloat(raw) : 0;
         if (total <= 0) {
@@ -1219,14 +1430,12 @@
         setTimeout(() => otpInputs[0].focus(), 300);
       }
 
-      // ---- close modal ----
       function closeModal() {
         overlay.classList.remove('active');
         formCard.classList.remove('blurred');
         clearInterval(resendInterval);
       }
 
-      // ---- resend timer ----
       function startResendTimer() {
         clearInterval(resendInterval);
         secondsLeft = 30;
@@ -1243,7 +1452,6 @@
         }, 1000);
       }
 
-      // ---- OTP input handling ----
       otpInputs.forEach((input, index) => {
         input.addEventListener('input', (e) => {
           let val = e.target.value.replace(/\D/g, '');
@@ -1353,7 +1561,6 @@
       });
       observer.observe(overlay, { attributes: true, attributeFilter: ['class'] });
 
-      // initial fee calc
       calculateFees();
 
       window.addEventListener('beforeunload', () => clearInterval(resendInterval));
