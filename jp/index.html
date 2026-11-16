@@ -27,6 +27,11 @@
   --border:#232936;--text:#e5e7eb;--muted:#9ca3af;
   --brand:#4ade80;--brand-d:#22c55e;
   --gold:#fbbf24;--danger:#f87171;--blue:#60a5fa;--mid:#b8860b;
+  
+  /* Light theme tokens for Header/Footer */
+  --light-bg:#faf9fc;--light-card:#fff;--light-border:#eeeaf4;
+  --light-text:#2d2a3a;--light-muted:#7a768a;
+  --purple:#4a1d95;--purple-dark:#3b0f7a;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding-bottom:60px}
@@ -38,13 +43,82 @@ a:hover{text-decoration:underline}
 .grid{display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start}
 @media(max-width:950px){.grid{grid-template-columns:1fr}}
 
-header.site{background:var(--card);border-bottom:1px solid var(--border);padding:14px 0;position:sticky;top:0;z-index:50}
-.hi{max-width:1100px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.brand{font-weight:800;font-size:20px;letter-spacing:-.4px;color:#fff;font-family:"Bricolage Grotesque",sans-serif}
-.brand span{color:var(--brand)}
-.hi-nav{display:flex;gap:10px;font-size:12px}
-.hi-nav a{color:var(--muted)}
-.hi-nav a:hover{color:var(--brand)}
+/* ===== HEADER (copied from light theme) ===== */
+.site-header{
+  max-width:1100px;margin:0 auto 20px;
+  background:var(--light-card);border-radius:20px;
+  box-shadow:0 4px 24px rgba(0,0,0,.06);
+  position:sticky;top:16px;z-index:100;
+  transition:box-shadow .2s;
+}
+.site-header.scrolled{box-shadow:0 8px 32px rgba(74,29,149,.14)}
+.header-inner{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px 22px;
+}
+.wordmark{
+  display:inline-flex;align-items:baseline;gap:0;
+  font-size:1.2rem;font-weight:800;letter-spacing:-.02em;
+  text-decoration:none;line-height:1;white-space:nowrap;
+}
+.wordmark-main{color:var(--purple)}
+.wordmark-accent{color:#b8860b;font-weight:800}
+.wordmark:hover .wordmark-main{color:var(--purple-dark)}
+
+.nav-desktop{display:flex;gap:4px;align-items:center}
+.nav-desktop a{
+  font-size:.88rem;font-weight:600;color:var(--light-text);
+  text-decoration:none;padding:8px 12px;border-radius:8px;
+  transition:background .15s,color .15s;
+}
+.nav-desktop a:hover{background:#f7f4fe;color:var(--purple)}
+.nav-desktop a.nav-cta{
+  background:var(--purple);color:#fff;font-weight:700;
+  padding:9px 16px;box-shadow:0 2px 0 #2d1065;
+}
+.nav-desktop a.nav-cta:hover{background:var(--purple-dark);color:#fff}
+
+.hamburger{
+  display:none;flex-direction:column;justify-content:center;gap:5px;
+  width:42px;height:42px;background:#f7f4fe;border:2px solid #e4dfee;
+  border-radius:10px;cursor:pointer;padding:0 10px;
+}
+.hamburger span{display:block;height:2.5px;background:var(--purple);border-radius:2px;transition:transform .2s,opacity .2s}
+.hamburger[aria-expanded="true"] span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.hamburger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.hamburger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+
+.mobile-drawer{
+  display:none;border-top:1px solid var(--light-border);
+  padding:12px 22px 20px;
+}
+.mobile-drawer.open{display:block}
+.mobile-drawer ul{list-style:none;padding:0;margin:0}
+.mobile-drawer li{border-bottom:1px solid #f3f0fa}
+.mobile-drawer li:last-child{border-bottom:none}
+.mobile-drawer a{
+  display:block;padding:12px 4px;
+  font-size:.98rem;font-weight:600;color:var(--light-text);
+  text-decoration:none;
+}
+.mobile-drawer a:hover{color:var(--purple)}
+.mobile-drawer a.nav-cta-mobile{
+  margin-top:10px;background:var(--purple);color:#fff;
+  text-align:center;border-radius:10px;padding:14px;
+  font-weight:700;
+}
+
+/* ===== BREADCRUMB ===== */
+.breadcrumb{
+  max-width:1100px;margin:0 auto 16px;
+  font-size:.82rem;color:var(--light-muted);
+}
+.breadcrumb ol{list-style:none;display:flex;flex-wrap:wrap;gap:6px;padding:0}
+.breadcrumb li{display:inline-flex;align-items:center;gap:6px}
+.breadcrumb li+li::before{content:'›';color:#c9c2d8}
+.breadcrumb a{color:var(--light-muted);text-decoration:none}
+.breadcrumb a:hover{color:var(--purple);text-decoration:underline}
+.breadcrumb [aria-current]{color:var(--light-text);font-weight:600}
 
 h1{font-size:26px;font-weight:800;color:#fff;line-height:1.2;margin:0 0 10px;letter-spacing:-.5px}
 h1 span{color:var(--brand)}
@@ -229,7 +303,7 @@ p{margin:0 0 12px;color:var(--muted);font-size:14px}
 .calc-note strong{color:var(--text)}
 
 aside{position:relative}
-.sticky{position:sticky;top:80px;display:flex;flex-direction:column;gap:16px}
+.sticky{position:sticky;top:100px;display:flex;flex-direction:column;gap:16px}
 .prize-card{background:linear-gradient(135deg,#166534 0%,#14532d 100%);border:1px solid var(--brand-d);border-radius:12px;padding:20px;text-align:center;box-shadow:0 10px 30px rgba(34,197,94,.15)}
 .prize-card.mid{background:linear-gradient(135deg,#5c4506 0%,#3a2c04 100%);border-color:var(--mid);box-shadow:0 10px 30px rgba(184,134,11,.15)}
 .prize-card .label{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:#bbf7d0;font-weight:700;margin-bottom:6px}
@@ -273,9 +347,55 @@ summary::after{content:"+";color:var(--brand);font-size:18px;font-weight:400}
 details[open] summary::after{content:"−"}
 details p{margin:10px 0 0;font-size:.88rem}
 
-footer{text-align:center;padding:24px 16px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);margin-top:32px}
-.footer-links{display:flex;justify-content:center;gap:16px;margin-bottom:12px;flex-wrap:wrap}
-.footer-links a{color:var(--muted);font-size:12px}
+/* ===== FOOTER (copied from light theme) ===== */
+.site-footer{
+  max-width:1100px;margin:24px auto 0;
+  background:var(--light-card);border-radius:20px;
+  box-shadow:0 4px 24px rgba(0,0,0,.06);
+  padding:36px 32px 24px;
+}
+.footer-grid{
+  display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:28px;
+  margin-bottom:28px;
+}
+.footer-brand .wordmark{font-size:1.15rem;margin-bottom:12px}
+.footer-brand p{font-size:.88rem;color:#5e5a70;margin-bottom:12px;line-height:1.6}
+.footer-brand .support{
+  display:inline-block;font-size:.85rem;font-weight:700;
+  color:var(--purple);text-decoration:none;
+}
+.footer-brand .support:hover{text-decoration:underline}
+.footer-col h4{
+  font-size:.72rem;font-weight:800;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--purple);
+  margin:0 0 12px 0;
+}
+.footer-col ul{list-style:none;padding:0;margin:0}
+.footer-col li{margin-bottom:8px}
+.footer-col a{
+  font-size:.88rem;color:#5e5a70;text-decoration:none;
+  line-height:1.4;
+}
+.footer-col a:hover{color:var(--purple);text-decoration:underline}
+.footer-disclaimer{
+  border-top:2px solid var(--light-border);padding-top:20px;
+  display:flex;gap:14px;align-items:flex-start;
+  margin-bottom:16px;
+}
+.badge-18{
+  flex-shrink:0;width:44px;height:44px;border-radius:50%;
+  background:#b31e1a;color:#fff;font-weight:900;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;
+}
+.footer-disclaimer p{font-size:.82rem;color:#5e5a70;margin:0;line-height:1.6}
+.footer-bottom{
+  border-top:1px solid #f3f0fa;padding-top:16px;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;flex-wrap:wrap;
+  font-size:.8rem;color:var(--light-muted);
+}
+.footer-bottom a{color:var(--light-muted);text-decoration:none}
+.footer-bottom a:hover{color:var(--purple);text-decoration:underline}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 
@@ -306,22 +426,66 @@ footer{text-align:center;padding:24px 16px;font-size:12px;color:var(--muted);bor
 @media (max-width: 950px) {
   body { padding-bottom: 80px; } /* Make room for sticky bar */
   .mobile-sticky-cta { display: flex; }
+  .footer-grid{grid-template-columns:1fr 1fr;gap:24px}
+  .footer-brand{grid-column:1/-1}
+  .site-footer{padding:28px 20px 20px;border-radius:16px}
+}
+@media (max-width: 480px){
+  .footer-grid{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;text-align:center}
+  .site-header{top:8px}
 }
 </style>
 </head>
 <body>
 
-<header class="site">
-  <div class="hi">
-    <div class="brand">MULTI<span>BET</span></div>
-    <nav class="hi-nav" aria-label="Sections">
-      <a href="#mega">Mega</a>
+<!-- SVG ICONS -->
+<svg style="display:none" aria-hidden="true">
+  <symbol id="ic-lock" viewBox="0 0 24 24">
+    <rect x="5" y="11" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.5"/>
+    <path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.5"/>
+  </symbol>
+</svg>
+
+<!-- ===== HEADER (copied from light theme) ===== -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="/" class="wordmark" aria-label="MegaJackpotPrediction home">
+      <span class="wordmark-main">MegaJackpot</span><span class="wordmark-accent">Prediction</span>
+    </a>
+
+    <nav class="nav-desktop" aria-label="Primary">
+      <a href="#mega">Mega Jackpot</a>
       <a href="#midweek">Midweek</a>
-      <a href="#checker">Checker</a>
-      <a href="#calculator">Calculator</a>
+      <a href="#how">Method</a>
+      <a href="#faq">FAQ</a>
+      <a href="#pay" class="nav-cta">VIP Slip · KES 99</a>
+    </nav>
+
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="mobile-drawer" id="mobileDrawer">
+    <nav aria-label="Mobile primary">
+      <ul>
+        <li><a href="#mega">Mega Jackpot</a></li>
+        <li><a href="#midweek">Midweek Jackpot</a></li>
+        <li><a href="#how">Method</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#pay" class="nav-cta-mobile">VIP Slip — KES 99/week</a></li>
+      </ul>
     </nav>
   </div>
 </header>
+
+<!-- ===== BREADCRUMB ===== -->
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <ol>
+    <li aria-current="page">Home</li>
+  </ol>
+</nav>
 
 <div class="wrap">
 <div class="grid">
@@ -559,7 +723,7 @@ footer{text-align:center;padding:24px 16px;font-size:12px;color:var(--muted);bor
   </div>
 
   <!-- NEW: HOW IT WORKS & WHY THIS APPROACH -->
-  <div class="section">
+  <div class="section" id="how">
     <h2 style="font-size:15px">How It Works</h2>
     <p><strong>Three layers before every Mega and Midweek slip is published.</strong></p>
     
@@ -578,7 +742,7 @@ footer{text-align:center;padding:24px 16px;font-size:12px;color:var(--muted);bor
     <p>Nobody "predicts" a perfect slip. The real money is in the bonus tiers. A 16/17 or a 12/13 pays millions and is far more achievable than the full house. That is what both slips are built for.</p>
   </div>
 
-  <div class="section">
+  <div class="section" id="faq">
     <h2 style="font-size:15px">Mega Jackpot — frequently asked</h2>
     <details><summary>How many games are in the SportPesa Mega Jackpot?</summary><p>Seventeen. You predict 1, X, or 2 for each.</p></details>
     <details><summary>Do I need all 17 Mega Jackpot games right to win?</summary><p>No. Mega Jackpot bonuses start from 12 correct. All 17 wins the full jackpot.</p></details>
@@ -650,16 +814,56 @@ footer{text-align:center;padding:24px 16px;font-size:12px;color:var(--muted);bor
   <button class="btn btn-primary" onclick="document.getElementById('phoneInput').scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>document.getElementById('phoneInput').focus(), 300);">Pay Now</button>
 </div>
 
-<footer>
-  <div class="footer-links">
-    <a href="#mega">Mega Jackpot</a>
-    <a href="#midweek">Midweek Jackpot</a>
-    <a href="#checker">Slip checker</a>
-    <a href="#calculator">Calculator</a>
-    <a href="/results/">Results</a>
-    <a href="/responsible-gaming/">Responsible gaming</a>
+<!-- ===== FOOTER (copied from light theme) ===== -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="/" class="wordmark" aria-label="MegaJackpotPrediction home">
+        <span class="wordmark-main">MegaJackpot</span><span class="wordmark-accent">Prediction</span>
+      </a>
+      <p>Independent SportPesa Mega and Midweek Jackpot analysis. Live fixture feed. Transparent method.</p>
+      <a class="support" href="tel:+254718981122">Support · +254 718 981 122</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Predictions</h4>
+      <ul>
+        <li><a href="#mega">Mega Jackpot</a></li>
+        <li><a href="#midweek">Midweek Jackpot</a></li>
+        <li><a href="#pay">VIP Slip</a></li>
+        <li><a href="#how">Method</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Site</h4>
+      <ul>
+        <li><a href="/about/">About Charles</a></li>
+        <li><a href="/methodology/">Methodology</a></li>
+        <li><a href="/results/">Results archive</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="/privacy/">Privacy</a></li>
+        <li><a href="/terms/">Terms</a></li>
+        <li><a href="/responsible-gambling/">Responsible gambling</a></li>
+      </ul>
+    </div>
   </div>
-  <div>© <span id="year">2026</span> Multibet. 18+ only. Gambling can be addictive. Bet responsibly.</div>
+
+  <div class="footer-disclaimer">
+    <span class="badge-18">18+</span>
+    <p>Betting involves risk and no prediction is guaranteed. Play for entertainment, never with money you can't afford to lose. <a href="/responsible-gambling/">Bet responsibly</a>.</p>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© <span id="year">2026</span> MegaJackpotPrediction. Independent — not affiliated with SportPesa or Safaricom M-Pesa.</span>
+    <a href="/responsible-gambling/">Bet responsibly</a>
+  </div>
 </footer>
 
 <script type="application/ld+json">
@@ -739,6 +943,24 @@ let activeHistorySlug='sportpesa_mega';
 let checkerSlug='sportpesa_mega';
 let availableDraws=[];
 let currentDrawKey='';
+
+/* Header scroll shadow + Hamburger */
+const header = $('#siteHeader');
+if(header) {
+  window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 8), {passive:true});
+}
+const btn = $('#hamburgerBtn'), drawer = $('#mobileDrawer');
+if(btn && drawer) {
+  btn.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!open));
+    drawer.classList.toggle('open', !open);
+  });
+  $$('#mobileDrawer a').forEach(a => a.addEventListener('click', () => {
+    btn.setAttribute('aria-expanded','false');
+    drawer.classList.remove('open');
+  }));
+}
 
 const tabMega=$('#tabMega'), tabMid=$('#tabMid');
 const panelMega=$('#panelMega'), panelMid=$('#panelMid');
