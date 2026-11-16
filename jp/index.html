@@ -36,7 +36,6 @@ a:hover{text-decoration:underline}
 
 .wrap{max-width:1100px;margin:0 auto;padding:20px 16px}
 .grid{display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start}
-@media(max-width:950px){.grid{grid-template-columns:1fr}}
 
 header.site{background:var(--card);border-bottom:1px solid var(--border);padding:14px 0;position:sticky;top:0;z-index:50}
 .hi{max-width:1100px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
@@ -284,6 +283,63 @@ footer{text-align:center;padding:24px 16px;font-size:12px;color:var(--muted);bor
 .mini-toggle button:hover{border-color:var(--brand)}
 .mini-toggle button[aria-pressed="true"]{border-color:var(--brand);color:#fff;background:rgba(74,222,128,.1)}
 .mini-toggle button[aria-pressed="true"].mid-active{border-color:var(--mid);color:#fff;background:rgba(184,134,11,.1)}
+
+/* Mobile Sticky CTA */
+.mobile-sticky-cta {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(22, 26, 34, 0.98);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+  padding: 12px 16px;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 99;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+}
+.mobile-sticky-cta .btn { padding: 10px 20px; font-size: 14px; }
+
+/* MOBILE LAYOUT REORDERING */
+@media (max-width: 950px) {
+  body { padding-bottom: 80px; }
+  .mobile-sticky-cta { display: flex; }
+
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  /* Pull the pay box out of the sidebar and put it right after the fixtures */
+  main { display: contents; }
+  aside { display: contents; }
+
+  .jackpot-tabs { order: 1; }
+  #panelMega { order: 2; }
+  #panelMid { order: 2; }
+  
+  /* The Pay Box */
+  .pay-box { 
+    order: 3; 
+    margin: 0 0 20px 0; 
+    display: block; 
+    border-color: var(--brand); /* Make it stand out */
+  }
+  
+  /* Rest of the content */
+  #latestPerformanceCard { order: 4; }
+  .card:has(#latestFixturesBody) { order: 5; }
+  .payout-card { order: 6; }
+  .checker-card { order: 7; }
+  .calc-card { order: 8; }
+  .section { order: 9; } /* This covers history, FAQ, narrative */
+  
+  /* Hide prize cards so they don't push the pay box down */
+  .prize-card { display: none; }
+}
 </style>
 </head>
 <body>
@@ -511,7 +567,6 @@ footer{text-align:center;padding:24px 16px;font-size:12px;color:var(--muted);bor
     <div id="narrativeSentences"><p class="muted">Loading summary…</p></div>
   </div>
 
-  <!-- FIXED: Recent Draws Table -->
   <div class="section">
     <h2 style="font-size:15px">Recent draws</h2>
     <div class="card-body" style="padding-bottom:0">
@@ -602,6 +657,15 @@ footer{text-align:center;padding:24px 16px;font-size:12px;color:var(--muted);bor
 </aside>
 
 </div>
+</div>
+
+<!-- Mobile Sticky CTA -->
+<div class="mobile-sticky-cta" id="mobileCta">
+  <div>
+    <div style="font-size:12px;font-weight:700;color:#fff;">Unlock all picks</div>
+    <div style="font-size:11px;color:var(--muted);">KES 99 · SMS in 5s</div>
+  </div>
+  <button class="btn btn-primary" onclick="document.getElementById('phoneInput').scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>document.getElementById('phoneInput').focus(), 300);">Pay Now</button>
 </div>
 
 <footer>
@@ -844,7 +908,6 @@ async function loadJackpot(slug){
       S.history=Array.isArray(resData.history)?resData.history:[];
       S.rolling=resData.rolling||null;
       
-      // Update shared UI if this is the active slug
       if (slug === activeSharedSlug) updateSharedSlug(slug);
       if (slug === activeHistorySlug) updateHistorySlug(slug);
       
