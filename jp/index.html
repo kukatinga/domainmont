@@ -278,6 +278,12 @@ footer{text-align:center;padding:24px 16px;font-size:12px;color:var(--muted);bor
 .footer-links a{color:var(--muted);font-size:12px}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+
+.mini-toggle{display:flex;gap:6px;margin-bottom:12px}
+.mini-toggle button{flex:1;padding:6px 10px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--muted);font-weight:700;font-size:.75rem;cursor:pointer;font-family:inherit;transition:border-color .15s,color .15s}
+.mini-toggle button:hover{border-color:var(--brand)}
+.mini-toggle button[aria-pressed="true"]{border-color:var(--brand);color:#fff;background:rgba(74,222,128,.1)}
+.mini-toggle button[aria-pressed="true"].mid-active{border-color:var(--mid);color:#fff;background:rgba(184,134,11,.1)}
 </style>
 </head>
 <body>
@@ -334,56 +340,6 @@ footer{text-align:center;padding:24px 16px;font-size:12px;color:var(--muted);bor
       <div class="hero-stat"><b id="heroThresholdMega">Bonus 12/17</b><span>Bonuses from 12 correct</span></div>
       <div class="hero-stat"><b id="heroGamesMega">17 games</b><span>All 17 correct to win</span></div>
     </div>
-
-    <div class="latest-card">
-      <div class="latest-head">
-        <div>
-          <h2>Last Draw Performance</h2>
-          <p class="latest-meta" id="latest-meta-mega">Loading…</p>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
-          <button class="refresh-btn" id="refreshBtnMega" type="button">↻ Refresh</button>
-          <span class="load-status" id="loadStatusMega">Fetching…</span>
-        </div>
-      </div>
-      <div class="latest-body">
-        <span class="draw-row-label">Outcome</span>
-        <div class="draw-combo" id="drawComboRealMega"><span class="muted">Loading…</span></div>
-        <span class="draw-row-label">Our picks</span>
-        <div class="draw-combo" id="drawComboPicksMega"><span class="muted">Loading…</span></div>
-        <div class="latest-stats">
-          <div class="latest-stat"><b id="stat-correct-mega">—</b><span>Correct</span></div>
-          <div class="latest-stat"><b id="stat-banker-mega">—</b><span>Bankers hit</span></div>
-          <div class="latest-stat"><b id="stat-upset-mega">—</b><span>Upsets hit</span></div>
-        </div>
-        <div style="margin-top:12px" id="bonusBadgeWrapMega"></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-head">
-        <h2>Match-by-match — latest draw</h2>
-        <span class="meta">B = banker · U = upset-watch</span>
-      </div>
-      <div id="latestFixturesMega">
-        <div class="fixture-empty">Loading fixtures…</div>
-      </div>
-    </div>
-
-    <div class="payout-card">
-      <div class="payout-head">
-        <h2>Bonus tier payouts — latest draw</h2>
-        <p>Official SportPesa payout per tier from the latest Mega draw.</p>
-      </div>
-      <div class="data-table-wrap" style="margin:0;border:0;border-radius:0">
-        <table class="data-table">
-          <thead><tr><th>Correct predictions</th><th class="num-cell">Payout (KES)</th></tr></thead>
-          <tbody id="payoutBodyMega">
-            <tr><td colspan="2"><div class="checker-pending">Loading payout tiers…</div></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
   </div>
 
   <!-- MIDWEEK PANEL -->
@@ -406,59 +362,75 @@ footer{text-align:center;padding:24px 16px;font-size:12px;color:var(--muted);bor
       <div class="hero-stat"><b id="heroThresholdMid">Bonus 10/13</b><span>Bonuses from 10 correct</span></div>
       <div class="hero-stat"><b id="heroGamesMid">13 games</b><span>All 13 correct to win</span></div>
     </div>
+  </div>
 
-    <div class="latest-card midweek">
-      <div class="latest-head">
-        <div>
-          <h2>Last Draw Performance</h2>
-          <p class="latest-meta" id="latest-meta-mid">Loading…</p>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
-          <button class="refresh-btn" id="refreshBtnMid" type="button">↻ Refresh</button>
-          <span class="load-status" id="loadStatusMid">Fetching…</span>
-        </div>
+  <!-- SHARED BLOCKS -->
+  <div class="latest-card" id="latestPerformanceCard">
+    <div class="latest-head">
+      <div>
+        <h2>Last Draw Performance</h2>
+        <p class="latest-meta" id="latest-meta">Loading…</p>
       </div>
-      <div class="latest-body">
-        <span class="draw-row-label">Outcome</span>
-        <div class="draw-combo" id="drawComboRealMid"><span class="muted">Loading…</span></div>
-        <span class="draw-row-label">Our picks</span>
-        <div class="draw-combo" id="drawComboPicksMid"><span class="muted">Loading…</span></div>
-        <div class="latest-stats">
-          <div class="latest-stat"><b id="stat-correct-mid">—</b><span>Correct</span></div>
-          <div class="latest-stat"><b id="stat-banker-mid">—</b><span>Bankers hit</span></div>
-          <div class="latest-stat"><b id="stat-upset-mid">—</b><span>Upsets hit</span></div>
-        </div>
-        <div style="margin-top:12px" id="bonusBadgeWrapMid"></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+        <button class="refresh-btn" id="refreshBtnLatest" type="button">↻ Refresh</button>
+        <span class="load-status" id="loadStatusLatest">Fetching…</span>
       </div>
     </div>
-
-    <div class="card midweek">
-      <div class="card-head">
-        <h2>Match-by-match — latest draw</h2>
-        <span class="meta">B = banker · U = upset-watch</span>
+    <div class="latest-body">
+      <div class="mini-toggle" role="group" aria-label="Select jackpot for Last Draw">
+        <button type="button" class="latest-toggle-btn" data-slug="sportpesa_mega" aria-pressed="true">Mega</button>
+        <button type="button" class="latest-toggle-btn" data-slug="sportpesa_midweek" aria-pressed="false">Midweek</button>
       </div>
-      <div id="latestFixturesMid">
+      <span class="draw-row-label">Outcome</span>
+      <div class="draw-combo" id="drawComboReal"><span class="muted">Loading…</span></div>
+      <span class="draw-row-label">Our picks</span>
+      <div class="draw-combo" id="drawComboPicks"><span class="muted">Loading…</span></div>
+      <div class="latest-stats">
+        <div class="latest-stat"><b id="stat-correct">—</b><span>Correct</span></div>
+        <div class="latest-stat"><b id="stat-banker">—</b><span>Bankers hit</span></div>
+        <div class="latest-stat"><b id="stat-upset">—</b><span>Upsets hit</span></div>
+      </div>
+      <div style="margin-top:12px" id="bonusBadgeWrap"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <h2>Match-by-match — latest draw</h2>
+      <span class="meta">B = banker · U = upset-watch</span>
+    </div>
+    <div class="card-body">
+      <div class="mini-toggle" role="group" aria-label="Select jackpot for match-by-match">
+        <button type="button" class="match-toggle-btn" data-slug="sportpesa_mega" aria-pressed="true">Mega</button>
+        <button type="button" class="match-toggle-btn" data-slug="sportpesa_midweek" aria-pressed="false">Midweek</button>
+      </div>
+      <div id="latestFixturesBody">
         <div class="fixture-empty">Loading fixtures…</div>
-      </div>
-    </div>
-
-    <div class="payout-card">
-      <div class="payout-head">
-        <h2>Bonus tier payouts — latest draw</h2>
-        <p>Official SportPesa payout per tier from the latest Midweek draw.</p>
-      </div>
-      <div class="data-table-wrap" style="margin:0;border:0;border-radius:0">
-        <table class="data-table">
-          <thead><tr><th>Correct predictions</th><th class="num-cell">Payout (KES)</th></tr></thead>
-          <tbody id="payoutBodyMid">
-            <tr><td colspan="2"><div class="checker-pending">Loading payout tiers…</div></td></tr>
-          </tbody>
-        </table>
       </div>
     </div>
   </div>
 
-  <!-- CHECKER -->
+  <div class="payout-card">
+    <div class="payout-head">
+      <h2>Bonus tier payouts — latest draw</h2>
+      <p>Official SportPesa payout per tier from the latest draw.</p>
+    </div>
+    <div class="card-body" style="padding-bottom:0">
+      <div class="mini-toggle" role="group" aria-label="Select jackpot for payouts">
+        <button type="button" class="payout-toggle-btn" data-slug="sportpesa_mega" aria-pressed="true">Mega</button>
+        <button type="button" class="payout-toggle-btn" data-slug="sportpesa_midweek" aria-pressed="false">Midweek</button>
+      </div>
+    </div>
+    <div class="data-table-wrap" style="margin:0;border:0;border-radius:0;border-top:1px solid var(--border)">
+      <table class="data-table">
+        <thead><tr><th>Correct predictions</th><th class="num-cell">Payout (KES)</th></tr></thead>
+        <tbody id="payoutBody">
+          <tr><td colspan="2"><div class="checker-pending">Loading payout tiers…</div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <div class="checker-card" id="checker">
     <div class="checker-head">
       <h2>Check your slip — Mega or Midweek</h2>
@@ -509,7 +481,6 @@ footer{text-align:center;padding:24px 16px;font-size:12px;color:var(--muted);bor
     </div>
   </div>
 
-  <!-- CALCULATOR -->
   <div class="calc-card" id="calculator">
     <div class="calc-head">
       <h2>Lines &amp; Cost Calculator — Mega or Midweek</h2>
@@ -540,24 +511,19 @@ footer{text-align:center;padding:24px 16px;font-size:12px;color:var(--muted);bor
     <div id="narrativeSentences"><p class="muted">Loading summary…</p></div>
   </div>
 
+  <!-- FIXED: Recent Draws Table -->
   <div class="section">
-    <h2 style="font-size:15px">Recent Mega draws</h2>
-    <div class="data-table-wrap">
-      <table class="data-table">
-        <thead><tr><th>Draw date</th><th class="num-cell">Correct</th><th class="num-cell">Δ vs prev</th><th>Bonus</th></tr></thead>
-        <tbody id="historyBodyMega">
-          <tr><td colspan="4"><div class="checker-pending">Loading recent draws…</div></td></tr>
-        </tbody>
-      </table>
+    <h2 style="font-size:15px">Recent draws</h2>
+    <div class="card-body" style="padding-bottom:0">
+      <div class="mini-toggle" role="group" aria-label="Select jackpot for history">
+        <button type="button" class="history-toggle-btn" data-slug="sportpesa_mega" aria-pressed="true">Mega</button>
+        <button type="button" class="history-toggle-btn" data-slug="sportpesa_midweek" aria-pressed="false">Midweek</button>
+      </div>
     </div>
-  </div>
-
-  <div class="section">
-    <h2 style="font-size:15px">Recent Midweek draws</h2>
     <div class="data-table-wrap">
       <table class="data-table">
         <thead><tr><th>Draw date</th><th class="num-cell">Correct</th><th class="num-cell">Δ vs prev</th><th>Bonus</th></tr></thead>
-        <tbody id="historyBodyMid">
+        <tbody id="historyBody">
           <tr><td colspan="4"><div class="checker-pending">Loading recent draws…</div></td></tr>
         </tbody>
       </table>
@@ -588,7 +554,7 @@ footer{text-align:center;padding:24px 16px;font-size:12px;color:var(--muted);bor
     <details><summary>How many games are in the SportPesa Midweek Jackpot?</summary><p>Thirteen. You predict 1, X, or 2 for each.</p></details>
     <details><summary>Do I need all 13 Midweek games right to win?</summary><p>No. Midweek Jackpot bonuses start from 10 correct. All 13 wins the full jackpot.</p></details>
     <details><summary>When is the Midweek Jackpot drawn?</summary><p>The Midweek Jackpot is drawn on Wednesday. Picks are published each Sunday before the midweek fixtures.</p></details>
-    <details><summary>How do I get all 13 Midweek picks?</summary><p>Use the pay box on this page — KES 99 by M-Pesa. Picks arrive by SMS before kickoff.</p></details>
+    <details><summary>How do I get all 13 Midweek picks?</summary><p>Use the pay box on this page — KES 99 by M-Pesa. Picks arrive via SMS before kickoff.</p></details>
   </div>
 
   <div class="section">
@@ -671,9 +637,6 @@ footer{text-align:center;padding:24px 16px;font-size:12px;color:var(--muted);bor
 </script>
 
 <script>
-/* ==========================================================
-   HELPERS
-========================================================== */
 const $=(s,c=document)=>c.querySelector(s);
 const $$=(s,c=document)=>[...c.querySelectorAll(s)];
 const API='https://www.namex.co.ke';
@@ -719,21 +682,18 @@ function tierIsZero(dr,t){
   const n=payoutNumber(raw); return n===0;
 }
 
-/* ==========================================================
-   STATE
-========================================================== */
 const state={
   sportpesa_mega:{fixtures:[],bankers:[],upsets:[],feed:null,picks:{},showPicks:true,calc:{},prize:null,latest:null,history:[],rolling:null,round:'Current round',threshold:12,totalGames:17},
   sportpesa_midweek:{fixtures:[],bankers:[],upsets:[],feed:null,picks:{},showPicks:true,calc:{},prize:null,latest:null,history:[],rolling:null,round:'Current round',threshold:10,totalGames:13}
 };
+
 let activeCalcSlug='sportpesa_mega';
+let activeSharedSlug='sportpesa_mega';
+let activeHistorySlug='sportpesa_mega';
 let checkerSlug='sportpesa_mega';
 let availableDraws=[];
 let currentDrawKey='';
 
-/* ==========================================================
-   TABS
-========================================================== */
 const tabMega=$('#tabMega'), tabMid=$('#tabMid');
 const panelMega=$('#panelMega'), panelMid=$('#panelMid');
 function selectTab(which){
@@ -746,9 +706,52 @@ function selectTab(which){
 tabMega.addEventListener('click',()=>selectTab('mega'));
 tabMid.addEventListener('click',()=>selectTab('mid'));
 
-/* ==========================================================
-   RENDER — fixture predictions
-========================================================== */
+function updateSharedSlug(slug) {
+  activeSharedSlug = slug;
+  const isMega = slug === 'sportpesa_mega';
+  
+  $$('.latest-toggle-btn, .match-toggle-btn, .payout-toggle-btn').forEach(btn => {
+    const isActive = btn.dataset.slug === slug;
+    btn.setAttribute('aria-pressed', String(isActive));
+    if (isActive) {
+      btn.classList.toggle('mid-active', !isMega);
+    } else {
+      btn.classList.remove('mid-active');
+    }
+  });
+
+  const latestCard = $('#latestPerformanceCard');
+  if (latestCard) latestCard.classList.toggle('midweek', !isMega);
+
+  try { renderLatestFor(slug); } catch(e){ console.warn(e); }
+  try { renderLatestFixturesFor(slug); } catch(e){ console.warn(e); }
+  try { renderPayoutsFor(slug); } catch(e){ console.warn(e); }
+}
+
+function updateHistorySlug(slug) {
+  activeHistorySlug = slug;
+  const isMega = slug === 'sportpesa_mega';
+  
+  $$('.history-toggle-btn').forEach(btn => {
+    const isActive = btn.dataset.slug === slug;
+    btn.setAttribute('aria-pressed', String(isActive));
+    if (isActive) {
+      btn.classList.toggle('mid-active', !isMega);
+    } else {
+      btn.classList.remove('mid-active');
+    }
+  });
+
+  try { renderHistoryFor(slug); } catch(e){ console.warn(e); }
+}
+
+$$('.latest-toggle-btn, .match-toggle-btn, .payout-toggle-btn').forEach(btn => {
+  btn.addEventListener('click', () => updateSharedSlug(btn.dataset.slug));
+});
+$$('.history-toggle-btn').forEach(btn => {
+  btn.addEventListener('click', () => updateHistorySlug(btn.dataset.slug));
+});
+
 function renderFixturesPredictions(slug){
   const S=state[slug], isMid=slug==='sportpesa_midweek';
   const list=$(isMid?'#fixtureListMid':'#fixtureListMega');
@@ -761,7 +764,6 @@ function renderFixturesPredictions(slug){
   list.innerHTML=fixtures.map((f,idx)=>{
     const isFree=idx<5;
     const gameNo=f.game_number||(idx+1);
-    // API: prediction can be a string ("1","X","2","1X","X2","12") or null
     const rawPick=S.showPicks?predMap[gameNo]:null;
     const pick=(rawPick!=null&&rawPick!=='')?String(rawPick).toUpperCase():null;
     let badgeHtml='';
@@ -780,9 +782,6 @@ function renderFixturesPredictions(slug){
   }).join('');
 }
 
-/* ==========================================================
-   FETCH — one slug (fixtures + predictions + results + prize)
-========================================================== */
 async function loadJackpot(slug){
   const meta=JACKPOTS[slug], isMid=slug==='sportpesa_midweek';
   const which=isMid?'Mid':'Mega';
@@ -822,7 +821,6 @@ async function loadJackpot(slug){
       });
     }
 
-    // Threshold + total games: prefer results.php (authoritative), then jackpots.php, then defaults
     if(resData){
       S.threshold=(typeof resData.threshold==='number')?resData.threshold:meta.threshold;
       S.totalGames=(typeof resData.total_games==='number')?resData.total_games:meta.games;
@@ -831,7 +829,6 @@ async function loadJackpot(slug){
       S.totalGames=(fixData.type&&fixData.type.game_count)||meta.games;
     }
 
-    // Prize: prize.php first, then results.php prize_amount, then jackpots.php
     S.prize=(prizeData&&prizeData.prize_amount)||(resData&&resData.prize_amount)||(fixData.type&&fixData.type.prize_amount)||null;
     if(S.prize){
       $('#prizeAmount'+which).textContent=formatPrize(S.prize);
@@ -842,15 +839,15 @@ async function loadJackpot(slug){
     const heroThresholdLabel=$('#heroThreshold'+which).parentElement.querySelector('span');
     if(heroThresholdLabel) heroThresholdLabel.textContent='Bonuses from '+S.threshold+' correct';
 
-    // Results
     if(resData){
       S.latest=resData.latest||null;
       S.history=Array.isArray(resData.history)?resData.history:[];
       S.rolling=resData.rolling||null;
-      try{ renderLatestFor(slug); }catch(e){ console.warn(e); }
-      try{ renderLatestFixturesFor(slug); }catch(e){ console.warn(e); }
-      try{ renderPayoutsFor(slug); }catch(e){ console.warn(e); }
-      try{ renderHistoryFor(slug); }catch(e){ console.warn(e); }
+      
+      // Update shared UI if this is the active slug
+      if (slug === activeSharedSlug) updateSharedSlug(slug);
+      if (slug === activeHistorySlug) updateHistorySlug(slug);
+      
       try{ if(!isMid) renderNarrative(resData); }catch(e){ console.warn(e); }
     }
 
@@ -867,9 +864,6 @@ async function loadJackpot(slug){
   }
 }
 
-/* ==========================================================
-   LATEST DRAW
-========================================================== */
 function renderChipRow(el,arr,mode){
   if(!arr||!arr.length){ el.innerHTML='<span class="muted">—</span>'; return; }
   el.innerHTML='';
@@ -901,18 +895,18 @@ function renderChipRowWithHit(el,outcomes,picks){
 function renderLatestFor(slug){
   const S=state[slug], isMid=slug==='sportpesa_midweek';
   const L=S.latest;
-  const suffix=isMid?'-mid':'-mega';
-  const metaEl=$('#latest-meta'+(isMid?'-mid':'-mega'));
+  
+  const metaEl=$('#latest-meta');
   if(!L){
     metaEl.textContent='No published result yet';
-    $('#drawComboReal'+(isMid?'Mid':'Mega')).innerHTML='<span class="muted">—</span>';
-    $('#drawComboPicks'+(isMid?'Mid':'Mega')).innerHTML='<span class="muted">—</span>';
-    $('#stat-correct'+suffix).textContent='—'; $('#stat-banker'+suffix).textContent='—'; $('#stat-upset'+suffix).textContent='—';
-    $('#bonusBadgeWrap'+(isMid?'Mid':'Mega')).innerHTML=''; return;
+    $('#drawComboReal').innerHTML='<span class="muted">—</span>';
+    $('#drawComboPicks').innerHTML='<span class="muted">—</span>';
+    $('#stat-correct').textContent='—'; $('#stat-banker').textContent='—'; $('#stat-upset').textContent='—';
+    $('#bonusBadgeWrap').innerHTML=''; return;
   }
   metaEl.textContent='Draw date: '+fmtDate(L.draw_date);
-  renderChipRow($('#drawComboReal'+(isMid?'Mid':'Mega')),L.winning_combination,'real');
-  renderChipRowWithHit($('#drawComboPicks'+(isMid?'Mid':'Mega')),L.winning_combination,L.our_picks);
+  renderChipRow($('#drawComboReal'),L.winning_combination,'real');
+  renderChipRowWithHit($('#drawComboPicks'),L.winning_combination,L.our_picks);
 
   const total=L.total||S.totalGames||JACKPOTS[slug].games, th=S.threshold||JACKPOTS[slug].threshold;
   let correct=L.correct!=null?Number(L.correct):null;
@@ -932,18 +926,15 @@ function renderLatestFor(slug){
     if(Array.isArray(L.upsets)&&L.upsets.length){ ut=L.upsets.length; uh=0; L.upsets.forEach(g=>{ const i=Number(g)-1,r=classify(results[i]),p=String(picks[i]||'').toUpperCase(); if(r&&r!=='V'&&p&&p.indexOf(r)!==-1)uh++; }); }
     bonus=correct>=th;
   }
-  $('#stat-correct'+suffix).textContent=(correct!=null?correct:'—')+' / '+total;
-  $('#stat-banker'+suffix).textContent=(bh!=null?bh:'—')+' / '+(bt!=null?bt:'—');
-  $('#stat-upset'+suffix).textContent=(uh!=null?uh:'—')+' / '+(ut!=null?ut:'—');
-  const bw=$('#bonusBadgeWrap'+(isMid?'Mid':'Mega'));
+  $('#stat-correct').textContent=(correct!=null?correct:'—')+' / '+total;
+  $('#stat-banker').textContent=(bh!=null?bh:'—')+' / '+(bt!=null?bt:'—');
+  $('#stat-upset').textContent=(uh!=null?uh:'—')+' / '+(ut!=null?ut:'—');
+  const bw=$('#bonusBadgeWrap');
   if(bonus===true) bw.innerHTML='<span class="badge-bonus">✓ Bonus won</span>';
   else if(bonus===false) bw.innerHTML='<span class="badge-nobonus">✗ Bonus not won</span>';
   else bw.innerHTML='';
 }
 
-/* ==========================================================
-   MATCH-BY-MATCH (uses fixtures[].result when winning_combination missing)
-========================================================== */
 function renderFixturesInto(container,draw,opts){
   if(!container) return;
   const fixtures=Array.isArray(draw.fixtures)?draw.fixtures:[];
@@ -956,7 +947,6 @@ function renderFixturesInto(container,draw,opts){
 
   const rows=fixtures.slice().sort((a,b)=>Number(a.game)-Number(b.game)).map(fx=>{
     const game=Number(fx.game),idx=game-1;
-    // Winning outcome: prefer winning_combination, fall back to fixtures[].result
     const real=classify(outcomes[idx])||classify(fx.result)||null;
     const rawPick=picks[idx],pick=rawPick?String(rawPick).toUpperCase():null;
     const isB=bankers.indexOf(game)!==-1,isU=upsets.indexOf(game)!==-1;
@@ -980,19 +970,15 @@ function renderFixturesInto(container,draw,opts){
   container.innerHTML='<table class="fixture-table"><thead><tr><th class="f-num">#</th><th class="f-match">Match</th><th class="f-outcome">Outcome</th><th class="f-pick">'+head+'</th><th class="f-status"></th></tr></thead><tbody>'+rows+'</tbody></table>'+summary;
 }
 function renderLatestFixturesFor(slug){
-  const S=state[slug],isMid=slug==='sportpesa_midweek';
-  const target=isMid?'#latestFixturesMid':'#latestFixturesMega';
+  const S=state[slug];
+  const target=$('#latestFixturesBody');
   const L=S.latest;
-  if(!L){ $(target).innerHTML='<div class="fixture-empty">No draw loaded.</div>'; return; }
-  const w=document.createElement('div'); renderFixturesInto(w,L,null); $(target).innerHTML=w.innerHTML;
+  if(!L){ target.innerHTML='<div class="fixture-empty">No draw loaded.</div>'; return; }
+  const w=document.createElement('div'); renderFixturesInto(w,L,null); target.innerHTML=w.innerHTML;
 }
 
-/* ==========================================================
-   PAYOUTS
-========================================================== */
 function renderPayoutsFor(slug){
-  const isMid=slug==='sportpesa_midweek';
-  const tb=$(isMid?'#payoutBodyMid':'#payoutBodyMega'); if(!tb)return;
+  const tb=$('#payoutBody'); if(!tb)return;
   const S=state[slug]; const L=S.latest;
   const payouts=L&&L.payouts;
   const total=(L&&L.total)||S.totalGames||JACKPOTS[slug].games;
@@ -1010,12 +996,9 @@ function renderPayoutsFor(slug){
   }).join('');
 }
 
-/* ==========================================================
-   HISTORY + NARRATIVE
-========================================================== */
 function renderHistoryFor(slug){
-  const isMid=slug==='sportpesa_midweek';
-  const tb=$(isMid?'#historyBodyMid':'#historyBodyMega');
+  const tb=$('#historyBody');
+  if(!tb) return;
   const H=state[slug].history||[];
   if(!H.length){ tb.innerHTML='<tr><td colspan="4"><div class="checker-pending">No past draws yet.</div></td></tr>'; return; }
   tb.innerHTML=H.map((row,i)=>{
@@ -1025,6 +1008,7 @@ function renderHistoryFor(slug){
     return '<tr><td>'+escHtml(fmtDate(row.draw_date))+'</td><td class="num-cell">'+(row.correct!=null?escHtml(row.correct):'—')+' / '+(row.total!=null?escHtml(row.total):JACKPOTS[slug].games)+'</td><td class="num-cell '+dc+'">'+dl+'</td><td>'+b+'</td></tr>';
   }).join('');
 }
+
 function renderNarrative(d){
   const H=Array.isArray(d.history)?d.history:[];
   const combos=H.map(h=>h.winning_combination).filter(Boolean);
@@ -1047,9 +1031,6 @@ function renderNarrative(d){
   else { $('#distHome').textContent='—'; $('#distDraw').textContent='—'; $('#distAway').textContent='—'; $('#distSummary').textContent=''; }
 }
 
-/* ==========================================================
-   SLIP CHECKER
-========================================================== */
 const checkerJackpotSel=$('#checker-jackpot');
 const checkerSelect=$('#checker-draw');
 const checkerGrid=$('#checker-grid');
@@ -1236,9 +1217,6 @@ checkerCopy.addEventListener('click',function(){
   try{ navigator.clipboard.writeText(s).then(()=>{ const o=checkerCopy.textContent; checkerCopy.textContent='Copied!'; setTimeout(()=>{ checkerCopy.textContent=o; },1500); }); }catch(e){}
 });
 
-/* ==========================================================
-   CALCULATOR
-========================================================== */
 const calcToggleMega=$('#calcToggleMega');
 const calcToggleMid=$('#calcToggleMid');
 function setCalcSlug(slug){
@@ -1318,9 +1296,6 @@ function recalc(){
 }
 $('#calc-stake').addEventListener('input',recalc);
 
-/* ==========================================================
-   PAY — M-Pesa STK (NO amount field per API spec)
-========================================================== */
 const payForm=$('#payForm');
 const payBtn=$('#payBtn');
 const phoneInput=$('#phoneInput');
@@ -1342,7 +1317,6 @@ function handlePay(e){
   }
   payBtn.disabled=true; payBtn.textContent='Sending prompt…';
   setPayStatus('Sending M-Pesa prompt to 0'+d+' …');
-  // Per Namex API: send ONLY phone. Amount + product are enforced server-side.
   fetch(STK_ENDPOINT,{
     method:'POST',
     headers:{'Content-Type':'application/json'},
@@ -1373,17 +1347,16 @@ function refreshFeed(slug){
   $('#errorBox').style.display='none';
   loadJackpot(slug);
 }
-$('#refreshBtnMega').addEventListener('click',()=>refreshFeed('sportpesa_mega'));
-$('#refreshBtnMid').addEventListener('click',()=>refreshFeed('sportpesa_midweek'));
+$('#refreshBtnLatest').addEventListener('click',()=>refreshFeed(activeSharedSlug));
 
-/* ==========================================================
-   INIT
-========================================================== */
 (async function init(){
   await loadJackpot('sportpesa_mega');
+  updateSharedSlug('sportpesa_mega');
+  updateHistorySlug('sportpesa_mega');
+  await loadJackpot('sportpesa_midweek');
+  
   try{ loadCheckerDraws('sportpesa_mega'); }catch(e){ console.warn(e); }
   setCalcSlug('sportpesa_mega');
-  await loadJackpot('sportpesa_midweek');
 })();
 </script>
 </body>
