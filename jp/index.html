@@ -44,6 +44,15 @@ a{color:var(--brand);text-decoration:none}
 a:hover{text-decoration:underline}
 :focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:4px}
 
+/* ===== LAZY (SMOOTH) IN-PAGE SCROLLING ===== */
+html{scroll-behavior:smooth}
+/* keep anchored targets clear of the sticky header */
+#mega,#midweek,#how,#faq,#pay,#checker,#calculator,#latestPerformanceCard{scroll-margin-top:104px}
+@media(max-width:780px){
+  #mega,#midweek,#how,#faq,#pay,#checker,#calculator,#latestPerformanceCard{scroll-margin-top:88px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
 .wrap{max-width:1100px;margin:0 auto;padding:20px 16px}
 .grid{display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start}
 @media(max-width:950px){.grid{grid-template-columns:1fr}}
@@ -851,7 +860,7 @@ details p{margin:10px 0 0;font-size:.88rem}
       <button class="btn btn-mid btn-block btn-lg" id="getMidBtn" type="button">Get all 13 Midweek picks — KES 99</button>
     </div>
 
-    <div class="pay-box">
+    <div class="pay-box" id="pay">
       <h3>Get our picks by SMS</h3>
       <p>Enter your M-Pesa number. KES 99 for the Mega or Midweek slip.</p>
       <form id="payForm">
@@ -1051,8 +1060,60 @@ function selectTab(which){
   panelMega.hidden=!isMega;
   panelMid.hidden=isMega;
 }
-tabMega.addEventListener('click',()=>selectTab('mega'));
-tabMid.addEventListener('click',()=>selectTab('mid'));
+tabMega.addEventListener('click',()=>{ selectTab('mega'); syncHash('mega'); });
+tabMid.addEventListener('click',()=>{ selectTab('mid'); syncHash('midweek'); });
+
+/* ===== Smooth navigation between Mega / Midweek and page sections =====
+   #midweek lives inside the (initially hidden) midweek panel, so a plain
+   anchor jump can never reach it — the tab must be activated first. */
+function prefersReducedMotion(){
+  try{ return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){ return false; }
+}
+function syncHash(id){
+  try{ history.replaceState(null,'', id ? '#'+id : location.pathname+location.search); }catch(e){}
+}
+function scrollToId(id, instant){
+  const el = id ? document.getElementById(id) : null;
+  if(!el) return false;
+  try{ el.scrollIntoView({behavior:(instant||prefersReducedMotion())?'auto':'smooth', block:'start'}); }
+  catch(e){ el.scrollIntoView(true); }
+  return true;
+}
+function navigateTo(hash, opts){
+  const id = String(hash||'').replace(/^#/,'');
+  if(!id) return false;
+  if(id==='mega'){ selectTab('mega'); }
+  else if(id==='midweek'||id==='mid'){ selectTab('mid'); }
+  const target = (id==='mid') ? 'midweek' : id;
+  const ok = scrollToId(target, !!(opts&&opts.instant));
+  if(ok) syncHash(target);
+  return ok;
+}
+
+/* Any in-page link (header, drawer, footer) — one delegated handler */
+document.addEventListener('click', function(e){
+  const link = e.target && e.target.closest ? e.target.closest('a[href^="#"]') : null;
+  if(!link) return;
+  const href = link.getAttribute('href');
+  if(!href || href === '#') return;
+  const id = href.slice(1);
+  if(!document.getElementById(id)) return;   /* leave unknown anchors to the browser */
+  e.preventDefault();
+  if(btn && btn.getAttribute('aria-expanded') === 'true') setMenu(false);
+  navigateTo(href);
+});
+
+/* Deep links: /#midweek, /#how, /#faq, /#pay … */
+if(location.hash){
+  navigateTo(location.hash, {instant:true});
+}
+window.addEventListener('hashchange', ()=>navigateTo(location.hash));
+
+/* If the visitor scrolled themselves, never yank them back to an anchor */
+let userScrolled = false;
+['wheel','touchstart','keydown'].forEach(ev=>{
+  window.addEventListener(ev, ()=>{ userScrolled = true; }, {passive:true, once:true});
+});
 
 function updateSharedSlug(slug) {
   activeSharedSlug = slug;
@@ -1697,6 +1758,7 @@ function refreshFeed(slug){
 $('#refreshBtnLatest').addEventListener('click',()=>refreshFeed(activeSharedSlug));
 
 (async function init(){
+  const deepHash = location.hash;
   await loadJackpot('sportpesa_mega');
   updateSharedSlug('sportpesa_mega');
   updateHistorySlug('sportpesa_mega');
@@ -1704,6 +1766,11 @@ $('#refreshBtnLatest').addEventListener('click',()=>refreshFeed(activeSharedSlug
   
   try{ loadCheckerDraws('sportpesa_mega'); }catch(e){ console.warn(e); }
   setCalcSlug('sportpesa_mega');
+
+  /* feeds push the lower sections down — re-align a deep-linked anchor once */
+  if(deepHash && !userScrolled && document.getElementById(deepHash.slice(1))){
+    navigateTo(deepHash, {instant:true});
+  }
 })();
 </script>
 </body>
