@@ -245,7 +245,7 @@ p{margin:0 0 12px;color:var(--muted);font-size:14px}
 .pred-teams .k{font-size:11px;color:var(--muted);margin-top:2px}
 .pred-pick{display:flex;justify-content:center}
 .pred-badge{display:inline-flex;align-items:center;justify-content:center;min-width:44px;padding:6px 10px;border-radius:6px;font-weight:700;font-size:13px;background:var(--brand);color:#fff}
-.pred-badge.locked{background:#efeaf9;color:#6a6680;font-size:12px}
+.pred-badge.VIP{background:#efeaf9;color:#6a6680;font-size:12px}
 .pred-reason{font-size:12px;color:var(--muted);line-height:1.3}
 .pred-reason.free{color:var(--brand);font-weight:600}
 @media(max-width:700px){
@@ -1321,8 +1321,8 @@ function renderFixturesPredictions(slug){
     if(S.upsets.includes(gameNo)) badgeHtml+='<span class="badge-u" title="Upset Watch">U</span>';
     let pickHtml,reasonHtml;
     if(isFree&&pick){ pickHtml='<span class="pred-badge">'+escHtml(pick)+'</span>'; reasonHtml='<span class="pred-reason free">Free pick</span>'; }
-    else if(isFree){ pickHtml='<span class="pred-badge locked">?</span>'; reasonHtml='<span class="pred-reason">Awaiting pick</span>'; }
-    else { pickHtml='<span class="pred-badge locked">🔒 Locked</span>'; reasonHtml='<span class="pred-reason">Get by SMS</span>'; }
+    else if(isFree){ pickHtml='<span class="pred-badge VIP">?</span>'; reasonHtml='<span class="pred-reason">Awaiting pick</span>'; }
+    else { pickHtml='<span class="pred-badge VIP">🔒 VIP</span>'; reasonHtml='<span class="pred-reason">Get by SMS</span>'; }
     return '<div class="pred-row">'
       +'<div class="pred-num">'+gameNo+(badgeHtml?'<br>'+badgeHtml:'')+'</div>'
       +'<div class="pred-teams"><div class="t">'+escHtml(f.home||'TBD')+' <span style="color:var(--muted);font-weight:400">vs</span> '+escHtml(f.away||'TBD')+'</div><div class="k">'+escHtml(f.kickoff_display||f.kickoff||'')+'</div></div>'
