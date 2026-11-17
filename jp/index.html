@@ -257,7 +257,14 @@ p{margin:0 0 12px;color:var(--muted);font-size:14px}
 .hero-stat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
 .hero-stat b{display:block;font-size:1.05rem;font-weight:800;color:var(--text)}
 .hero-stat span{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;display:block;margin-top:2px}
-@media(max-width:500px){.hero-stats{grid-template-columns:1fr}}
+@media(max-width:500px){
+  .hero-stats{grid-template-columns:1fr}
+  /* the two jackpot summaries stay a single 3-across row on phones */
+  .hero-stats.hero-stats--row{grid-template-columns:repeat(3,1fr);gap:8px}
+  .hero-stats--row .hero-stat{padding:9px 5px}
+  .hero-stats--row .hero-stat b{font-size:.82rem;line-height:1.2;letter-spacing:-.2px}
+  .hero-stats--row .hero-stat span{font-size:.6rem;letter-spacing:.02em}
+}
 
 .latest-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:20px}
 .latest-card.midweek{border-color:rgba(184,134,11,.35)}
@@ -736,7 +743,7 @@ a.pred-row:focus-visible .pred-badge.u-anim{background-size:100% 1px}
   <div id="panelMega" role="tabpanel" aria-labelledby="tabMega">
     <h2 id="mega" class="week-heading" data-jackpot="sportpesa_mega" style="font-size:16px;margin-bottom:10px">Mega Jackpot Predictions</h2>
 
-    <div class="hero-stats">
+    <div class="hero-stats hero-stats--row">
       <div class="hero-stat"><b id="heroPrizeMega">—</b><span>Mega Jackpot prize</span></div>
       <div class="hero-stat"><b id="heroThresholdMega">Bonus 12/17</b><span>Bonuses from 12 correct</span></div>
       <div class="hero-stat"><b id="heroTargetMega">Target 13 correct</b><span>One above the bonus line</span></div>
@@ -758,7 +765,7 @@ a.pred-row:focus-visible .pred-badge.u-anim{background-size:100% 1px}
   <div id="panelMid" role="tabpanel" aria-labelledby="tabMid" hidden>
     <h2 id="midweek" class="week-heading" data-jackpot="sportpesa_midweek" style="font-size:16px;margin-bottom:10px">Midweek Jackpot Predictions</h2>
 
-    <div class="hero-stats">
+    <div class="hero-stats hero-stats--row">
       <div class="hero-stat"><b id="heroPrizeMid">—</b><span>Midweek prize</span></div>
       <div class="hero-stat"><b id="heroThresholdMid">Bonus 10/13</b><span>Bonuses from 10 correct</span></div>
       <div class="hero-stat"><b id="heroTargetMid">Target 11 correct</b><span>One above the bonus line</span></div>
@@ -1429,6 +1436,45 @@ function renderFixturesPredictions(slug){
   }).join('');
 }
 
+/* ===== Jackpot summary strip (prize / bonus line / target) =====
+   Desktop keeps the full figures; phones get the compact single-row set
+   (KSh 139.1M | 12/17 | 13) so the three tiles stay one line and the
+   match cards start higher up the page. */
+const heroStatsMQ=window.matchMedia('(max-width:500px)');
+function formatPrizeCompact(v){
+  const n=Number(v);
+  if(!isFinite(n)||n<=0) return '--';
+  const trim=x=>{ const s=x.toFixed(1); return s.slice(-2)==='.0'?s.slice(0,-2):s; };
+  if(n>=1e9) return 'KSh '+trim(n/1e9)+'B';
+  if(n>=1e6) return 'KSh '+trim(n/1e6)+'M';
+  if(n>=1e3) return 'KSh '+trim(n/1e3)+'K';
+  return 'KSh '+Math.round(n).toLocaleString('en-KE');
+}
+function renderHeroStats(which){
+  const isMid=(which==='Mid');
+  const slug=isMid?'sportpesa_midweek':'sportpesa_mega';
+  const S=state[slug]||{};
+  const meta=JACKPOTS[slug];
+  const compact=heroStatsMQ.matches;
+  const total=S.totalGames||meta.games;
+  const th=(typeof S.threshold==='number')?S.threshold:meta.threshold;
+  const target=Math.min(th+1,total);
+  const prizeEl=$('#heroPrize'+which); if(!prizeEl) return;
+  prizeEl.textContent=S.prize?(compact?formatPrizeCompact(S.prize):formatPrize(S.prize)):'--';
+  const thEl=$('#heroThreshold'+which);
+  if(thEl) thEl.textContent=compact?(th+'/'+total):('Bonus '+th+'/'+total);
+  const tgEl=$('#heroTarget'+which);
+  if(tgEl) tgEl.textContent=compact?String(target):('Target '+target+' correct');
+  const setLabel=(el,txt)=>{ if(!el) return; const s=el.parentElement&&el.parentElement.querySelector('span'); if(s) s.textContent=txt; };
+  setLabel(prizeEl, compact?(isMid?'Midweek prize':'Mega prize'):(isMid?'Midweek prize':'Mega Jackpot prize'));
+  setLabel(thEl, compact?'Bonus':('Bonuses from '+th+' correct'));
+  setLabel(tgEl, compact?'Target':'One above the bonus line');
+}
+function refreshHeroStats(){ renderHeroStats('Mega'); renderHeroStats('Mid'); }
+if(heroStatsMQ.addEventListener) heroStatsMQ.addEventListener('change',refreshHeroStats);
+else if(heroStatsMQ.addListener) heroStatsMQ.addListener(refreshHeroStats);
+refreshHeroStats();
+
 async function loadJackpot(slug){
   const meta=JACKPOTS[slug], isMid=slug==='sportpesa_midweek';
   const which=isMid?'Mid':'Mega';
@@ -1478,15 +1524,8 @@ async function loadJackpot(slug){
     }
 
     S.prize=(prizeData&&prizeData.prize_amount)||(resData&&resData.prize_amount)||(fixData.type&&fixData.type.prize_amount)||null;
-    if(S.prize){
-      $('#prizeAmount'+which).textContent=formatPrize(S.prize);
-      $('#heroPrize'+which).textContent=formatPrize(S.prize);
-    }
-    const heroTarget=Math.min(S.threshold+1,S.totalGames);
-    $('#heroTarget'+which).textContent='Target '+heroTarget+' correct';
-    $('#heroThreshold'+which).textContent='Bonus '+S.threshold+'/'+S.totalGames;
-    const heroThresholdLabel=$('#heroThreshold'+which).parentElement.querySelector('span');
-    if(heroThresholdLabel) heroThresholdLabel.textContent='Bonuses from '+S.threshold+' correct';
+    if(S.prize) $('#prizeAmount'+which).textContent=formatPrize(S.prize);
+    renderHeroStats(which);
 
     if(resData){
       S.latest=resData.latest||null;
