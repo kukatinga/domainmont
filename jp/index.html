@@ -612,6 +612,52 @@ details p{margin:10px 0 0;font-size:.88rem}
   aside .sticky{position:static;top:auto}
 }
 aside .sticky.is-static{position:static;top:auto}
+
+/* ===== SHARED ANIMATED UNDERLINE =====
+   One effect, reused everywhere it is needed: a 1px underline that grows
+   from the left on hover/focus. Applied to the footer link lists, the
+   footer support/bottom links, and the match-card CTAs. */
+.u-anim,
+.footer-col a,
+.footer-bottom a,
+.footer-brand .support{
+  background-image:linear-gradient(currentColor,currentColor);
+  background-repeat:no-repeat;
+  background-position:0 100%;
+  background-size:0% 1px;
+  transition:background-size .3s cubic-bezier(.4,0,.2,1),color .15s ease;
+}
+.u-anim:hover,
+.u-anim:focus-visible,
+.footer-col a:hover,
+.footer-col a:focus-visible,
+.footer-bottom a:hover,
+.footer-bottom a:focus-visible,
+.footer-brand .support:hover,
+.footer-brand .support:focus-visible,
+a.pred-row:hover .u-anim,
+a.pred-row:focus-visible .u-anim{
+  background-size:100% 1px;
+}
+.footer-col a:hover,.footer-col a:focus-visible,
+.footer-bottom a:hover,.footer-bottom a:focus-visible,
+.footer-brand .support:hover,.footer-brand .support:focus-visible{text-decoration:none}
+
+/* ===== MATCH CARDS AS CTAs — each row links to #pay ===== */
+a.pred-row{text-decoration:none;color:var(--text);cursor:pointer}
+a.pred-row:hover{text-decoration:none;background:var(--card-hover)}
+a.pred-row:focus-visible{outline:3px solid var(--brand);outline-offset:-3px;border-radius:8px}
+/* the VIP pill carries its own background shorthand, so restate the gradient
+   here with higher specificity so the underline still animates */
+a.pred-row .pred-badge.u-anim{
+  background-image:linear-gradient(currentColor,currentColor);
+  background-repeat:no-repeat;
+  background-position:0 100%;
+  background-size:0% 1px;
+  transition:background-size .3s cubic-bezier(.4,0,.2,1);
+}
+a.pred-row:hover .pred-badge.u-anim,
+a.pred-row:focus-visible .pred-badge.u-anim{background-size:100% 1px}
 </style>
 </head>
 <body>
@@ -688,7 +734,7 @@ aside .sticky.is-static{position:static;top:auto}
 
   <!-- MEGA PANEL -->
   <div id="panelMega" role="tabpanel" aria-labelledby="tabMega">
-    <h2 id="mega" style="font-size:16px;margin-bottom:10px">Mega Jackpot — 17 games</h2>
+    <h2 id="mega" class="week-heading" data-jackpot="sportpesa_mega" style="font-size:16px;margin-bottom:10px">Mega Jackpot Predictions</h2>
 
     <div class="card">
       <div class="card-head">
@@ -710,7 +756,7 @@ aside .sticky.is-static{position:static;top:auto}
 
   <!-- MIDWEEK PANEL -->
   <div id="panelMid" role="tabpanel" aria-labelledby="tabMid" hidden>
-    <h2 id="midweek" style="font-size:16px;margin-bottom:10px">Midweek Jackpot — 13 games</h2>
+    <h2 id="midweek" class="week-heading" data-jackpot="sportpesa_midweek" style="font-size:16px;margin-bottom:10px">Midweek Jackpot Predictions</h2>
 
     <div class="card midweek">
       <div class="card-head">
@@ -1166,6 +1212,52 @@ let checkerSlug='sportpesa_mega';
 let availableDraws=[];
 let currentDrawKey='';
 
+/* ===== Week-number section headings =====
+   The feed already carries the official round label (e.g. "2026-W47"), so that
+   is used first; if it ever stops carrying one, the heading falls back to the
+   current ISO calendar week (Monday–Sunday). Nothing is hardcoded, so the
+   headings advance on their own as the calendar rolls over. */
+const WEEK_HEADING_LABEL={
+  sportpesa_mega:'Mega Jackpot Predictions',
+  sportpesa_midweek:'Midweek Jackpot Predictions'
+};
+function isoWeekNumber(date){
+  const d=new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()));
+  const day=d.getUTCDay()||7;                 /* Mon=1 … Sun=7 */
+  d.setUTCDate(d.getUTCDate()+4-day);         /* nearest Thursday */
+  const yearStart=new Date(Date.UTC(d.getUTCFullYear(),0,1));
+  return Math.ceil((((d-yearStart)/86400000)+1)/7);
+}
+function roundWeekNumber(round){
+  const s=String(round||'').trim();
+  if(!s) return null;
+  let m=s.match(/^\d{4}-W(\d{1,2})$/i);                        /* 2026-W47 */
+  if(!m) m=s.match(/\b(?:week|wk)\s*\.?\s*(\d{1,2})\b/i);      /* Week 47 / WK47 */
+  if(!m) m=s.match(/\bround\s*\.?\s*(\d{1,2})\b/i);            /* Round 47 */
+  if(!m) m=s.match(/^(\d{1,2})$/);                             /* bare "47" */
+  if(!m) return null;
+  const n=parseInt(m[1],10);
+  return (n>=1&&n<=53)?n:null;
+}
+function currentWeekNumber(slug){
+  const S=state[slug];
+  return roundWeekNumber(S&&S.round)||isoWeekNumber(new Date());
+}
+function formatRoundLabel(round){
+  const n=roundWeekNumber(round);
+  if(n) return 'Week '+n;
+  return String(round||'').trim()||'Current round';
+}
+function renderWeekHeadings(){
+  $$('.week-heading').forEach(h=>{
+    const slug=h.dataset.jackpot, label=WEEK_HEADING_LABEL[slug];
+    if(!label) return;
+    h.textContent='Week '+currentWeekNumber(slug)+' '+label;
+  });
+}
+renderWeekHeadings();
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden) renderWeekHeadings(); });
+
 /* Header scroll shadow + Hamburger */
 const header = $('#siteHeader');
 if(header) {
@@ -1308,7 +1400,7 @@ function renderFixturesPredictions(slug){
   const fixtures=S.feed&&S.feed.fixtures?S.feed.fixtures:[];
   const predMap=S.picks;
   const round=S.round||'Current round';
-  $(isMid?'#roundLabelMid':'#roundLabelMega').textContent=round+' · '+fixtures.length+' games';
+  $(isMid?'#roundLabelMid':'#roundLabelMega').textContent=formatRoundLabel(round)+' · '+fixtures.length+' games';
   if(!fixtures.length){ list.innerHTML='<div class="checker-pending">No fixtures.</div>'; return; }
 
   list.innerHTML=fixtures.map((f,idx)=>{
@@ -1321,14 +1413,14 @@ function renderFixturesPredictions(slug){
     if(S.upsets.includes(gameNo)) badgeHtml+='<span class="badge-u" title="Upset Watch">U</span>';
     let pickHtml,reasonHtml;
     if(isFree&&pick){ pickHtml='<span class="pred-badge">'+escHtml(pick)+'</span>'; reasonHtml='<span class="pred-reason free">Free pick</span>'; }
-    else if(isFree){ pickHtml='<span class="pred-badge VIP">?</span>'; reasonHtml='<span class="pred-reason">Awaiting pick</span>'; }
-    else { pickHtml='<span class="pred-badge VIP">🔒 VIP</span>'; reasonHtml='<span class="pred-reason">Get by SMS</span>'; }
-    return '<div class="pred-row">'
+    else if(isFree){ pickHtml='<span class="pred-badge VIP u-anim">?</span>'; reasonHtml='<span class="pred-reason">Awaiting pick</span>'; }
+    else { pickHtml='<span class="pred-badge VIP u-anim">🔒 VIP</span>'; reasonHtml='<span class="pred-reason u-anim">Get by SMS</span>'; }
+    return '<a class="pred-row" href="#pay">'
       +'<div class="pred-num">'+gameNo+(badgeHtml?'<br>'+badgeHtml:'')+'</div>'
-      +'<div class="pred-teams"><div class="t">'+escHtml(f.home||'TBD')+' <span style="color:var(--muted);font-weight:400">vs</span> '+escHtml(f.away||'TBD')+'</div><div class="k">'+escHtml(f.kickoff_display||f.kickoff||'')+'</div></div>'
+      +'<div class="pred-teams"><div class="t"><span class="u-anim">'+escHtml(f.home||'TBD')+' <span style="color:var(--muted);font-weight:400">vs</span> '+escHtml(f.away||'TBD')+'</span></div><div class="k">'+escHtml(f.kickoff_display||f.kickoff||'')+'</div></div>'
       +'<div class="pred-pick">'+pickHtml+'</div>'
       +'<div>'+reasonHtml+'</div>'
-      +'</div>';
+      +'</a>';
   }).join('');
 }
 
@@ -1359,6 +1451,7 @@ async function loadJackpot(slug){
     const S=state[slug];
     S.feed=fixData;
     S.round=(predData&&predData.round)||'Current round';
+    renderWeekHeadings();
     S.fixtures=(fixData.fixtures||[]).map(f=>({game_number:f.game_number,home:f.home,away:f.away,kickoff:f.kickoff,kickoff_display:f.kickoff_display}));
     S.bankers=(predData&&Array.isArray(predData.bankers))?predData.bankers:[];
     S.upsets=(predData&&Array.isArray(predData.upsets))?predData.upsets:[];
