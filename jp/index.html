@@ -238,6 +238,54 @@ p{margin:0 0 12px;color:var(--muted);font-size:14px}
 .card.midweek .card-subnote{background:rgba(184,134,11,.05)}
 .card.midweek .card-subnote strong{color:var(--gold)}
 
+/* ===== INLINE PAYWALL CTA — sits at the foot of each fixtures card ===== */
+.unlock{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  padding:14px 16px;border-top:1px solid rgba(255,255,255,.10);
+  background:linear-gradient(135deg,#0b2242 0%,#142a4e 62%,#0d3b2b 100%);
+  color:#fff;
+}
+.unlock.mid{background:linear-gradient(135deg,#2b1f05 0%,#3d2b06 62%,#0d3b2b 100%)}
+.unlock-copy{display:flex;align-items:center;gap:11px;min-width:0}
+.unlock-lock{
+  display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.12);color:#fbbf24;
+}
+.unlock.mid .unlock-lock{color:#fcd34d}
+.unlock-lock svg{width:18px;height:18px;display:block}
+.unlock p{margin:0;font-size:.87rem;line-height:1.35;color:#e2e8f3}
+.unlock p strong{color:#fbbf24;font-weight:800}
+.unlock .unlock-sub{display:block;margin-top:2px;font-size:.73rem;font-weight:600;color:#a9b6cc}
+.unlock .btn{flex:0 0 auto;white-space:nowrap;box-shadow:0 2px 0 rgba(0,0,0,.28)}
+@media(max-width:560px){
+  .unlock{flex-direction:column;align-items:stretch;gap:10px;padding:14px}
+  .unlock-copy{align-items:flex-start}
+  .unlock .btn{width:100%}
+}
+
+/* ===== CARD LEGEND — key for the B / U / DC flags on the fixture rows ===== */
+.card-legend{
+  display:flex;flex-wrap:wrap;align-items:center;gap:5px 16px;
+  padding:7px 16px;border-bottom:1px solid var(--border);
+  background:var(--card);font-size:.72rem;color:var(--muted);
+}
+.card-legend span{display:inline-flex;align-items:center;gap:5px}
+.card-legend b:not(.badge-b):not(.badge-u){color:var(--text)}
+.card-legend .badge-b,.card-legend .badge-u{font-size:9.5px;padding:0 4px}
+.card-legend .badge-b{color:var(--brand);border-color:var(--brand)}
+.card-legend .badge-u{color:var(--gold);border-color:var(--gold)}
+.card.midweek .card-legend{border-bottom-color:rgba(184,134,11,.22)}
+
+/* ===== USAGE GUIDE — the Banker / Upset cards inside #how ===== */
+.guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 4px}
+@media(max-width:600px){.guide-grid{grid-template-columns:1fr}}
+.guide-box{border:1px solid var(--border);border-radius:10px;padding:12px 14px;background:var(--bg)}
+.guide-box h3{margin:0 0 6px;font-size:14px}
+.guide-box p{margin:0;font-size:.84rem;line-height:1.5}
+.guide-box.b{border-left:4px solid var(--brand)}
+.guide-box.u{border-left:4px solid var(--gold)}
+
 .pred-row{display:grid;grid-template-columns:40px 1fr 100px 140px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border);gap:8px}
 .pred-row:last-child{border-bottom:0}
 .pred-row:hover{background:var(--card-hover)}
@@ -765,8 +813,23 @@ a.pred-row:focus-visible .pred-badge.u-anim{background-size:100% 1px}
         <span class="meta" id="roundLabelMega">Loading…</span>
       </div>
       <div class="card-subnote">First <strong>5 picks free</strong>. Full 17-pick slip with bankers &amp; upsets is <strong>KES 99</strong> by M-Pesa.</div>
+      <div class="card-legend">
+        <span><b class="badge-b" aria-hidden="true">B</b> Banker — strongest probability</span>
+        <span><b class="badge-u" aria-hidden="true">U</b> Upset watch</span>
+        <span><b>DC</b> Double-chance cover</span>
+      </div>
       <div id="fixtureListMega">
         <div style="padding:40px;text-align:center"><div class="loader"></div></div>
+      </div>
+      <div class="unlock" id="unlockMega">
+        <div class="unlock-copy">
+          <span class="unlock-lock" aria-hidden="true"><svg><use href="#ic-lock"/></svg></span>
+          <p>
+            Want the other <strong id="lockedCountMega">12</strong> Mega picks?
+            <span class="unlock-sub">Bankers, upset flags and the full 17-pick slip — by SMS.</span>
+          </p>
+        </div>
+        <a class="btn btn-primary" href="#pay" data-product="mega-jackpot">Get full Mega slip — KES 99</a>
       </div>
     </div>
   </div>
@@ -787,8 +850,23 @@ a.pred-row:focus-visible .pred-badge.u-anim{background-size:100% 1px}
         <span class="meta" id="roundLabelMid">Loading…</span>
       </div>
       <div class="card-subnote">First <strong>5 picks free</strong>. Full 13-pick slip with bankers &amp; upsets is <strong>KES 99</strong> by M-Pesa.</div>
+      <div class="card-legend">
+        <span><b class="badge-b" aria-hidden="true">B</b> Banker — strongest probability</span>
+        <span><b class="badge-u" aria-hidden="true">U</b> Upset watch</span>
+        <span><b>DC</b> Double-chance cover</span>
+      </div>
       <div id="fixtureListMid">
         <div style="padding:40px;text-align:center"><div class="loader"></div></div>
+      </div>
+      <div class="unlock mid" id="unlockMid">
+        <div class="unlock-copy">
+          <span class="unlock-lock" aria-hidden="true"><svg><use href="#ic-lock"/></svg></span>
+          <p>
+            Want the other <strong id="lockedCountMid">8</strong> Midweek picks?
+            <span class="unlock-sub">Bankers, upset flags and the full 13-pick slip — by SMS.</span>
+          </p>
+        </div>
+        <a class="btn btn-mid" href="#pay" data-product="midweek-jackpot">Get full Midweek slip — KES 99</a>
       </div>
     </div>
   </div>
@@ -968,24 +1046,46 @@ a.pred-row:focus-visible .pred-badge.u-anim{background-size:100% 1px}
     <p class="muted" id="distSummary" style="margin-top:10px"></p>
   </div>
 
-  <!-- NEW: HOW IT WORKS & WHY THIS APPROACH -->
+  <!-- ===== METHOD, ARGUMENT AND USAGE — one education block, no repeats ===== -->
   <div class="section" id="how">
     <h2 style="font-size:15px">How It Works</h2>
     <p><strong>Three layers before every Mega and Midweek slip is published.</strong></p>
-    
+
     <h3 style="margin-top:14px;color:var(--brand);">1. Live fixture feed</h3>
     <p>Every fixture is pulled directly from the SportPesa feed — 17 for the Mega, 13 for the Midweek. No manual entry, no stale lists, no guessing.</p>
-    
+
     <h3 style="margin-top:14px;color:var(--brand);">2. Bankers + Upsets</h3>
-    <p>Three banker picks on the strongest-probability games to anchor the slip. Then we hunt for upsets — the volatile, high-value games where the crowd is likely to get it wrong. The goal is to maximise your hits on the bonus tiers — 12/17 to 16/17 for the Mega, 10/13 to 12/13 for the Midweek — not to chase the impossible full house.</p>
-    
+    <p>Three banker picks on the strongest-probability games anchor the slip. The rest of the card is where the analysis earns its keep: volatile, high-value games where the crowd is likely to be wrong.</p>
+
     <h3 style="margin-top:14px;color:var(--brand);">3. SMS in about 5 seconds</h3>
     <p>Pay via M-Pesa. The full slip lands by SMS. No app, no login, no subscription.</p>
 
     <h2 style="font-size:15px;margin-top:24px;">Why This Approach</h2>
     <p>The Mega needs 17 correct calls. Random chance puts that at roughly 1 in 129 million. The Midweek needs 13, which is easier but still a lottery ticket if you pick blind.</p>
     <p>The games are not equally hard — some are heavily skewed, others are near coin flips. The edge is knowing which games to be conservative on (the bankers), and where to go against the crowd (the upsets).</p>
-    <p>Nobody "predicts" a perfect slip. The real money is in the bonus tiers. A 16/17 or a 12/13 pays millions and is far more achievable than the full house. That is what both slips are built for.</p>
+
+    <h2 style="font-size:15px;margin-top:24px;">How to use these predictions</h2>
+    <p>Nobody predicts all 17. The money is in the bonus tiers — 12 to 16 correct on the Mega, 10 to 12 on the Midweek — so both slips are built to maximise those, not a perfect card. A 16/17 or a 12/13 pays millions and is far more achievable than the full house.</p>
+
+    <div class="guide-grid">
+      <div class="guide-box b">
+        <h3>Banker</h3>
+        <p>The games with the strongest probability. Anchor your slip on these and don't double-chance them away.</p>
+      </div>
+      <div class="guide-box u">
+        <h3>Upset watch</h3>
+        <p>Volatile games where the crowd tends to get it wrong. Consider the single pick here, or cover it with a double chance.</p>
+      </div>
+    </div>
+
+    <h3>Building a multi-line (perm) slip</h3>
+    <p>Add a double chance to a toss-up game and your lines double — 1 DC = 2 lines, 2 = 4, 3 = 8. Price it in the <a href="#calculator">lines &amp; cost calculator</a> before you commit, and keep the DCs on the upset-watch games, never on the bankers.</p>
+
+    <h3>Where the fixtures come from</h3>
+    <p>Fixtures are pulled from SportPesa's live feed (17 for the Mega, 13 for the Midweek), so the list updates itself when the jackpot changes. If a match is postponed, SportPesa's own rules decide how it is treated — check there before the games kick off.</p>
+
+    <h3>Which jackpot is this page about?</h3>
+    <p>SportPesa's Mega Jackpot and Midweek Jackpot only. Betika, Mozzart and other jackpots have different fixtures and aren't covered here.</p>
   </div>
 
   <div class="section" id="faq">
@@ -1355,6 +1455,8 @@ document.addEventListener('click', function(e){
   if(!document.getElementById(id)) return;   /* leave unknown anchors to the browser */
   e.preventDefault();
   if(btn && btn.getAttribute('aria-expanded') === 'true') setMenu(false);
+  /* CTAs that name a product pre-select that slip in the checkout card */
+  if(link.dataset && link.dataset.product) setPaySlip(link.dataset.product);
   navigateTo(href);
 });
 
@@ -1416,6 +1518,22 @@ $$('.history-toggle-btn').forEach(btn => {
   btn.addEventListener('click', () => updateHistorySlug(btn.dataset.slug));
 });
 
+/* ===== Free / locked split + the inline paywall CTA =====
+   FREE_PICKS is the single source of truth for how many rows are shown free.
+   The paywall CTA under each card states the exact number of picks still
+   locked, so the copy can never drift from the table above it. */
+const FREE_PICKS=5;
+function updateLockedCounts(){
+  ['sportpesa_mega','sportpesa_midweek'].forEach(slug=>{
+    const isMid=slug==='sportpesa_midweek';
+    const el=$(isMid?'#lockedCountMid':'#lockedCountMega');
+    if(!el) return;
+    const S=state[slug];
+    const total=(S&&S.fixtures&&S.fixtures.length)||JACKPOTS[slug].games;
+    el.textContent=Math.max(0,total-FREE_PICKS);
+  });
+}
+
 function renderFixturesPredictions(slug){
   const S=state[slug], isMid=slug==='sportpesa_midweek';
   const list=$(isMid?'#fixtureListMid':'#fixtureListMega');
@@ -1423,10 +1541,11 @@ function renderFixturesPredictions(slug){
   const predMap=S.picks;
   const round=S.round||'Current round';
   $(isMid?'#roundLabelMid':'#roundLabelMega').textContent=formatRoundLabel(round)+' · '+fixtures.length+' games';
+  updateLockedCounts();
   if(!fixtures.length){ list.innerHTML='<div class="checker-pending">No fixtures.</div>'; return; }
 
   list.innerHTML=fixtures.map((f,idx)=>{
-    const isFree=idx<5;
+    const isFree=idx<FREE_PICKS;
     const gameNo=f.game_number||(idx+1);
     const rawPick=S.showPicks?predMap[gameNo]:null;
     const pick=(rawPick!=null&&rawPick!=='')?String(rawPick).toUpperCase():null;
@@ -1437,13 +1556,14 @@ function renderFixturesPredictions(slug){
     if(isFree&&pick){ pickHtml='<span class="pred-badge">'+escHtml(pick)+'</span>'; reasonHtml='<span class="pred-reason free">Free pick</span>'; }
     else if(isFree){ pickHtml='<span class="pred-badge VIP u-anim">?</span>'; reasonHtml='<span class="pred-reason">Awaiting pick</span>'; }
     else { pickHtml='<span class="pred-badge VIP u-anim">🔒 VIP</span>'; reasonHtml='<span class="pred-reason u-anim">Get by SMS</span>'; }
-    return '<a class="pred-row" href="#pay">'
+    return '<a class="pred-row" href="#pay" data-product="'+(isMid?'midweek-jackpot':'mega-jackpot')+'">'
       +'<div class="pred-num"><span class="num-v">'+gameNo+'</span>'+badgeHtml+'</div>'
       +'<div class="pred-teams"><div class="t"><span class="u-anim">'+escHtml(f.home||'TBD')+' <span style="color:var(--muted);font-weight:400">vs</span> '+escHtml(f.away||'TBD')+'</span></div><div class="k">'+escHtml(f.kickoff_display||f.kickoff||'')+'</div></div>'
       +'<div class="pred-pick">'+pickHtml+'</div>'
       +'<div>'+reasonHtml+'</div>'
       +'</a>';
   }).join('');
+  updateLockedCounts();
 }
 
 /* ===== Jackpot summary strip (prize / bonus line / target) =====
