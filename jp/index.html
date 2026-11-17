@@ -302,8 +302,18 @@ p{margin:0 0 12px;color:var(--muted);font-size:14px}
 .pred-reason{font-size:12px;color:var(--muted);line-height:1.3}
 .pred-reason.free{color:var(--brand);font-weight:600}
 @media(max-width:700px){
-  .pred-row{grid-template-columns:40px 1fr 80px;grid-template-rows:auto auto;gap:4px 8px}
-  .pred-num{grid-row:1;align-self:start}.pred-teams{grid-column:2;grid-row:1}.pred-pick{grid-column:3;grid-row:1}.pred-reason{grid-column:2/4;grid-row:2}
+  /* Two-line row: number | teams | pill, then the pick note spans the
+     full width beneath the teams. The note must be a direct grid child
+     for this to work — see renderFixturesPredictions(). */
+  .pred-row{
+    grid-template-columns:38px minmax(0,1fr) auto;
+    grid-template-rows:auto auto;
+    align-items:start;gap:2px 10px;padding:11px 14px;
+  }
+  .pred-num{grid-column:1;grid-row:1}
+  .pred-teams{grid-column:2;grid-row:1}
+  .pred-pick{grid-column:3;grid-row:1;justify-content:flex-end;align-self:center}
+  .pred-reason{grid-column:2/4;grid-row:2;text-align:left;font-size:11.5px;line-height:1.35}
 }
 
 .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
@@ -1560,7 +1570,7 @@ function renderFixturesPredictions(slug){
       +'<div class="pred-num"><span class="num-v">'+gameNo+'</span>'+badgeHtml+'</div>'
       +'<div class="pred-teams"><div class="t"><span class="u-anim">'+escHtml(f.home||'TBD')+' <span style="color:var(--muted);font-weight:400">vs</span> '+escHtml(f.away||'TBD')+'</span></div><div class="k">'+escHtml(f.kickoff_display||f.kickoff||'')+'</div></div>'
       +'<div class="pred-pick">'+pickHtml+'</div>'
-      +'<div>'+reasonHtml+'</div>'
+      +reasonHtml
       +'</a>';
   }).join('');
   updateLockedCounts();
