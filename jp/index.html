@@ -277,6 +277,59 @@ p{margin:0 0 12px;color:var(--muted);font-size:14px}
 .card-legend .badge-u{color:var(--gold);border-color:var(--gold)}
 .card.midweek .card-legend{border-bottom-color:rgba(184,134,11,.22)}
 
+/* ===== FREE-SLIP BREAKER — one extra row, chips + copy on the same line =====
+   Same grid template as .pred-row: the chips own the team column and the copy
+   control starts on the pick column edge, so its left edge lines up with the
+   "2 / X / 2" badges and the 🔒 VIP pill above and below. No fill, no side
+   borders; the hairline above is the fifth row's own. */
+.free-slip{
+  display:grid;
+  grid-template-columns:40px 1fr 100px 140px;
+  align-items:center;gap:8px;
+  padding:10px 16px;border-bottom:1px solid var(--border);
+}
+.free-slip-chips{grid-column:2;display:flex;align-items:center;gap:6px;min-width:0}
+.free-chip{
+  position:relative;display:flex;align-items:center;justify-content:center;
+  flex:0 0 auto;width:34px;height:34px;border-radius:8px;
+  border:1px solid rgba(21,128,61,.55);background:#f4fdf7;
+}
+.free-chip-n{
+  position:absolute;top:2px;left:4px;
+  font-size:9px;font-weight:800;line-height:1;color:var(--muted);
+}
+.free-chip-p{
+  margin-top:4px;font-size:15px;font-weight:900;line-height:1;color:var(--brand);
+  font-variant-numeric:tabular-nums;
+}
+.card.midweek .free-chip{border-color:rgba(161,98,7,.5);background:#fffdf5}
+.card.midweek .free-chip-p{color:var(--gold)}
+.copy-free-btn{
+  grid-column:3/5;justify-self:start;white-space:nowrap;
+  display:inline-flex;align-items:center;gap:6px;
+  margin:0;padding:4px 2px;border:0;border-radius:4px;background:none;
+  color:var(--brand);font-family:inherit;font-size:12px;font-weight:800;line-height:1.2;
+  cursor:pointer;
+}
+.copy-free-btn svg{width:13px;height:13px;display:block;flex:0 0 auto}
+.copy-free-btn:hover{text-decoration:underline;text-underline-offset:2px}
+.copy-free-btn:focus-visible{outline:2px solid var(--brand);outline-offset:3px}
+.card.midweek .copy-free-btn{color:var(--gold)}
+.card.midweek .copy-free-btn:focus-visible{outline-color:var(--gold)}
+@media(max-width:700px){
+  /* chips on one line, the action on the next — both flush at the team column */
+  .free-slip{
+    grid-template-columns:38px minmax(0,1fr);
+    align-items:start;gap:2px 10px;padding:10px 14px;
+  }
+  .free-slip-chips{grid-column:2;grid-row:1;gap:5px}
+  .free-chip{width:32px;height:32px}
+  .copy-free-btn{grid-column:2;grid-row:2;justify-self:start;padding:8px 0;min-height:40px;margin-top:2px}
+}
+
+/* screen-reader-only live region for copy feedback */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
 /* ===== USAGE GUIDE — the Banker / Upset cards inside #how ===== */
 .guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 4px}
 @media(max-width:600px){.guide-grid{grid-template-columns:1fr}}
@@ -1121,6 +1174,9 @@ a.pred-row:focus-visible .pred-badge.u-anim{background-size:100% 1px}
   </div>
 </main>
 
+<!-- announces clipboard results for screen readers; visually hidden -->
+<div class="sr-only" role="status" aria-live="polite" id="copyLive"></div>
+
 <aside>
   <div class="sticky">
     <div class="prize-card">
@@ -1528,11 +1584,11 @@ $$('.history-toggle-btn').forEach(btn => {
   btn.addEventListener('click', () => updateHistorySlug(btn.dataset.slug));
 });
 
-/* ===== Free / locked split + the inline paywall CTA =====
-   FREE_PICKS is the single source of truth for how many rows are shown free.
-   The paywall CTA under each card states the exact number of picks still
-   locked, so the copy can never drift from the table above it. */
+/* ===== Free picks, the share strip and the copied slip text =====
+   FREE_PICKS is the single source of truth: the table, the breaker strip and
+   the clipboard payload are all derived from it, so they cannot disagree. */
 const FREE_PICKS=5;
+
 function updateLockedCounts(){
   ['sportpesa_mega','sportpesa_midweek'].forEach(slug=>{
     const isMid=slug==='sportpesa_midweek';
@@ -1544,6 +1600,113 @@ function updateLockedCounts(){
   });
 }
 
+/* The free block, normalised once — used by both the strip and the copy text.
+   Returns null unless every free slot has a published pick, so nothing ever
+   renders as a blank chip or copies as a gap. */
+function freePickRows(slug){
+  const S=state[slug];
+  if(!S) return null;
+  const fixtures=(S.feed&&S.feed.fixtures)?S.feed.fixtures:[];
+  const rows=[];
+  for(let i=0;i<FREE_PICKS;i++){
+    const f=fixtures[i];
+    if(!f) return null;
+    const no=f.game_number||(i+1);
+    const raw=S.showPicks?S.picks[no]:null;
+    const pick=(raw!=null&&raw!=='')?String(raw).toUpperCase():null;
+    if(!pick) return null;
+    rows.push({no:no,home:f.home||'',away:f.away||'',pick:pick});
+  }
+  return rows;
+}
+
+const COPY_ICON='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
+  +'<rect x="9" y="9" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>'
+  +'<path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>'
+  +'</svg>';
+
+function freeSlipStrip(slug){
+  const rows=freePickRows(slug);
+  if(!rows) return '';
+  return '<div class="free-slip">'
+    +'<div class="free-slip-chips" role="list" aria-label="Your free picks">'
+      +rows.map(function(r){
+        return '<div class="free-chip" role="listitem" aria-label="Game '+r.no+': '+escHtml(r.pick)+'">'
+          +'<span class="free-chip-n">'+r.no+'</span>'
+          +'<span class="free-chip-p">'+escHtml(r.pick)+'</span>'
+        +'</div>';
+      }).join('')
+    +'</div>'
+    +'<button class="copy-free-btn" type="button" data-slug="'+slug+'">'+COPY_ICON+'Copy free picks</button>'
+  +'</div>';
+}
+
+/* The clipboard payload. Deliberately plain text: it survives WhatsApp,
+   Telegram and SMS unchanged, and carries the paybill so a forwarded slip
+   is still payable by whoever receives it. */
+function buildFreeSlipText(slug){
+  const rows=freePickRows(slug);
+  if(!rows) return null;
+  const meta=JACKPOTS[slug];
+  const lines=rows.map(function(r,i){ return (i+1)+'. '+r.home+' v '+r.away+' — '+r.pick; });
+  return [
+    'SportPesa '+meta.name+' Jackpot — Week '+currentWeekNumber(slug),
+    'Free picks (1-'+FREE_PICKS+'): '+rows.map(function(r){ return r.pick; }).join(' '),
+    '',
+    lines.join('\n'),
+    '',
+    'Full '+meta.games+'-vip slip: KES 99 via Paybill 553491, Acc JP — arrives by SMS in ~5s.',
+    'https://megajackpotprediction.co.ke'
+  ].join('\n');
+}
+
+/* navigator.clipboard needs a secure context; the plain-HTTP/file:// case
+   falls back to the old selection trick so the button always works. */
+function legacyCopy(text){
+  const ta=document.createElement('textarea');
+  ta.value=text;
+  ta.setAttribute('readonly','');
+  ta.style.cssText='position:fixed;top:0;left:-9999px;opacity:0';
+  document.body.appendChild(ta);
+  ta.select();
+  try{ ta.setSelectionRange(0,ta.value.length); }catch(e){}
+  let ok=false;
+  try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+  ta.remove();
+  return ok;
+}
+function writeClipboard(text){
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    return navigator.clipboard.writeText(text).then(function(){ return true; }).catch(function(){ return legacyCopy(text); });
+  }
+  return Promise.resolve(legacyCopy(text));
+}
+function announceCopy(msg){
+  const el=$('#copyLive');
+  if(el) el.textContent=msg;
+}
+
+/* Delegated, because the strip is rebuilt with the fixture list on refresh. */
+document.addEventListener('click', async function(e){
+  const btn=e.target&&e.target.closest?e.target.closest('.copy-free-btn'):null;
+  if(!btn) return;
+  e.preventDefault();
+  if(btn.dataset.busy==='1') return;
+  if(!btn.dataset.label) btn.dataset.label=btn.innerHTML;
+  const txt=buildFreeSlipText(btn.dataset.slug||'sportpesa_mega');
+  if(!txt){ announceCopy('Free picks are not published yet'); return; }
+  btn.dataset.busy='1';
+  const ok=await writeClipboard(txt);
+  /* innerHTML, not textContent — the button carries a copy glyph that a text
+     swap would throw away (and never put back) */
+  btn.innerHTML=ok?'Copied ✓':'Copy failed';
+  announceCopy(ok?'Free picks copied to clipboard':'Could not copy automatically — select the picks manually');
+  setTimeout(function(){
+    btn.innerHTML=btn.dataset.label;
+    btn.dataset.busy='0';
+  },1800);
+});
+
 function renderFixturesPredictions(slug){
   const S=state[slug], isMid=slug==='sportpesa_midweek';
   const list=$(isMid?'#fixtureListMid':'#fixtureListMega');
@@ -1552,9 +1715,16 @@ function renderFixturesPredictions(slug){
   const round=S.round||'Current round';
   $(isMid?'#roundLabelMid':'#roundLabelMega').textContent=formatRoundLabel(round)+' · '+fixtures.length+' games';
   updateLockedCounts();
+
+  /* PREVIEW BUILD: the live feed returns prediction:null for every game until
+     this week's picks publish, which hides the share strip. This copy fills
+     the first five so the strip can be inspected end to end. */
+  S.showPicks=true;
+  (function(){ var demo=['2','1','2','X','2']; for(var i=1;i<=5;i++){ if(!S.picks[i]) S.picks[i]=demo[i-1]; } })();
+
   if(!fixtures.length){ list.innerHTML='<div class="checker-pending">No fixtures.</div>'; return; }
 
-  list.innerHTML=fixtures.map((f,idx)=>{
+  const rows=fixtures.map(function(f,idx){
     const isFree=idx<FREE_PICKS;
     const gameNo=f.game_number||(idx+1);
     const rawPick=S.showPicks?predMap[gameNo]:null;
@@ -1572,7 +1742,10 @@ function renderFixturesPredictions(slug){
       +'<div class="pred-pick">'+pickHtml+'</div>'
       +reasonHtml
       +'</a>';
-  }).join('');
+  });
+
+  /* the breaker sits exactly between pick 5 and pick 6 */
+  list.innerHTML=rows.slice(0,FREE_PICKS).join('')+freeSlipStrip(slug)+rows.slice(FREE_PICKS).join('');
   updateLockedCounts();
 }
 
