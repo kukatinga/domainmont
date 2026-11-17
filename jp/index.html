@@ -324,7 +324,7 @@ p{margin:0 0 12px;color:var(--muted);font-size:14px}
   }
   .free-slip-chips{grid-column:2;grid-row:1;gap:5px}
   .free-chip{width:32px;height:32px}
-  .copy-free-btn{grid-column:2;grid-row:2;justify-self:end;text-align:right;padding:8px 0;min-height:40px;margin-top:2px}
+  .copy-free-btn{grid-column:2;grid-row:2;justify-self:start;text-align:left;padding:8px 0;min-height:40px;margin-top:2px}
 }
 
 /* screen-reader-only live region for copy feedback */
@@ -1637,7 +1637,9 @@ function freeSlipStrip(slug){
         +'</div>';
       }).join('')
     +'</div>'
-    +'<button class="copy-free-btn" type="button" data-slug="'+slug+'">'+COPY_ICON+'Copy free picks</button>'
+    /* glyph trails the label: a leading icon pushes the words ~15px off the
+       column edge, which is what made them read as misaligned */
+    +'<button class="copy-free-btn" type="button" data-slug="'+slug+'">Copy free picks'+COPY_ICON+'</button>'
   +'</div>';
 }
 
@@ -1716,9 +1718,7 @@ function renderFixturesPredictions(slug){
   $(isMid?'#roundLabelMid':'#roundLabelMega').textContent=formatRoundLabel(round)+' · '+fixtures.length+' games';
   updateLockedCounts();
 
-  /* PREVIEW BUILD: the live feed returns prediction:null for every game until
-     this week's picks publish, which hides the share strip. This copy fills
-     the first five so the strip can be inspected end to end. */
+  /* PREVIEW BUILD: fills the first five picks so the strip renders while the feed publishes none. */
   S.showPicks=true;
   (function(){ var demo=['2','1','2','X','2']; for(var i=1;i<=5;i++){ if(!S.picks[i]) S.picks[i]=demo[i-1]; } })();
 
