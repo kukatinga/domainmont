@@ -937,8 +937,12 @@ a.pred-row:focus-visible .pred-badge.u-anim{background-size:100% 1px}
   </div>
 
   <div class="section">
-    <h2 style="font-size:15px">Outcome distribution (Mega)</h2>
+    <h2 style="font-size:15px">Outcome distribution</h2>
     <p class="muted" style="margin-bottom:12px">Computed from winning combinations in the feed.</p>
+    <div class="mini-toggle" role="group" aria-label="Select jackpot for outcome distribution">
+      <button type="button" class="dist-toggle-btn" data-slug="sportpesa_mega" aria-pressed="true">Mega</button>
+      <button type="button" class="dist-toggle-btn" data-slug="sportpesa_midweek" aria-pressed="false">Midweek</button>
+    </div>
     <div class="hero-stats" style="margin-bottom:0">
       <div class="latest-stat"><b id="distHome">—</b><span>Home wins</span></div>
       <div class="latest-stat"><b id="distDraw">—</b><span>Draws</span></div>
@@ -1077,7 +1081,7 @@ a.pred-row:focus-visible .pred-badge.u-anim{background-size:100% 1px}
     <div style="font-size:12px;font-weight:700;color:var(--text);">Get All Picks Now</div>
     <div style="font-size:11px;color:var(--muted);">KES 99 · SMS in 5s</div>
   </div>
-  <button class="btn btn-primary" onclick="document.getElementById('phoneInput').scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>document.getElementById('phoneInput').focus(), 300);">Get Now</button>
+  <button class="btn btn-primary" onclick="document.getElementById('phoneInput').scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>document.getElementById('phoneInput').focus(), 300);">Pay Now</button>
 </div>
 
 <!-- ===== FOOTER (copied from light theme) ===== -->
@@ -1208,6 +1212,7 @@ const state={
 let activeCalcSlug='sportpesa_mega';
 let activeSharedSlug='sportpesa_mega';
 let activeHistorySlug='sportpesa_mega';
+let activeDistSlug='sportpesa_mega';
 let checkerSlug='sportpesa_mega';
 let availableDraws=[];
 let currentDrawKey='';
@@ -1490,7 +1495,7 @@ async function loadJackpot(slug){
       if (slug === activeSharedSlug) updateSharedSlug(slug);
       if (slug === activeHistorySlug) updateHistorySlug(slug);
       
-      try{ if(!isMid) renderNarrative(resData); }catch(e){ console.warn(e); }
+      try{ renderDistribution(slug); }catch(e){ console.warn(e); }
     }
 
     renderFixturesPredictions(slug);
@@ -1651,27 +1656,55 @@ function renderHistoryFor(slug){
   }).join('');
 }
 
-function renderNarrative(d){
-  const H=Array.isArray(d.history)?d.history:[];
+function renderDistribution(slug){
+  const S=state[slug]||{};
+  const name=(slug==='sportpesa_midweek')?'Midweek':'Mega';
+  const H=Array.isArray(S.history)?S.history:[];
   const combos=H.map(h=>h.winning_combination).filter(Boolean);
   const t=tally(combos);
+  /* #narrativeSentences is optional — the prose block is not always rendered,
+     and a null lookup here used to throw before the distribution stats below
+     could be written (which is why they stayed as em dashes). */
+  const narrativeEl=$('#narrativeSentences');
   const s=[];
-  if(!combos.length){ $('#narrativeSentences').innerHTML='<p class="muted">No winning combinations in the feed yet.</p>'; return; }
-  const n=combos.length;
-  s.push('Across the last <b>'+n+' '+plural(n,'Mega draw','Mega draws')+'</b>, that\'s <b>'+t.valid+' valid game results</b>'+(t.V>0?(' ('+t.V+' voided)'):'')+'.');
+  if(combos.length){
+    const n=combos.length;
+    s.push('Across the last <b>'+n+' '+plural(n,name+' draw',name+' draws')+'</b>, that\'s <b>'+t.valid+' valid game results</b>'+(t.V>0?(' ('+t.V+' voided)'):'')+'.');
+    if(t.valid>0){
+      const pH=Math.round(t[1]/t.valid*1000)/10,pD=Math.round(t.X/t.valid*1000)/10,pA=Math.round(t[2]/t.valid*1000)/10;
+      const arr=[{l:'Home wins',c:t[1],p:pH},{l:'Away wins',c:t[2],p:pA},{l:'Draws',c:t.X,p:pD}].sort((a,b)=>b.c-a.c);
+      s.push(capitalize(arr[0].l)+' lead — <b>'+arr[0].c+' of '+t.valid+'</b> ('+arr[0].p+'%) — then '+arr[1].l.toLowerCase()+' at <b>'+arr[1].c+'</b> ('+arr[1].p+'%) and '+arr[2].l.toLowerCase()+' at <b>'+arr[2].c+'</b> ('+arr[2].p+'%).');
+    }
+    if(S.rolling&&S.rolling.weeks){
+      const R=S.rolling;
+      s.push('Rolling ('+R.weeks+' draws): avg correct <b>'+Number(R.avg_correct).toFixed(1)+'</b> · bonus weeks <b>'+R.bonus_weeks+'</b> · banker rate <b>'+R.banker_rate+'%</b> · upset rate <b>'+R.upset_rate+'%</b>.');
+    }
+  }
+  if(slug!==activeDistSlug) return;   /* only the selected jackpot paints the boxes */
+  if(narrativeEl) narrativeEl.innerHTML=combos.length?s.map(x=>'<p>'+x+'</p>').join(''):'<p class="muted">No winning combinations in the feed yet.</p>';
   if(t.valid>0){
-    const pH=Math.round(t[1]/t.valid*1000)/10,pD=Math.round(t.X/t.valid*1000)/10,pA=Math.round(t[2]/t.valid*1000)/10;
-    const arr=[{l:'Home wins',c:t[1],p:pH},{l:'Away wins',c:t[2],p:pA},{l:'Draws',c:t.X,p:pD}].sort((a,b)=>b.c-a.c);
-    s.push(capitalize(arr[0].l)+' lead — <b>'+arr[0].c+' of '+t.valid+'</b> ('+arr[0].p+'%) — then '+arr[1].l.toLowerCase()+' at <b>'+arr[1].c+'</b> ('+arr[1].p+'%) and '+arr[2].l.toLowerCase()+' at <b>'+arr[2].c+'</b> ('+arr[2].p+'%).');
+    $('#distHome').textContent=t[1]; $('#distDraw').textContent=t.X; $('#distAway').textContent=t[2];
+    $('#distSummary').textContent='From '+combos.length+' '+plural(combos.length,'draw','draws')+' ('+t.valid+' valid'+(t.V>0?(', '+t.V+' void'):'')+').';
+  } else {
+    $('#distHome').textContent='—'; $('#distDraw').textContent='—'; $('#distAway').textContent='—';
+    $('#distSummary').textContent='';
   }
-  if(d.rolling&&d.rolling.weeks){
-    const R=d.rolling;
-    s.push('Rolling ('+R.weeks+' draws): avg correct <b>'+Number(R.avg_correct).toFixed(1)+'</b> · bonus weeks <b>'+R.bonus_weeks+'</b> · banker rate <b>'+R.banker_rate+'%</b> · upset rate <b>'+R.upset_rate+'%</b>.');
-  }
-  $('#narrativeSentences').innerHTML=s.map(x=>'<p>'+x+'</p>').join('');
-  if(t.valid>0){ $('#distHome').textContent=t[1]; $('#distDraw').textContent=t.X; $('#distAway').textContent=t[2]; $('#distSummary').textContent='From '+combos.length+' draws ('+t.valid+' valid'+(t.V>0?(', '+t.V+' void'):'')+').'; }
-  else { $('#distHome').textContent='—'; $('#distDraw').textContent='—'; $('#distAway').textContent='—'; $('#distSummary').textContent=''; }
 }
+
+function updateDistSlug(slug){
+  activeDistSlug=slug;
+  const isMega=slug==='sportpesa_mega';
+  $$('.dist-toggle-btn').forEach(btn=>{
+    const isActive=btn.dataset.slug===slug;
+    btn.setAttribute('aria-pressed',String(isActive));
+    if(isActive) btn.classList.toggle('mid-active',!isMega);
+    else btn.classList.remove('mid-active');
+  });
+  renderDistribution(slug);
+}
+$$('.dist-toggle-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>updateDistSlug(btn.dataset.slug));
+});
 
 const checkerJackpotSel=$('#checker-jackpot');
 const checkerSelect=$('#checker-draw');
@@ -2031,6 +2064,7 @@ $('#refreshBtnLatest').addEventListener('click',()=>refreshFeed(activeSharedSlug
   await loadJackpot('sportpesa_mega');
   updateSharedSlug('sportpesa_mega');
   updateHistorySlug('sportpesa_mega');
+  updateDistSlug('sportpesa_mega');
   await loadJackpot('sportpesa_midweek');
   
   try{ loadCheckerDraws('sportpesa_mega'); }catch(e){ console.warn(e); }
