@@ -305,26 +305,41 @@ p{margin:0 0 12px;color:var(--muted);font-size:14px}
 .card.midweek .free-chip{border-color:rgba(161,98,7,.5);background:#fffdf5}
 .card.midweek .free-chip-p{color:var(--gold)}
 .copy-free-btn{
-  grid-column:4;justify-self:start;white-space:nowrap;
-  display:inline-flex;align-items:center;gap:6px;
-  margin:0;padding:4px 2px;border:0;border-radius:4px;background:none;
+  /* spans the pick + reason columns so the glyph lands on the pick column
+     centre line (above the VIP pill) and the words start on the reason
+     column edge (under "Free pick", above "Get by SMS") */
+  grid-column:3/5;align-self:center;
+  display:grid;grid-template-columns:100px 1fr;column-gap:8px;align-items:center;
+  margin:0;padding:4px 0;border:0;border-radius:4px;background:none;
   color:var(--brand);font-family:inherit;font-size:12px;font-weight:800;line-height:1.2;
-  cursor:pointer;
+  cursor:pointer;text-align:left;white-space:nowrap;
 }
-.copy-free-btn svg{width:13px;height:13px;display:block;flex:0 0 auto}
-.copy-free-btn:hover{text-decoration:underline;text-underline-offset:2px}
+.copy-free-glyph{display:inline-flex;justify-self:center}
+.copy-free-glyph svg{width:14px;height:14px;display:block}
+.copy-free-btn:hover .copy-free-label{text-decoration:underline;text-underline-offset:2px}
 .copy-free-btn:focus-visible{outline:2px solid var(--brand);outline-offset:3px}
 .card.midweek .copy-free-btn{color:var(--gold)}
 .card.midweek .copy-free-btn:focus-visible{outline-color:var(--gold)}
 @media(max-width:700px){
-  /* chips on one line, the action on the next — both flush at the team column */
+  /* two columns, like the rows: chips on the first line, glyph + action on the
+     second, starting where "Free pick" / "Get by SMS" start */
   .free-slip{
     grid-template-columns:38px minmax(0,1fr);
     align-items:start;gap:2px 10px;padding:10px 14px;
   }
   .free-slip-chips{grid-column:2;grid-row:1;gap:5px}
   .free-chip{width:32px;height:32px}
-  .copy-free-btn{grid-column:2;grid-row:2;justify-self:start;text-align:left;padding:8px 0;min-height:40px;margin-top:2px}
+  .copy-free-btn{
+    grid-column:2;grid-row:2;display:inline-flex;gap:6px;align-items:center;
+    justify-self:start;padding:8px 0;min-height:40px;
+  }
+  .copy-free-glyph{justify-self:auto}
+}
+@media(max-width:360px){
+  /* keep the chip row inside the team column on the smallest phones */
+  .free-chip{width:26px;height:26px;border-radius:7px}
+  .free-chip-p{font-size:13px}
+  .free-slip-chips{gap:3px}
 }
 
 /* screen-reader-only live region for copy feedback */
@@ -1637,9 +1652,10 @@ function freeSlipStrip(slug){
         +'</div>';
       }).join('')
     +'</div>'
-    /* glyph trails the label: a leading icon pushes the words ~15px off the
-       column edge, which is what made them read as misaligned */
-    +'<button class="copy-free-btn" type="button" data-slug="'+slug+'">Copy free picks'+COPY_ICON+'</button>'
+    +'<button class="copy-free-btn" type="button" data-slug="'+slug+'">'
+      +'<span class="copy-free-glyph">'+COPY_ICON+'</span>'
+      +'<span class="copy-free-label">Copy picks</span>'
+    +'</button>'
   +'</div>';
 }
 
