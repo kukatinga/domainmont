@@ -211,6 +211,10 @@ p{margin:0 0 12px;color:var(--muted);font-size:14px}
 .muted{color:var(--muted);font-size:.85rem}
 .section{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px}
 .section h2{margin-bottom:12px}
+/* FAQ section headings carry the jackpot colour language */
+.faq-heading--mega{color:var(--brand)}
+.faq-heading--mid{color:var(--gold)}
+.faq-heading--general{color:var(--purple)}
 
 .jackpot-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
 .jackpot-tab{flex:1;min-width:160px;padding:12px 16px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;text-align:left;transition:border-color .15s,color .15s}
@@ -237,7 +241,8 @@ p{margin:0 0 12px;color:var(--muted);font-size:14px}
 .pred-row{display:grid;grid-template-columns:40px 1fr 100px 140px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border);gap:8px}
 .pred-row:last-child{border-bottom:0}
 .pred-row:hover{background:var(--card-hover)}
-.pred-num{font-size:12px;color:var(--muted);font-weight:600;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px}
+.pred-num{font-size:12px;color:var(--muted);font-weight:600;display:flex;flex-direction:row;align-items:center;justify-content:flex-start;align-self:start;gap:3px;padding-top:2px;font-variant-numeric:tabular-nums}
+.pred-num .num-v{min-width:1.4em;text-align:right;line-height:1.2}
 .badge-b{display:inline-block;padding:1px 4px;border-radius:4px;font-size:10px;font-weight:900;background:rgba(74,222,128,.15);color:var(--brand);border:1px solid var(--brand)}
 .badge-u{display:inline-block;padding:1px 4px;border-radius:4px;font-size:10px;font-weight:900;background:rgba(251,191,36,.15);color:var(--gold);border:1px solid var(--gold)}
 .pred-teams{min-width:0}
@@ -249,8 +254,8 @@ p{margin:0 0 12px;color:var(--muted);font-size:14px}
 .pred-reason{font-size:12px;color:var(--muted);line-height:1.3}
 .pred-reason.free{color:var(--brand);font-weight:600}
 @media(max-width:700px){
-  .pred-row{grid-template-columns:36px 1fr 80px;grid-template-rows:auto auto;gap:4px 8px}
-  .pred-num{grid-row:1/3}.pred-teams{grid-column:2;grid-row:1}.pred-pick{grid-column:3;grid-row:1}.pred-reason{grid-column:2/4;grid-row:2}
+  .pred-row{grid-template-columns:40px 1fr 80px;grid-template-rows:auto auto;gap:4px 8px}
+  .pred-num{grid-row:1;align-self:start}.pred-teams{grid-column:2;grid-row:1}.pred-pick{grid-column:3;grid-row:1}.pred-reason{grid-column:2/4;grid-row:2}
 }
 
 .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
@@ -293,7 +298,12 @@ p{margin:0 0 12px;color:var(--muted);font-size:14px}
 .fixture-table th{background:var(--bg);text-align:left;padding:9px 10px;font-weight:800;font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap}
 .fixture-table td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:middle}
 .fixture-table tr:last-child td{border-bottom:0}
-.fixture-table .f-num{width:48px;text-align:center;font-variant-numeric:tabular-nums;font-weight:700;color:var(--muted);font-size:.78rem;white-space:nowrap}
+.fixture-table .f-num{width:62px;text-align:right;padding-right:6px;font-variant-numeric:tabular-nums;font-weight:700;color:var(--muted);font-size:.78rem;white-space:nowrap}
+.fixture-table .f-num .f-num-v{display:inline-block;min-width:1.5em;text-align:right;font-variant-numeric:tabular-nums}
+.fixture-table th.f-num{padding-right:21px}
+/* fixed-width marks slot: the digits keep their position whether or not a
+   banker/upset badge is present */
+.fixture-table .f-num-marks{display:inline-block;width:15px;text-align:left;vertical-align:middle}
 .fixture-table .f-num-badge{display:inline-block;margin-left:3px;padding:0 4px;border-radius:4px;font-size:.6rem;font-weight:900;letter-spacing:.03em;background:rgba(74,222,128,.12);color:var(--brand);border:1px solid var(--brand)}
 .fixture-table .f-num-badge.upset{background:rgba(251,191,36,.12);color:var(--gold);border-color:var(--gold)}
 .fixture-table .f-match{max-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}
@@ -979,7 +989,7 @@ a.pred-row:focus-visible .pred-badge.u-anim{background-size:100% 1px}
   </div>
 
   <div class="section" id="faq">
-    <h2 style="font-size:15px">Mega Jackpot — frequently asked</h2>
+    <h2 class="faq-heading faq-heading--mega" style="font-size:15px">Mega Jackpot — frequently asked</h2>
     <details><summary>How many games are in the SportPesa Mega Jackpot?</summary><p>Seventeen. You predict 1, X, or 2 for each.</p></details>
     <details><summary>Do I need all 17 Mega Jackpot games right to win?</summary><p>No. Mega Jackpot bonuses start from 12 correct. All 17 wins the full jackpot.</p></details>
     <details><summary>When is the Mega Jackpot drawn?</summary><p>The Mega Jackpot is drawn on Saturday. Picks are published each Tuesday before the weekend fixtures.</p></details>
@@ -987,7 +997,7 @@ a.pred-row:focus-visible .pred-badge.u-anim{background-size:100% 1px}
   </div>
 
   <div class="section">
-    <h2 style="font-size:15px">Midweek Jackpot — frequently asked</h2>
+    <h2 class="faq-heading faq-heading--mid" style="font-size:15px">Midweek Jackpot — frequently asked</h2>
     <details><summary>How many games are in the SportPesa Midweek Jackpot?</summary><p>Thirteen. You predict 1, X, or 2 for each.</p></details>
     <details><summary>Do I need all 13 Midweek games right to win?</summary><p>No. Midweek Jackpot bonuses start from 10 correct. All 13 wins the full jackpot.</p></details>
     <details><summary>When is the Midweek Jackpot drawn?</summary><p>The Midweek Jackpot is drawn on Wednesday. Picks are published each Sunday before the midweek fixtures.</p></details>
@@ -995,7 +1005,7 @@ a.pred-row:focus-visible .pred-badge.u-anim{background-size:100% 1px}
   </div>
 
   <div class="section">
-    <h2 style="font-size:15px">General</h2>
+    <h2 class="faq-heading faq-heading--general" style="font-size:15px">General</h2>
     <details><summary>Are your predictions guaranteed?</summary><p>No. No prediction is guaranteed. Treat every bet as entertainment, not income.</p></details>
     <details><summary>Is MJP by Piedmont affiliated with SportPesa?</summary><p>No. MJP by Piedmont is an independent sports analysis service.</p></details>
   </div>
@@ -1428,7 +1438,7 @@ function renderFixturesPredictions(slug){
     else if(isFree){ pickHtml='<span class="pred-badge VIP u-anim">?</span>'; reasonHtml='<span class="pred-reason">Awaiting pick</span>'; }
     else { pickHtml='<span class="pred-badge VIP u-anim">🔒 VIP</span>'; reasonHtml='<span class="pred-reason u-anim">Get by SMS</span>'; }
     return '<a class="pred-row" href="#pay">'
-      +'<div class="pred-num">'+gameNo+(badgeHtml?'<br>'+badgeHtml:'')+'</div>'
+      +'<div class="pred-num"><span class="num-v">'+gameNo+'</span>'+badgeHtml+'</div>'
       +'<div class="pred-teams"><div class="t"><span class="u-anim">'+escHtml(f.home||'TBD')+' <span style="color:var(--muted);font-weight:400">vs</span> '+escHtml(f.away||'TBD')+'</span></div><div class="k">'+escHtml(f.kickoff_display||f.kickoff||'')+'</div></div>'
       +'<div class="pred-pick">'+pickHtml+'</div>'
       +'<div>'+reasonHtml+'</div>'
@@ -1643,7 +1653,7 @@ function renderFixturesInto(container,draw,opts){
     const mt=truncateTeam(home,12)+' <span style="color:var(--muted)">v</span> '+truncateTeam(away,12);
     let pc; if(pick==null||pick==='') pc='<span class="fixture-chip fixture-chip--empty">—</span>'; else if(hit) pc='<span class="fixture-chip fixture-chip--hit">'+escHtml(pick)+'</span>'; else pc='<span class="fixture-chip fixture-chip--miss">'+escHtml(pick)+'</span>';
     let sc; if(hit===null) sc='<span class="f-status na">—</span>'; else if(hit) sc='<span class="f-status hit">✓</span>'; else sc='<span class="f-status miss">✗</span>';
-    return '<tr><td class="f-num">'+game+bh+'</td><td class="f-match" title="'+escHtml(home+' v '+away)+'">'+mt+'</td><td class="f-outcome"><span class="fixture-chip fixture-chip--real">'+escHtml(real||'—')+'</span></td><td class="f-pick">'+pc+'</td><td class="f-status">'+sc+'</td></tr>';
+    return '<tr><td class="f-num"><span class="f-num-v">'+game+'</span><span class="f-num-marks">'+bh+'</span></td><td class="f-match" title="'+escHtml(home+' v '+away)+'">'+mt+'</td><td class="f-outcome"><span class="fixture-chip fixture-chip--real">'+escHtml(real||'—')+'</span></td><td class="f-pick">'+pc+'</td><td class="f-status">'+sc+'</td></tr>';
   }).join('');
 
   let hits=0,misses=0,voids=0,haveHits=false;
